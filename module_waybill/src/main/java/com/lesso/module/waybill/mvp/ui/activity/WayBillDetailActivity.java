@@ -131,7 +131,6 @@ public class WayBillDetailActivity extends BaseLoadLayoutActivity<WayBillDetailP
     @BindView(R2.id.ll_order_state_shouhuo)
     LinearLayout llOrderStateShouhuo;
 
-
     private WayBillDetailBean currentBean;
 
 
@@ -279,6 +278,9 @@ public class WayBillDetailActivity extends BaseLoadLayoutActivity<WayBillDetailP
             return;
         }
         currentBean = bean;
+        //是否显示运输轨迹
+        llTrack.setVisibility(ArmsUtils.isEmpty(bean.getTransportTrack()) ? View.GONE : View.VISIBLE);
+
         tvDate.setText("预计发货日期：" + bean.getPlanDeliverDate());
         tvReceivingParty.setText("收货方：" + bean.getReceivingParty());
         tvCarriageParty.setText("承运方：" + bean.getLogisticsCompany());
@@ -298,7 +300,9 @@ public class WayBillDetailActivity extends BaseLoadLayoutActivity<WayBillDetailP
 
         tvBillNumbers.setText("货运单号：" + bean.getFreightNo());
         //货运单单号只有收货完成，有货运单字段才显示 
-        tvBillNumbers.setVisibility(TextUtils.isEmpty(bean.getFreightNo()) ? View.GONE : View.VISIBLE);
+//        tvBillNumbers.setVisibility(TextUtils.isEmpty(bean.getFreightNo()) ? View.GONE : View.VISIBLE);
+        cvOrderNumber.setVisibility(TextUtils.isEmpty(bean.getFreightNo()) ? View.GONE : View.VISIBLE);
+
         changeOrderStatusView(bean.getOrderStatus());
     }
 

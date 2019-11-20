@@ -7,4 +7,5 @@
     android:layout_height="match_parent"
     android:background="@color/public_color_F0F0F0"
     android:overScrollMode="never"
-    android:padding="@dimen/public_mar_left_5dp" />
+    android:paddingLeft="@dimen/public_mar_left_5dp"
+    android:paddingRight="@dimen/public_pad_right_5dp" />
