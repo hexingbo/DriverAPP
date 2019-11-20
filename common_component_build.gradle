@@ -1,0 +1,126 @@
+//def componentName = project.getName().startsWith("module_") ? project.getName().substring(0, "module_".length()) :
+
+if (isBuildModule.toBoolean()) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+    useLibrary 'org.apache.http.legacy'
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+                includeCompileClasspath true
+            }
+        }
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        config {
+            //签名文件在项目根目录下
+            //KEY_ALIAS，KEY_PASSWORD，STORE_PASSWORD写在项目根目录下的gradle.properties里
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
+            storeFile file('../lessodriverkeystore.jks')
+            storePassword STORE_PASSWORD
+        }
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "USE_CANARY", "true"
+            buildConfigField "boolean", "IS_BUILD_MODULE", "${isBuildModule}"
+            buildConfigField "String", "BASE_DEFAULT_IMG_URL", BASE_DEFAULT_IMG_URL
+            buildConfigField "String", "BASE_URL", DEBUG_BASE_URL
+            buildConfigField "String", "WX_APPID", WX_APPID
+            buildConfigField "String", "WX_MinAPP_ID", WX_MinAPP_ID
+            buildConfigField "String", "WX_SECRET", WX_SECRET
+            buildConfigField "String", "WX_Heather_Key", WX_Heather_Key
+            buildConfigField "String", "WX_Heather_Value", WX_Heather_Value
+            buildConfigField "int", "HTTP_MaxRetries", HTTP_MaxRetries
+            buildConfigField "int", "HTTP_RetryDelaySecond", HTTP_RetryDelaySecond
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config// signingConfig signingConfigs.config//使用上面配置的签名进行打包
+        }
+
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "USE_CANARY", "false"
+            buildConfigField "boolean", "IS_BUILD_MODULE", "${isBuildModule}"
+            buildConfigField "String", "BASE_DEFAULT_IMG_URL", BASE_DEFAULT_IMG_URL
+            buildConfigField "String", "BASE_URL", RELEASE_BASE_URL
+            buildConfigField "String", "WX_APPID", WX_APPID
+            buildConfigField "String", "WX_MinAPP_ID", WX_MinAPP_ID
+            buildConfigField "String", "WX_SECRET", WX_SECRET
+            buildConfigField "String", "WX_Heather_Key", WX_Heather_Key
+            buildConfigField "String", "WX_Heather_Value", WX_Heather_Value
+            buildConfigField "int", "HTTP_MaxRetries", HTTP_MaxRetries
+            buildConfigField "int", "HTTP_RetryDelaySecond", HTTP_RetryDelaySecond
+            minifyEnabled true
+            if (isBuildModule.toBoolean()) {
+                shrinkResources true
+            }
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config// signingConfig signingConfigs.config//使用上面配置的签名进行打包
+        }
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+        disable "ResourceType"
+        abortOnError false
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            if (isBuildModule.toBoolean()) {
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/release/AndroidManifest.xml'
+            }
+        }
+    }
+}
+
+dependencies {
+    if (isBuildModule.toBoolean()) {
+        //view
+        annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
+            exclude module: 'support-annotations'
+        }
+        //tools
+        annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+        annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
+        //test
+        debugImplementation rootProject.ext.dependencies["canary-debug"]
+        releaseImplementation rootProject.ext.dependencies["canary-release"]
+        testImplementation rootProject.ext.dependencies["canary-release"]
+    } else {
+        compileOnly rootProject.ext.dependencies["butterknife-compiler"]
+        compileOnly rootProject.ext.dependencies["dagger2-compiler"]
+        compileOnly rootProject.ext.dependencies["arouter-compiler"]
+        compileOnly rootProject.ext.dependencies["canary-debug"]
+        compileOnly rootProject.ext.dependencies["canary-release"]
+    }
+}

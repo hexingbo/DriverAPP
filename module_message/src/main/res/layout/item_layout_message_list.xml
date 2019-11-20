@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/public_height_122dp"
+    android:background="@color/public_color_F0F0F0"
+    android:padding="@dimen/public_pad_top_5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_radius15_gray"
+        android:orientation="vertical"
+        android:padding="@dimen/public_pad_left_15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/public_height_35dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="#ff333333"
+                android:textSize="@dimen/public_font_20sp"
+                tools:text="广东联塑实业有限公司" />
+
+            <ImageView
+                android:id="@+id/img_haveRead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/public_mar_left_5dp"
+                android:layout_marginRight="@dimen/public_mar_right_5dp"
+                android:src="@drawable/shape_radius6_red" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/public_mar_left_5dp"
+                android:layout_marginRight="@dimen/public_mar_right_5dp"
+                android:src="@mipmap/ic_next" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/public_mar_top_5dp"
+            android:layout_marginRight="@dimen/public_mar_right_15dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#ff999999"
+            android:textSize="@dimen/public_font_14sp"
+            tools:text="你有新的运单，管道管道产品管道产品、水暖卫浴、整体厨房、型材门窗、装饰板材。" />
+
+    </LinearLayout>
+
+</LinearLayout>

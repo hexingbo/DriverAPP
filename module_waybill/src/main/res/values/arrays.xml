@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--运单订单菜单-->
+    <string-array name="waybill_state" tools:ignore="ResourceName">
+        <item>待发货</item>
+        <item>待收货</item>
+        <item>已完成</item>
+    </string-array>
+    <!--对账单顶部菜单-->
+    <string-array name="order_accounts_state" tools:ignore="ExtraTranslation,ResourceName">
+        <item>待确认</item>
+        <item>确认中</item>
+        <item>已确认</item>
+    </string-array>
+</resources>

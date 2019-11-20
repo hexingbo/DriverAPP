@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Module Me</string>
+    <string name="me_name_company_join">加盟物流公司</string>
+    <string name="me_name_company_manager">加盟管理</string>
+    <string name="me_name_user_info">个人资料</string>
+    <string name="me_name_update_pwd">修改密码</string>
+    <string name="me_name_about_us">关于</string>
+    <string name="me_name_send_order_number">发车数量</string>
+    <string name="me_name_login_not">未登录</string>
+    <string name="me_login_out">退出登录</string>
+    <string name="module_me_hint_search_company_name">请输入物流公司名称</string>
+    <string name="module_me_register_company">物流公司推荐</string>
+    <string name="module_me_develop_not">开发中。。。</string>
+    <string name="module_me_compa_detail">公司详情</string>
+    <string name="module_me_faren">企业法人</string>
+    <string name="module_me_lianxiren">联系人</string>
+    <string name="module_me_lianxiren_phone">联系电话</string>
+    <string name="module_me_address">地址</string>
+    <string name="module_me_apply_join">申请加盟</string>
+    <string name="module_me_go_join">去加盟</string>
+    <string name="module_me_name_send_order_account">发起对账</string>
+
+</resources>

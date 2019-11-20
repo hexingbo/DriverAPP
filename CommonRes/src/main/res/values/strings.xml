@@ -1,0 +1,37 @@
+<resources>
+    <string name="public_app_name">ArmsComponent</string>
+    <string name="public_module_name">app</string>
+    <string name="public_loading">加载中</string>
+    <string name="public_name_my">我的</string>
+    <string name="public_order_manager">订单管理</string>
+    <string name="public_message_center">消息中心</string>
+    <string name="public_name_data_error">获取数据失败</string>
+
+    <string name="str_money_lab">¥</string>
+    <string name="str_money_lab_double">¥ 0.00</string>
+
+    <!--=================================常用字段===============================================-->
+    <string name="str_value_ok">确定</string>
+    <string name="str_value_confirm">确认</string>
+    <string name="str_value_cancel">取消</string>
+    <string name="str_value_update">修改</string>
+    <string name="str_value_delete">删除</string>
+    <string name="str_value_choise">请选择</string>
+    <string name="str_value_update_success">修改成功</string>
+    <string name="str_value_delete_success">删除成功</string>
+    <string name="str_value_add_success">添加成功</string>
+    <string name="str_value_reading_protocol_agree">请阅读协议并同意</string>
+
+    <string name="str_complete">完成</string>
+    <string name="refuse">拒绝</string>
+    <string name="str_agree">同意</string>
+    <string name="str_cancle">取消</string>
+    <string name="str_confirm">确定</string>
+
+    <string name="operate_fail">操作失败</string>
+    <string name="permission_request_file_camera">该功能需您授予"存储"和"相机"权限才可正常使用</string>
+    <string name="permission_request_location">该功能需您授予"存储"和"定位"权限才可正常使用</string>
+    <string name="str_name_hint">提示</string>
+
+
+</resources>

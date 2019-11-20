@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CocoView">
+        <attr name="height" format="dimension"></attr>
+        <attr name="first_width" format="dimension"></attr>
+        <attr name="second_width" format="dimension"></attr>
+        <attr name="offset_width" format="dimension"></attr>
+        <attr name="first_color" format="color"></attr>
+        <attr name="second_color" format="color"></attr>
+        <attr name="canvas_color" format="color"></attr>
+    </declare-styleable>
+    <!--
+    height:虚线高度
+
+first_width:下图单个红色平行四边形宽度
+
+second_width:下图单个绿色平行四边形宽度
+
+offset_width:平行四边形凸出部分宽度
+
+first_color:下图红色颜色
+
+second_color:下图绿色颜色
+
+canvas_color:下图红色与绿色中间的颜色
+    -->
+</resources>

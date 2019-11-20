@@ -1,0 +1,188 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="public_activity_horizontal_margin">16dp</dimen>
+    <dimen name="public_activity_vertical_margin">16dp</dimen>
+
+    <dimen name="public_dialog_width_249dp">249dp</dimen>
+    <dimen name="public_dialog_height_162dp">162dp</dimen>
+    <dimen name="public_dialog_height_44dp">44dp</dimen>
+
+    //字体
+    <dimen name="public_font_11sp">11sp</dimen>
+    <dimen name="public_font_12sp">12sp</dimen>
+    <dimen name="public_font_13sp">13sp</dimen>
+    <dimen name="public_font_14sp">14sp</dimen>
+    <dimen name="public_font_15sp">15sp</dimen>
+    <dimen name="public_font_16sp">16sp</dimen>
+    <dimen name="public_font_17sp">17sp</dimen>
+    <dimen name="public_font_18sp">18sp</dimen>
+    <dimen name="public_font_19sp">19sp</dimen>
+    <dimen name="public_font_20sp">20sp</dimen>
+    <dimen name="public_font_22sp">22sp</dimen>
+    <dimen name="public_font_24sp">24sp</dimen>
+    <dimen name="public_font_30sp">30sp</dimen>
+    <dimen name="public_font_32sp">32sp</dimen>
+    <dimen name="public_font_36sp">36sp</dimen>
+    <dimen name="public_font_48sp">48sp</dimen>
+
+    //圆角
+    <dimen name="public_radius_2dp">2dp</dimen>
+    <dimen name="public_radius_4dp">4dp</dimen>
+    <dimen name="public_radius_10dp">10dp</dimen>
+    <dimen name="public_radius_20dp">20dp</dimen>
+    <dimen name="public_radius_23dp">23dp</dimen>
+    <dimen name="public_radius_30dp">30dp</dimen>
+
+    //高
+    <dimen name="public_height_1dp">1dp</dimen>
+    <dimen name="public_height_2dp">2dp</dimen>
+    <dimen name="public_height_3dp">3dp</dimen>
+    <dimen name="public_height_4dp">4dp</dimen>
+    <dimen name="public_height_5dp">5dp</dimen>
+    <dimen name="public_height_6dp">6dp</dimen>
+    <dimen name="public_height_10dp">10dp</dimen>
+    <dimen name="public_height_12dp">12dp</dimen>
+    <dimen name="public_height_14dp">14dp</dimen>
+    <dimen name="public_height_18dp">18dp</dimen>
+    <dimen name="public_height_20dp">20dp</dimen>
+    <dimen name="public_height_24dp">24dp</dimen>
+    <dimen name="public_height_25dp">25dp</dimen>
+    <dimen name="public_height_28dp">28dp</dimen>
+    <dimen name="public_height_30dp">30dp</dimen>
+    <dimen name="public_height_32dp">32dp</dimen>
+    <dimen name="public_height_34dp">34dp</dimen>
+    <dimen name="public_height_35dp">35dp</dimen>
+    <dimen name="public_height_40dp">40dp</dimen>
+    <dimen name="public_height_42dp">42dp</dimen>
+    <dimen name="public_height_44dp">44dp</dimen>
+    <dimen name="public_height_46dp">46dp</dimen>
+    <dimen name="public_height_47dp">47dp</dimen>
+    <dimen name="public_height_50dp">50dp</dimen>
+    <dimen name="public_height_54dp">54dp</dimen>
+    <dimen name="public_height_60dp">60dp</dimen>
+    <dimen name="public_height_67dp">67dp</dimen>
+    <dimen name="public_height_72dp">72dp</dimen>
+    <dimen name="public_height_80dp">80dp</dimen>
+    <dimen name="public_height_90dp">90dp</dimen>
+    <dimen name="public_height_100dp">100dp</dimen>
+    <dimen name="public_height_120dp">120dp</dimen>
+    <dimen name="public_height_122dp">122dp</dimen>
+    <dimen name="public_height_128dp">128dp</dimen>
+    <dimen name="public_height_148dp">148dp</dimen>
+    <dimen name="public_height_174dp">174dp</dimen>
+    <dimen name="public_height_269dp">269dp</dimen>
+    <dimen name="public_height_280dp">280dp</dimen>
+    <dimen name="public_height_358dp">358dp</dimen>
+
+    //宽
+    <dimen name="public_width_1dp">1dp</dimen>
+    <dimen name="public_width_2dp">2dp</dimen>
+    <dimen name="public_width_3dp">3dp</dimen>
+    <dimen name="public_width_5dp">5dp</dimen>
+    <dimen name="public_width_6dp">6dp</dimen>
+    <dimen name="public_width_10dp">10dp</dimen>
+    <dimen name="public_width_12dp">12dp</dimen>
+    <dimen name="public_width_14dp">14dp</dimen>
+    <dimen name="public_width_20dp">20dp</dimen>
+    <dimen name="public_width_24dp">24dp</dimen>
+    <dimen name="public_width_34dp">34dp</dimen>
+    <dimen name="public_width_40dp">40dp</dimen>
+    <dimen name="public_width_67dp">67dp</dimen>
+    <dimen name="public_width_77dp">77dp</dimen>
+    <dimen name="public_width_80dp">80dp</dimen>
+    <dimen name="public_width_90dp">90dp</dimen>
+    <dimen name="public_width_100dp">100dp</dimen>
+    <dimen name="public_width_120dp">120dp</dimen>
+
+    //padding
+    <dimen name="public_padding_20dp">20dp</dimen>
+
+    //paddingLeft
+    <dimen name="public_pad_left_4dp">4dp</dimen>
+    <dimen name="public_pad_left_5dp">5dp</dimen>
+    <dimen name="public_pad_left_8dp">8dp</dimen>
+    <dimen name="public_pad_left_10dp">10dp</dimen>
+    <dimen name="public_pad_left_15dp">15dp</dimen>
+    <dimen name="public_pad_left_20dp">20dp</dimen>
+    <dimen name="public_pad_left_30dp">30dp</dimen>
+    <dimen name="public_pad_left_25dp">25dp</dimen>
+    <dimen name="public_pad_left_37dp">37dp</dimen>
+
+    //paddingRight
+    <dimen name="public_pad_right_5dp">5dp</dimen>
+    <dimen name="public_pad_right_8dp">8dp</dimen>
+    <dimen name="public_pad_right_10dp">10dp</dimen>
+    <dimen name="public_pad_right_15dp">15dp</dimen>
+    <dimen name="public_pad_right_20dp">20dp</dimen>
+    <dimen name="public_pad_right_25dp">25dp</dimen>
+    <dimen name="public_pad_right_28dp">28dp</dimen>
+    <dimen name="public_pad_right_30dp">30dp</dimen>
+    <dimen name="public_pad_right_37dp">37dp</dimen>
+
+    //paddingTop
+    <dimen name="public_pad_top_4dp">4dp</dimen>
+    <dimen name="public_pad_top_5dp">5dp</dimen>
+    <dimen name="public_pad_top_7dp">7dp</dimen>
+    <dimen name="public_pad_top_10dp">10dp</dimen>
+    <dimen name="public_pad_top_15dp">15dp</dimen>
+    <dimen name="public_pad_top_20dp">20dp</dimen>
+    <dimen name="public_pad_top_46dp">46dp</dimen>
+    <dimen name="public_pad_top_60dp">60dp</dimen>
+
+    //paddingBottom
+    <dimen name="public_pad_bottom_1dp">1dp</dimen>
+    <dimen name="public_pad_bottom_2dp">2dp</dimen>
+    <dimen name="public_pad_bottom_3dp">3dp</dimen>
+    <dimen name="public_pad_bottom_4dp">4dp</dimen>
+    <dimen name="public_pad_bottom_5dp">5dp</dimen>
+    <dimen name="public_pad_bottom_10dp">10dp</dimen>
+    <dimen name="public_pad_bottom_20dp">20dp</dimen>
+    <dimen name="public_pad_bottom_50dp">50dp</dimen>
+    <dimen name="public_pad_bottom_60dp">60dp</dimen>
+
+    //marginTop
+    <dimen name="public_mar_top_3dp">3dp</dimen>
+    <dimen name="public_mar_top_5dp">5dp</dimen>
+    <dimen name="public_mar_top_8dp">8dp</dimen>
+    <dimen name="public_mar_top_11dp">11dp</dimen>
+    <dimen name="public_mar_top_10dp">10dp</dimen>
+    <dimen name="public_mar_top_15dp">15dp</dimen>
+    <dimen name="public_mar_top_13dp">13dp</dimen>
+    <dimen name="public_mar_top_20dp">20dp</dimen>
+    <dimen name="public_mar_top_30dp">30dp</dimen>
+    <dimen name="public_mar_top_50dp">50dp</dimen>
+    <dimen name="public_mar_top_80dp">80dp</dimen>
+    <dimen name="public_mar_top_100dp">100dp</dimen>
+
+    //marginLeft
+    <dimen name="public_mar_left_4dp">4dp</dimen>
+    <dimen name="public_mar_left_5dp">5dp</dimen>
+    <dimen name="public_mar_left_6dp">6dp</dimen>
+    <dimen name="public_mar_left_7fdp">-7dp</dimen>
+    <dimen name="public_mar_left_7dp">7dp</dimen>
+    <dimen name="public_mar_left_10dp">10dp</dimen>
+    <dimen name="public_mar_left_14dp">14dp</dimen>
+    <dimen name="public_mar_left_15dp">15dp</dimen>
+    <dimen name="public_mar_left_20dp">20dp</dimen>
+    <dimen name="public_mar_left_30dp">30dp</dimen>
+
+    //marginRight
+    <dimen name="public_mar_right_4dp">4dp</dimen>
+    <dimen name="public_mar_right_5dp">5dp</dimen>
+    <dimen name="public_mar_right_7fdp">-7dp</dimen>
+    <dimen name="public_mar_right_7dp">7dp</dimen>
+    <dimen name="public_mar_right_10dp">10dp</dimen>
+    <dimen name="public_mar_right_14dp">14dp</dimen>
+    <dimen name="public_mar_right_15dp">15dp</dimen>
+    <dimen name="public_mar_right_20dp">20dp</dimen>
+    <dimen name="public_mar_right_30dp">30dp</dimen>
+
+    //marginBottom
+    <dimen name="public_mar_bottom_4dp">4dp</dimen>
+    <dimen name="public_mar_bottom_5dp">5dp</dimen>
+    <dimen name="public_mar_bottom_10dp">10dp</dimen>
+    <dimen name="public_mar_bottom_25dp">25dp</dimen>
+    <dimen name="public_mar_bottom_32dp">32dp</dimen>
+    <dimen name="public_mar_bottom_34dp">34dp</dimen>
+    <dimen name="public_mar_bottom_50dp">50dp</dimen>
+</resources>

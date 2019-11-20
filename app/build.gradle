@@ -1,0 +1,111 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+    useLibrary 'org.apache.http.legacy'
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId "com.lesso.module"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        config {
+            //签名文件在项目根目录下
+            //KEY_ALIAS，KEY_PASSWORD，STORE_PASSWORD写在项目根目录下的gradle.properties里
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
+            storeFile file('../lessodriverkeystore.jks')
+            storePassword STORE_PASSWORD
+        }
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "USE_CANARY", "true"
+            buildConfigField "boolean", "IS_BUILD_MODULE", "${isBuildModule}"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config// signingConfig signingConfigs.config//使用上面配置的签名进行打包
+        }
+
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "USE_CANARY", "false"
+            buildConfigField "boolean", "IS_BUILD_MODULE", "${isBuildModule}"
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config// signingConfig signingConfigs.config//使用上面配置的签名进行打包
+        }
+    }
+
+    //配置自定义打包名称
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName
+            def date = new Date()
+            def formattedDate = date.format('yyyyMMdd')
+            if (variant.buildType.name.equals('release')) {
+                fileName = "${variant.mergedFlavor.versionName}_driver_app_release_${formattedDate}.apk"
+            } else if (variant.buildType.name.equals('debug')) {
+                fileName = "${variant.mergedFlavor.versionName}_driver_app_debug_${formattedDate}.apk"
+            }
+            outputFileName = fileName;
+        }
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+        disable "ResourceType"
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    if (!isBuildModule.toBoolean()) {
+        //在宿主 App 中使用 implementation 依赖业务组件, 业务组件的代码就会完全暴露给宿主 App, 不利于代码的隔离
+        //使用 runtimeOnly 依赖业务组件, 可实现业务组件的代码在编译时对宿主 App 不可见, 仅在运行时对宿主 App 可见
+        runtimeOnly project(":module_login")
+        runtimeOnly project(":module_me")
+        runtimeOnly project(":module_message")
+        runtimeOnly project(":module_waybill")
+    }
+    implementation project(':CommonRes')
+    //因为 CommonRes 依赖了 CommonSDK, 所以如果业务模块需要公共 UI 组件就依赖 CommonRes, 如果不需要就只依赖 CommonSDK
+    implementation project(':CommonService')
+    //tools
+    annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
+    annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+    //view
+    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'support-annotations'
+    }
+    //test
+    testImplementation rootProject.ext.dependencies["junit"]
+    debugImplementation rootProject.ext.dependencies["canary-debug"]
+    releaseImplementation rootProject.ext.dependencies["canary-release"]
+    testImplementation rootProject.ext.dependencies["canary-release"]
+    testImplementation rootProject.ext.dependencies["runner"]
+    testImplementation rootProject.ext.dependencies["espresso-core"]
+}
+

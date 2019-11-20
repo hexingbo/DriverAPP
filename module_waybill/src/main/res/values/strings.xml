@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Module Waybill</string>
+    <string name="waybill_name_waybill_manager">运单管理</string>
+    <string name="waybill_name_fahuo">发货</string>
+    <string name="waybill_name_yunshu_daka">运输打卡</string>
+    <string name="waybill_name_shouhuo">收货</string>
+    <string name="waybill_name_order_number">订单号：</string>
+    <string name="waybill_name_send_time">预计发货日期：</string>
+    <string name="waybill_name_car_number">车牌号</string>
+    <string name="waybill_name_carrier">承运方：</string>
+    <string name="module_waybill_name_order_accounts_manager">对账单管理</string>
+    <string name="module_waybill_name_waybill_detail">运单详情</string>
+    <string name="hipping_information" translatable="false">配送信息</string>
+    <string name="Track_transportation" translatable="false">运输轨迹</string>
+    <string name="input_goods_number">填写货运单号</string>
+    <string name="order_number">货运单号：</string>
+    <string name="order_information" translatable="false">订单信息</string>
+
+</resources>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/public_color_F9F9F9"
+    android:fadingEdge="none"
+    android:orientation="vertical"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--            <include layout="@layout/public_include_title" />-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/public_pad_top_60dp"
+            android:paddingBottom="@dimen/public_pad_bottom_50dp">
+
+            <me.jessyan.armscomponent.commonres.other.CircleImageView
+                android:id="@+id/img_user_head"
+                android:layout_width="@dimen/public_width_100dp"
+                android:layout_height="@dimen/public_height_100dp"
+                android:layout_margin="@dimen/public_mar_left_10dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_head_default" />
+
+            <TextView
+                android:id="@+id/tv_user_nice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/public_mar_top_10dp"
+                android:gravity="center"
+                android:text="@string/me_name_login_not"
+                android:textColor="@color/public_color_333333"
+                android:textSize="@dimen/public_font_24sp" />
+
+            <TextView
+                android:id="@+id/tv_send_order_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/public_mar_top_10dp"
+                android:drawableLeft="@drawable/shape_circular10_orge"
+                android:drawablePadding="@dimen/public_pad_left_5dp"
+                android:gravity="center"
+                android:text="@string/me_name_send_order_number"
+                android:textColor="@color/public_color_999999"
+                android:textSize="@dimen/public_font_14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_company_join"
+            style="@style/My_Item_LinearLayout_Style">
+
+            <ImageView
+                style="@style/My_Item_ImageView_Left_Style"
+                android:src="@mipmap/ic_company_join" />
+
+            <TextView
+                style="@style/My_Item_TextView_Style"
+                android:text="@string/me_name_company_join" />
+
+            <ImageView style="@style/My_Item_ImageView_Right_Style" />
+
+        </LinearLayout>
+
+        <include layout="@layout/public_line_horizontal_gray_mar15" />
+
+        <LinearLayout
+            android:id="@+id/ll_company_manager"
+            style="@style/My_Item_LinearLayout_Style">
+
+            <ImageView
+                style="@style/My_Item_ImageView_Left_Style"
+                android:src="@mipmap/ic_company_manager" />
+
+            <TextView
+                style="@style/My_Item_TextView_Style"
+                android:text="@string/me_name_company_manager" />
+
+            <ImageView style="@style/My_Item_ImageView_Right_Style" />
+
+        </LinearLayout>
+
+        <include layout="@layout/public_line_horizontal_gray_mar15" />
+
+        <LinearLayout
+            android:id="@+id/ll_order_account"
+            style="@style/My_Item_LinearLayout_Style">
+
+            <ImageView
+                style="@style/My_Item_ImageView_Left_Style"
+                android:src="@mipmap/ic_order_account" />
+
+            <TextView
+                style="@style/My_Item_TextView_Style"
+                android:text="@string/module_me_name_send_order_account" />
+
+            <ImageView style="@style/My_Item_ImageView_Right_Style" />
+
+        </LinearLayout>
+        <include layout="@layout/public_line_horizontal_gray_mar15" />
+
+        <LinearLayout
+            android:id="@+id/ll_user_info"
+            style="@style/My_Item_LinearLayout_Style">
+
+            <ImageView
+                style="@style/My_Item_ImageView_Left_Style"
+                android:src="@mipmap/ic_user_info" />
+
+            <TextView
+                style="@style/My_Item_TextView_Style"
+                android:text="@string/me_name_user_info" />
+
+            <ImageView style="@style/My_Item_ImageView_Right_Style" />
+
+        </LinearLayout>
+
+        <include layout="@layout/public_line_horizontal_gray_mar15" />
+
+        <LinearLayout
+            android:id="@+id/ll_update_pwd"
+            style="@style/My_Item_LinearLayout_Style">
+
+            <ImageView
+                style="@style/My_Item_ImageView_Left_Style"
+                android:src="@mipmap/ic_update_pwd" />
+
+            <TextView
+                style="@style/My_Item_TextView_Style"
+                android:text="@string/me_name_update_pwd" />
+
+            <ImageView style="@style/My_Item_ImageView_Right_Style" />
+
+        </LinearLayout>
+
+        <include layout="@layout/public_line_horizontal_gray_mar15" />
+
+        <LinearLayout
+            android:id="@+id/ll_about_us"
+            style="@style/My_Item_LinearLayout_Style">
+
+            <ImageView
+                style="@style/My_Item_ImageView_Left_Style"
+                android:src="@mipmap/ic_about_us" />
+
+            <TextView
+                style="@style/My_Item_TextView_Style"
+                android:text="@string/me_name_about_us" />
+
+            <ImageView style="@style/My_Item_ImageView_Right_Style" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/public_mar_left_30dp"
+            android:layout_marginTop="@dimen/public_mar_top_50dp"
+            android:layout_marginRight="@dimen/public_mar_right_30dp"
+            android:layout_marginBottom="@dimen/public_mar_bottom_50dp">
+
+            <include layout="@layout/layout_btn_submit" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

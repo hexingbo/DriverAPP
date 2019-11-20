@@ -1,0 +1,67 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    defaultConfig {
+        multiDexEnabled true
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
+    }
+
+    buildTypes {
+
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "USE_CANARY", "true"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "USE_CANARY", "false"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':CommonArms')
+    api project(':lib_imageloader_glide')
+//    api 'me.jessyan:arms:2.5.0'
+//    api 'me.jessyan:arms-imageloader-glide:2.5.0'
+    api rootProject.ext.dependencies["multidex"]
+    //tools
+    api rootProject.ext.dependencies["androideventbus"]
+    api(rootProject.ext.dependencies["arouter"]) {
+        exclude module: 'support-v4'
+        exclude module: 'support-annotations'
+    }
+    api rootProject.ext.dependencies["retrofit-url-manager"]
+    api rootProject.ext.dependencies["yanzhenjie-sofia"]
+    api rootProject.ext.dependencies["loadLayout"]
+    api rootProject.ext.dependencies["YCRefreshViewLib"]
+    api rootProject.ext.dependencies["YCStateLib"]
+    api rootProject.ext.dependencies["ImagePreview"]
+    api rootProject.ext.dependencies["WheelPickerAddress"]
+    api project(':lib_flycotablayout')
+    api project(':lib_easyrecyclerview')
+
+}

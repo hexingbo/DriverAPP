@@ -1,0 +1,17 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    android:useLevel="false">
+    <solid android:color="@color/white" />
+   <!-- <padding
+        android:bottom="@dimen/dp_1"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="1dp" />-->
+    <solid android:color="@color/public_color_F0F0F0" />
+    <stroke
+        android:width="@dimen/public_width_1dp"
+        android:color="@color/public_color_F2F2F2" />
+    <size
+        android:width="@dimen/public_height_14dp"
+        android:height="@dimen/public_width_14dp" />
+</shape>

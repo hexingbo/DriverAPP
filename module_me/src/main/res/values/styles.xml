@@ -1,0 +1,36 @@
+<resources>
+    <!--个人中心 条目样式-->
+    <style name="My_Item_LinearLayout_Style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/public_height_60dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@color/public_color_FFFFFF</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <!--个人中心 条目中的左侧侧图片样式-->
+    <style name="My_Item_ImageView_Left_Style">
+        <item name="android:layout_width">@dimen/public_width_20dp</item>
+        <item name="android:layout_height">@dimen/public_height_20dp</item>
+        <item name="android:layout_marginLeft">@dimen/public_mar_left_15dp</item>
+        <item name="android:layout_marginRight">@dimen/public_mar_right_15dp</item>
+        <item name="android:src">@mipmap/ic_next</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <!--个人中心 条目中的文本样式-->
+    <style name="My_Item_TextView_Style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/public_font_17sp</item>
+        <item name="android:textColor">@color/public_color_333333</item>
+    </style>
+    <!--个人中心 条目中的右侧图片样式-->
+    <style name="My_Item_ImageView_Right_Style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@mipmap/ic_next</item>
+        <item name="android:layout_marginRight">@dimen/public_mar_left_15dp</item>
+    </style>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--首页底部导航栏的标题，未选中时-->
+    <integer-array name="main_tab_un_select" tools:ignore="ResourceName">
+        <item name="tab_waybill">@drawable/ic_waybill_n</item>
+        <item name="tab_message">@drawable/ic_message_n</item>
+        <item name="tab_me">@drawable/ic_my_n</item>
+    </integer-array>
+
+    <!--首页底部导航栏的标题，选中时-->
+    <integer-array name="main_tab_select" tools:ignore="ResourceName">
+        <item name="tab_waybill">@drawable/ic_waybill_s</item>
+        <item name="tab_message">@drawable/ic_message_s</item>
+        <item name="tab_me">@drawable/ic_my_s</item>
+    </integer-array>
+
+    <!--首页底部导航栏文字-->
+    <string-array name="main_title" tools:ignore="ResourceName">
+        <item>运单</item>
+        <item>消息</item>
+        <item>我的</item>
+    </string-array>
+</resources>

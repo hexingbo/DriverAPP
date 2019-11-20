@@ -1,0 +1,2 @@
+include ':app', ':CommonSDK', ':lib_flycotablayout', ':lib_easyrecyclerview', ':lib_imageloader_glide', ':CommonRes', ':CommonArms', ':CommonService', ':module_me', ':module_message', ':module_login', ':module_waybill'
+rootProject.name='DriverAPP'
