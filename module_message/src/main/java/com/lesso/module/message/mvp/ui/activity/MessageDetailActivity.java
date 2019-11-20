@@ -63,6 +63,7 @@ public class MessageDetailActivity extends BaseActivity<MessageDetailPresenter> 
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        setTitle(R.string.module_message_name_message_detail);
         mMessageBean = (MessageBean) getIntent().getSerializableExtra(IntentValue);
         if (mMessageBean != null && mMessageBean.getHaveRead() == 0)
             mPresenter.postUpdateMessageRead(mMessageBean.getUserMsgId());
@@ -101,7 +102,8 @@ public class MessageDetailActivity extends BaseActivity<MessageDetailPresenter> 
     public void setMessageBean(MessageBean bean) {
         if (bean != null) {
             tvTitle.setText(bean.getTitle());
-            tvContent.setText(bean.getContent());
+            tvContent.setText(getResources().getString(R.string.module_message_name_message_detail_content).replace("AA",bean.getContent()));
+
         }
     }
 

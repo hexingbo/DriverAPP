@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ModuleMessage</string>
+    <string name="module_message_name_message_detail">消息详情</string>
+    <string name="module_message_name_message_detail_content">\t\t\t\tAA</string>
 </resources>
