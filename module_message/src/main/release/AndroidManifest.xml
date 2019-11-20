@@ -8,5 +8,9 @@
         <meta-data
             android:name="com.lesso.module.message.app.GlobalConfiguration"
             android:value="ConfigModule" />
+
+        <activity android:name=".mvp.ui.activity.MainMessageActivity"></activity>
+        <activity android:name=".mvp.ui.activity.MessageDetailActivity"></activity>
+
     </application>
 </manifest>

@@ -2,12 +2,16 @@ package com.lesso.module.message.di.module;
 
 import android.app.Dialog;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.jess.arms.di.scope.FragmentScope;
+import com.jess.arms.utils.AppManagerUtil;
 import com.lesso.module.message.mvp.contract.MessageManagerContract;
 import com.lesso.module.message.mvp.model.MessageManagerModel;
 import com.lesso.module.message.mvp.model.entity.MessageBean;
+import com.lesso.module.message.mvp.ui.activity.MessageDetailActivity;
 import com.lesso.module.message.mvp.ui.adapter.MessageListAdapter;
+import com.zhouyou.recyclerview.adapter.BaseRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +31,7 @@ public abstract class MessageManagerModule {
 
     @FragmentScope
     @Provides
-    static Dialog provideDialog(MessageManagerContract.View view){
+    static Dialog provideDialog(MessageManagerContract.View view) {
         return new ProgresDialog(view.getActivity());
     }
 
@@ -47,6 +51,7 @@ public abstract class MessageManagerModule {
     @Provides
     static MessageListAdapter provideMessageListAdapter(List<MessageBean> list, MessageManagerContract.View view) {
         MessageListAdapter adapter = new MessageListAdapter(list, view.getActivity());
+        adapter.setOnItemClickListener(view.getOnItemClickListener() );
         return adapter;
     }
 

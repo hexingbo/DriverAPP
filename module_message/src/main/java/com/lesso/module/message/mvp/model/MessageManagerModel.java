@@ -52,8 +52,4 @@ public class MessageManagerModel extends BaseModel implements MessageManagerCont
         return mRepositoryManager.obtainRetrofitService(ModuleMessageService.class).getMessageList(new SubmitGetMessageListBean(current,size,new SubmitGetMessageListBean.ConditionBean(dirverId)));
     }
 
-    @Override
-    public Observable<HttpResult> postUpdateMessageRead(@NonNull String userMsgId) {
-        return mRepositoryManager.obtainRetrofitService(ModuleMessageService.class).postUpdateMessageRead(userMsgId);
-    }
 }

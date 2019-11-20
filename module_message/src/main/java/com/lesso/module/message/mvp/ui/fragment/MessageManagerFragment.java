@@ -13,15 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.lesso.module.message.R;
 import com.lesso.module.message.R2;
 import com.lesso.module.message.di.component.DaggerMessageManagerComponent;
 import com.lesso.module.message.mvp.contract.MessageManagerContract;
+import com.lesso.module.message.mvp.model.entity.MessageBean;
 import com.lesso.module.message.mvp.presenter.MessageManagerPresenter;
+import com.lesso.module.message.mvp.ui.activity.MessageDetailActivity;
 import com.lesso.module.message.mvp.ui.adapter.MessageListAdapter;
 import com.zhouyou.recyclerview.XRecyclerView;
+import com.zhouyou.recyclerview.adapter.BaseRecyclerViewAdapter;
 import com.zhouyou.recyclerview.custom.CustomMoreFooter;
 import com.zhouyou.recyclerview.custom.CustomRefreshHeader2;
 
@@ -29,6 +34,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import me.jessyan.armscomponent.commonres.base.BaseLoadLayoutFragment;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -180,4 +186,28 @@ public class MessageManagerFragment extends BaseLoadLayoutFragment<MessageManage
             mRecyclerView.loadMoreComplete();
     }
 
+    @Override
+    public BaseRecyclerViewAdapter.OnItemClickListener<MessageBean> getOnItemClickListener() {
+
+        return new BaseRecyclerViewAdapter.OnItemClickListener<MessageBean>() {
+            @Override
+            public void onItemClick(View view, MessageBean item, int position) {
+                currentMessageBean = item;
+                currentPosition = position;
+                AppManagerUtil.jump(MessageDetailActivity.class, MessageDetailActivity.IntentValue, item);
+            }
+        };
+    }
+
+    private MessageBean currentMessageBean;
+    private int currentPosition;
+
+    @Override
+    protected void getEventBusHub_Fragment(MessageEvent message) {
+        super.getEventBusHub_Fragment(message);
+        if (message.getType().equals(EventBusHub.Message_MessageManagerList_UpdateData)) {
+            currentMessageBean.setHaveRead(1);
+            mAdapter.notifyItemChanged(currentPosition);
+        }
+    }
 }

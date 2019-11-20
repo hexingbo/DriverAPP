@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 import com.lesso.module.message.mvp.model.entity.MessageBean;
+import com.zhouyou.recyclerview.adapter.BaseRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -21,12 +22,12 @@ public interface MessageManagerContract {
         Activity getActivity();
 
         void endLoadMore();
+
+        BaseRecyclerViewAdapter.OnItemClickListener<MessageBean> getOnItemClickListener();
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model extends IModel {
         Observable<HttpResult<List<MessageBean>>> getMessageList(int current, int size, @NonNull String dirverId);
-
-        Observable<HttpResult> postUpdateMessageRead(@NonNull String userMsgId);
     }
 }

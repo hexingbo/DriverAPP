@@ -1,12 +1,14 @@
 package com.lesso.module.message.mvp.model.entity;
 
+import java.io.Serializable;
+
 /**
  * @Author :hexingbo
  * @Date :2019/11/16
  * @FileName： MessageBean
  * @Describe :
  */
-public class MessageBean {
+public class MessageBean implements Serializable {
 
     private String messageType;//消息类型：0=系统消息 1=订单消息 2=物流消息 3=租车消息 4=审核消息
     private String title;//标题
