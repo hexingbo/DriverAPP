@@ -68,6 +68,7 @@
     <dimen name="public_height_120dp">120dp</dimen>
     <dimen name="public_height_122dp">122dp</dimen>
     <dimen name="public_height_128dp">128dp</dimen>
+    <dimen name="public_height_130dp">130dp</dimen>
     <dimen name="public_height_148dp">148dp</dimen>
     <dimen name="public_height_174dp">174dp</dimen>
     <dimen name="public_height_269dp">269dp</dimen>
@@ -87,6 +88,7 @@
     <dimen name="public_width_24dp">24dp</dimen>
     <dimen name="public_width_34dp">34dp</dimen>
     <dimen name="public_width_40dp">40dp</dimen>
+    <dimen name="public_width_50dp">50dp</dimen>
     <dimen name="public_width_67dp">67dp</dimen>
     <dimen name="public_width_77dp">77dp</dimen>
     <dimen name="public_width_80dp">80dp</dimen>
@@ -175,7 +177,9 @@
     <dimen name="public_mar_right_14dp">14dp</dimen>
     <dimen name="public_mar_right_15dp">15dp</dimen>
     <dimen name="public_mar_right_20dp">20dp</dimen>
+    <dimen name="public_mar_right_25dp">25dp</dimen>
     <dimen name="public_mar_right_30dp">30dp</dimen>
+    <dimen name="public_mar_right_150dp">150dp</dimen>
 
     //marginBottom
     <dimen name="public_mar_bottom_4dp">4dp</dimen>

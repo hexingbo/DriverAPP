@@ -20,8 +20,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/public_mar_left_10dp"
             android:layout_marginRight="@dimen/public_mar_right_10dp"
-            android:src="@mipmap/ic_bar_black_back"
-             />
+            android:src="@mipmap/ic_bar_black_back" />
         <!--android:src="@drawable/public_ic_arrow_back_white_24dp"-->
 
     </RelativeLayout>
@@ -34,5 +33,19 @@
         android:textColor="@color/public_color_333333"
         android:textSize="@dimen/public_font_18sp"
         tools:text="@string/public_app_name" />
+
+    <TextView
+        android:id="@+id/public_toolbar_text_rigth"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:layout_marginRight="@dimen/public_pad_right_10dp"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:paddingLeft="@dimen/public_pad_left_10dp"
+        android:paddingRight="@dimen/public_pad_right_10dp"
+        android:textColor="@color/public_color_333333"
+        android:textSize="@dimen/public_font_15sp"
+        tools:text="Text" />
 
 </android.support.v7.widget.Toolbar>
