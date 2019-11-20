@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".mvp.ui.activity.UserAuthenticationActivity"></activity>
         <activity android:name=".mvp.ui.activity.CompanyJoinDetailInfoActivity"></activity>
         <activity android:name=".mvp.ui.activity.CompanyJoinManageActivity" />
         <activity android:name=".mvp.ui.activity.UserInfoActivity" />

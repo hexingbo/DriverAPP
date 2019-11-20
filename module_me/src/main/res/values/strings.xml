@@ -19,5 +19,7 @@
     <string name="module_me_apply_join">申请加盟</string>
     <string name="module_me_go_join">去加盟</string>
     <string name="module_me_name_send_order_account">发起对账</string>
+    <string name="module_me_name_save">保存</string>
+    <string name="module_me_user_authentication">实名认证</string>
 
 </resources>

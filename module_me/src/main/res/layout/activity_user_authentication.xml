@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_stausview" />
+
+    <include layout="@layout/public_include_title" />
+
+    <include layout="@layout/public_line_horizontal_gray" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fadingEdge="none"
+        android:orientation="vertical"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/public_mar_left_5dp"
+                android:layout_marginRight="@dimen/public_mar_right_5dp"
+                android:padding="@dimen/public_pad_left_10dp"
+                android:text="认证通过才可使用平台功能，信息仅用于平台审核，平台不会把信息泄漏给第三方。"
+                android:textColor="#ff999999"
+                android:textSize="12sp" />
+
+            <include layout="@layout/public_line_horizontal_gray_mar15" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/public_mar_top_10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/public_height_60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/public_pad_left_15dp"
+                    android:paddingRight="@dimen/public_pad_right_15dp">
+
+                    <TextView
+                        android:layout_width="@dimen/public_width_90dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:text="姓名"
+                        android:textColor="#ff999999"
+                        android:textSize="@dimen/public_font_17sp" />
+
+                    <me.jessyan.armscomponent.commonres.other.ClearEditText
+                        android:id="@+id/et_user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/public_color_transparent"
+                        android:gravity="center_vertical"
+                        android:hint="请输入姓名"
+                        android:textColor="#ff333331"
+                        android:textSize="@dimen/public_font_17sp" />
+                </LinearLayout>
+
+                <include layout="@layout/public_line_horizontal_gray_mar15" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/public_height_60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/public_pad_left_15dp"
+                    android:paddingRight="@dimen/public_pad_right_15dp">
+
+                    <TextView
+                        android:layout_width="@dimen/public_width_90dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:text="身份证号"
+                        android:textColor="#ff999999"
+                        android:textSize="@dimen/public_font_17sp" />
+
+                    <me.jessyan.armscomponent.commonres.other.ClearEditText
+                        android:id="@+id/et_user_card_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/public_color_transparent"
+                        android:gravity="center_vertical"
+                        android:hint="请输入身份证号"
+                        android:textColor="#ff333331"
+                        android:textSize="@dimen/public_font_17sp" />
+                </LinearLayout>
+
+                <include layout="@layout/public_line_horizontal_gray_mar15" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/public_height_60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/public_pad_left_15dp"
+                    android:paddingRight="@dimen/public_pad_right_15dp">
+
+                    <TextView
+                        android:layout_width="@dimen/public_width_90dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:text="驾驶证号"
+                        android:textColor="#ff999999"
+                        android:textSize="@dimen/public_font_17sp" />
+
+                    <me.jessyan.armscomponent.commonres.other.ClearEditText
+                        android:id="@+id/et_driver_card_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/public_color_transparent"
+                        android:gravity="center_vertical"
+                        android:hint="请输入驾驶证号"
+                        android:textColor="#ff333331"
+                        android:textSize="@dimen/public_font_17sp" />
+                </LinearLayout>
+
+                <include layout="@layout/public_line_horizontal_gray_mar15" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/public_mar_bottom_25dp">
+
+                <include layout="@layout/layout_user_credentials" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>
