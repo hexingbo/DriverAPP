@@ -1,6 +1,7 @@
 package com.lesso.module.me.mvp.ui.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,18 +12,29 @@ import android.widget.TextView;
 
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.utils.ArmsUtils;
+import com.jess.arms.utils.LogUtils;
+import com.jess.arms.utils.PermissionUtil;
 import com.lesso.module.me.R;
 import com.lesso.module.me.R2;
 import com.lesso.module.me.di.component.DaggerUserInfoComponent;
 import com.lesso.module.me.mvp.contract.UserInfoContract;
+import com.lesso.module.me.mvp.model.entity.DriverVerifyDetailBean;
 import com.lesso.module.me.mvp.presenter.UserInfoPresenter;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import javax.inject.Inject;
+
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.jessyan.armscomponent.commonres.dialog.MaterialDialog;
+import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
 import me.jessyan.armscomponent.commonres.other.CircleImageView;
 import me.jessyan.armscomponent.commonres.other.ClearEditText;
+import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -35,6 +47,18 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements UserInfoContract.View {
+
+    @Inject
+    RxPermissions mRxPermissions;
+    @Inject
+    Dialog mDialog;
+    @Inject
+    MyHintDialog mMyHintDialog;
+    @Inject
+    MaterialDialog mPermissionDialog;
+
+    @BindString(R2.string.permission_request_location)
+    String mStrPermission;
 
     @BindView(R2.id.public_toolbar_text_rigth)
     TextView publicToolbarTextRigth;
@@ -88,17 +112,18 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
         setTitle(R.string.me_name_user_info);
         publicToolbarTextRigth.setText(getString(R.string.module_me_name_save));
         setAddViewGONE();
-
+        //可以在任何可以拿到 Context 的地方,拿到 AppComponent,从而得到用 Dagger 管理的单例对象
+        mPresenter.getDriverVerifyDetail();
     }
 
     @Override
     public void showLoading() {
-
+        mDialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        mDialog.dismiss();
     }
 
     @Override
@@ -123,6 +148,32 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
         return this;
     }
 
+    @Override
+    public RxPermissions getRxPermissions() {
+        return mRxPermissions;
+    }
+
+    @Override
+    public PermissionUtil.RequestPermission getRequestPermission() {
+        return null;
+    }
+
+    @Override
+    public void setDriverVerifyDetailBean(DriverVerifyDetailBean bean) {
+        if (bean != null) {
+            LogUtils.debugInfo("hxb--->",bean.toString());
+            etUserName.setText(bean.getDriverBy());
+            etUserCardNumber.setText(bean.getIdno());
+            etDriverCardNumber.setText(bean.getDriverno());
+            loadImageData(bean.getIdCardUrl(), imgCardUserS);
+            loadImageData(bean.getIdCardBackUrl(), imgCardUserN);
+            loadImageData(bean.getDriverCardUrl(), imgAddCardDriverS);
+            loadImageData(bean.getDriverCardBackUrl(), imgCardDriverN);
+//            loadImageData(bean.getIdCardUrl(), imgAddCardUserGetCard);
+            loadImageData(bean.getHeadUrl(), imgUserHead);
+        }
+    }
+
     private void setAddViewGONE() {
         imgAddCardUserN.setVisibility(View.GONE);
         imgAddCardUserS.setVisibility(View.GONE);
@@ -131,7 +182,8 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
         imgAddCardUserGetCard.setVisibility(View.GONE);
     }
 
-    @OnClick({R2.id.public_toolbar_text_rigth, R2.id.img_user_head, R2.id.img_card_user_s, R2.id.img_card_user_n, R2.id.img_card_user_get_card, R2.id.img_card_driver_s, R2.id.img_card_driver_n})
+    @OnClick({R2.id.public_toolbar_text_rigth, R2.id.img_user_head, R2.id.img_card_user_s,
+            R2.id.img_card_user_n, R2.id.img_card_user_get_card, R2.id.img_card_driver_s, R2.id.img_card_driver_n})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.img_user_head) {
             showMessage("头像");
@@ -147,6 +199,17 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
             showMessage("驾驶证背面照");
         } else if (view.getId() == R.id.public_toolbar_text_rigth) {
             showMessage("保存");
+        }
+    }
+
+    private void loadImageData(String url, ImageView imageView) {
+        if (!ArmsUtils.isEmpty(url)) {
+            ArmsUtils.obtainAppComponentFromContext(getActivity()).imageLoader().loadImage(getActivity(),
+                    CommonImageConfigImpl
+                            .builder()
+                            .url(url)
+                            .imageView(imageView)
+                            .build());
         }
     }
 }

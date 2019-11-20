@@ -20,6 +20,19 @@ public class SubmitDriverVerifyBean {
     private String driverCardBackPath;//驾驶证副页附件地址
     private String lifePhotoPath;//手持身份证附件地址
 
+    /**
+     * 实际认证提交参数
+     *
+     * @param currentUserId      当前用户id
+     * @param name               司机姓名
+     * @param idno               身份证号
+     * @param driverno           驾驶证号
+     * @param idCardPath         身份证正面附件地址
+     * @param idCardBackPath     身份证反面附件地址
+     * @param driverCardPath     驾驶证主页附件地址
+     * @param driverCardBackPath 驾驶证副页附件地址
+     * @param lifePhotoPath      手持身份证附件地址
+     */
     public SubmitDriverVerifyBean(@NonNull String currentUserId, @NonNull String name, @NonNull String idno,
                                   @NonNull String driverno, @NonNull String idCardPath, @NonNull String idCardBackPath,
                                   @NonNull String driverCardPath, @NonNull String driverCardBackPath, String lifePhotoPath) {

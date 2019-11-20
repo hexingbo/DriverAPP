@@ -28,7 +28,7 @@ public class CommonHttpUrl {
     public static final String API_postSaveOrUpdateAppVerDetail = "/tblWlAppUpdate/saveOrUpdateAppVerDetail";//19、保存或更新版本更新详情
 
     public static final String API_postDriverVerify = "/tblWlDriverVerifyHistory/driverCertification";//  20、司机认证
-    public static final String API_getDriverVerifyDetail = "/carDriver/getCarDriverInfon";//  21、司机认证个人信息查询
+    public static final String API_getDriverVerifyDetail = "/carDriver/getCarDriverInfo";//  21、司机认证个人信息查询
     public static final String API_postSaveDriverVerifyInfo = "/carDriver/saveCarDriver";//  22、司机认证个人信息保存
     public static final String API_postSendWayBill = "/order/orderDelivery";//24、订单发货
     public static final String API_postDriverTransportPunch = "/tblWlTransport/driverTransportPunch";//25、司机运输打卡

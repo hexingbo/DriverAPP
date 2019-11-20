@@ -1,5 +1,7 @@
 package com.lesso.module.me.mvp.model.entity;
 
+import android.support.annotation.Nullable;
+
 /**
  * @Author :hexingbo
  * @Date :2019/11/16
@@ -20,25 +22,43 @@ public class DriverVerifyDetailBean {
     private String status;//记录状态（A：可用；E不可用）
     private String verifyStatus;//认证状态
     private String headUrl;//个人头像url
+
     private String idCardUrl;//身份证正面附件url
     private String idCardBackUrl;//身份证反面附件url
+
     private String driverCardUrl;//驾驶证正面附件url
     private String driverCardBackUrl;//驾驶证反面附件url
+
     private String idCardPath;//身份证正面附件路径地址
     private String idCardBackPath;//身份证反面附件路径地址
     private String driverCardPath;//驾驶证正面附件路径地址
     private String driverCardBackPath;//驾驶证反面附件路径地址
-    private String headSrc = getHeadUrl();//用户头像附件路径地址
+    private String headSrc;//用户头像附件路径地址
 
-    public DriverVerifyDetailBean(){
+    public DriverVerifyDetailBean() {
 
     }
 
-    public DriverVerifyDetailBean(String guid, String driverBy, String idno, String driverno,
-                                  String idCardUrl, String idCardBackUrl,
-                                  String driverCardUrl, String driverCardBackUrl,
-                                  String idCardPath, String idCardBackPath,
-                                  String driverCardPath, String driverCardBackPath) {
+    /**
+     * 提交保存用户信息
+     * @param guid
+     * @param driverBy 司机姓名
+     * @param idno 身份证号
+     * @param driverno 驾驶证号
+     * @param idCardUrl 身份证正面附件url
+     * @param idCardBackUrl 身份证反面附件url
+     * @param driverCardUrl 驾驶证正面附件url
+     * @param driverCardBackUrl 身份证正面附件路径地址
+     * @param idCardPath 身份证正面附件路径地址
+     * @param idCardBackPath 身份证反面附件路径地址
+     * @param driverCardPath 驾驶证正面附件路径地址
+     * @param driverCardBackPath 驾驶证反面附件路径地址
+     */
+    public DriverVerifyDetailBean(@Nullable String guid, @Nullable String driverBy, @Nullable String idno, @Nullable String driverno,
+                                  @Nullable String idCardUrl, @Nullable String idCardBackUrl,
+                                  @Nullable String driverCardUrl, @Nullable String driverCardBackUrl,
+                                  @Nullable String idCardPath, @Nullable String idCardBackPath,
+                                  @Nullable String driverCardPath, @Nullable String driverCardBackPath,@Nullable String headSrc) {
         this.guid = guid;
         this.driverBy = driverBy;
         this.idno = idno;
@@ -51,6 +71,7 @@ public class DriverVerifyDetailBean {
         this.idCardBackPath = idCardBackPath;
         this.driverCardPath = driverCardPath;
         this.driverCardBackPath = driverCardBackPath;
+        this.headSrc = headSrc;
     }
 
     public String getGuid() {
@@ -149,12 +170,20 @@ public class DriverVerifyDetailBean {
         this.verifyStatus = verifyStatus;
     }
 
-    public String getHeadUrl() {
-        return headUrl;
+    public void setHeadSrc(String headSrc) {
+        this.headSrc = headSrc;
+    }
+
+    public String getHeadSrc() {
+        return headSrc;
     }
 
     public void setHeadUrl(String headUrl) {
         this.headUrl = headUrl;
+    }
+
+    public String getHeadUrl() {
+        return headUrl;
     }
 
     public String getIdCardUrl() {
@@ -219,5 +248,33 @@ public class DriverVerifyDetailBean {
 
     public void setDriverCardBackPath(String driverCardBackPath) {
         this.driverCardBackPath = driverCardBackPath;
+    }
+
+    @Override
+    public String toString() {
+        return "DriverVerifyDetailBean{" +
+                "guid='" + guid + '\'' +
+                ", driverBy='" + driverBy + '\'' +
+                ", driverMobile='" + driverMobile + '\'' +
+                ", idno='" + idno + '\'' +
+                ", driverno='" + driverno + '\'' +
+                ", driverCar='" + driverCar + '\'' +
+                ", belongBy='" + belongBy + '\'' +
+                ", openId='" + openId + '\'' +
+                ", createdDate='" + createdDate + '\'' +
+                ", updatedDate='" + updatedDate + '\'' +
+                ", status='" + status + '\'' +
+                ", verifyStatus='" + verifyStatus + '\'' +
+                ", headUrl='" + headUrl + '\'' +
+                ", idCardUrl='" + idCardUrl + '\'' +
+                ", idCardBackUrl='" + idCardBackUrl + '\'' +
+                ", driverCardUrl='" + driverCardUrl + '\'' +
+                ", driverCardBackUrl='" + driverCardBackUrl + '\'' +
+                ", idCardPath='" + idCardPath + '\'' +
+                ", idCardBackPath='" + idCardBackPath + '\'' +
+                ", driverCardPath='" + driverCardPath + '\'' +
+                ", driverCardBackPath='" + driverCardBackPath + '\'' +
+                ", headSrc='" + headSrc + '\'' +
+                '}';
     }
 }

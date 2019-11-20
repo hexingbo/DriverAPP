@@ -69,8 +69,8 @@ public class WayBillListAdapter extends HelperRecyclerViewAdapter<WayBillListBea
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnItemClickListener!=null){
-                    mOnItemClickListener.onItemClick(v,item,position);
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(v, item, position);
                 }
             }
         };
@@ -93,15 +93,12 @@ public class WayBillListAdapter extends HelperRecyclerViewAdapter<WayBillListBea
         if (!ArmsUtils.isEmpty(item.getShipperCompanyHeadUrl())) {
             //itemView 的 Context 就是 Activity, Glide 会自动处理并和该 Activity 的生命周期绑定
             mImageLoader.loadImage(viewHolder.itemView.getContext(),
-                    CommonImageConfigImpl
-                            .builder()
-                            .url(item.getShipperCompanyHeadUrl())
-                            .imageView(imgHead)
-                            .build());
+                CommonImageConfigImpl.builder().url(item.getShipperCompanyHeadUrl()).imageView(imgHead).build());
         } else {
             imgHead.setImageResource(R.mipmap.ic_head_default);
         }
     }
+
     /**
      * 在 Activity 的 onDestroy 中使用 {@link this #releaseAllHolder(RecyclerView)} 方法 (super.onDestroy() 之前)
      * {@link this #onRelease()} 才会被调用, 可以在此方法中释放一些资源

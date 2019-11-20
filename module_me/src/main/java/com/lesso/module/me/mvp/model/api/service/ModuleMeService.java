@@ -8,7 +8,10 @@ import com.lesso.module.me.mvp.model.entity.SubmitCompanyJoinedActionBean;
 import com.lesso.module.me.mvp.model.entity.SubmitCompanyJoinedListBean;
 import com.lesso.module.me.mvp.model.entity.SubmitCompanyJoiningBean;
 import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyBean;
+import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyDetailBean;
 import com.lesso.module.me.mvp.model.entity.SubmitLoginOutBean;
+import com.lesso.module.me.mvp.model.entity.SubmitUploadDriverHeadFileBean;
+import com.lesso.module.me.mvp.model.entity.SubmitUploadDriverInfoFileBean;
 import com.lesso.module.me.mvp.model.entity.UserInfoBean;
 
 import java.util.List;
@@ -100,15 +103,29 @@ public interface ModuleMeService {
      * 21、司机认证个人信息查询
      */
     @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
-    @GET(CommonHttpUrl.API_getDriverVerifyDetail)
-    Observable<HttpResult<DriverVerifyDetailBean>> getDriverVerifyDetail(@Query("guid") String guid);
+    @POST(CommonHttpUrl.API_getDriverVerifyDetail)
+    Observable<HttpResult<DriverVerifyDetailBean>> getDriverVerifyDetail(@Body SubmitDriverVerifyDetailBean bean);
 
     /**
      * 22、司机认证个人信息保存
      */
     @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
     @POST(CommonHttpUrl.API_postSaveDriverVerifyInfo)
-    Observable<HttpResult<DriverVerifyDetailBean>> postSaveDriverVerifyInfo(@Body DriverVerifyDetailBean bean);
+    Observable<HttpResult> postSaveDriverVerifyInfo(@Body DriverVerifyDetailBean bean);
+
+    /**
+     * 28、身份证、驾驶证附件上传和识别附件信息
+     */
+    @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
+    @POST(CommonHttpUrl.API_postUploadDriverInfoFile)
+    Observable<HttpResult> postUploadDriverInfoFile(@Body SubmitUploadDriverInfoFileBean bean);
+
+    /**
+     * 29、个人头像上传
+     */
+    @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
+    @POST(CommonHttpUrl.API_postUploadDriverHeadFile)
+    Observable<HttpResult> postUploadDriverHeadFile(@Body SubmitUploadDriverHeadFileBean bean);
 
 
 }
