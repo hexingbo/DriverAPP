@@ -24,6 +24,8 @@ import com.lesso.module.me.mvp.model.entity.DriverVerifyDetailBean;
 import com.lesso.module.me.mvp.presenter.UserInfoPresenter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindString;
@@ -32,6 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.armscomponent.commonres.dialog.MaterialDialog;
 import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
+import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
 import me.jessyan.armscomponent.commonres.other.CircleImageView;
 import me.jessyan.armscomponent.commonres.other.ClearEditText;
 import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
@@ -155,7 +158,28 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 
     @Override
     public PermissionUtil.RequestPermission getRequestPermission() {
-        return null;
+        return new PermissionUtil.RequestPermission() {
+            @Override
+            public void onRequestPermissionSuccess() {
+                //request permission success, do something.
+                mPresenter.getPictureSelector();
+            }
+
+            @Override
+            public void onRequestPermissionFailure(List<String> permissions) {
+                //如果用户拒绝了其中一个授权请求，则提醒用户
+//                showMessage("Request permissions failure");
+                showMessage(mStrPermission);
+            }
+
+            @Override
+            public void onRequestPermissionFailureWithAskNeverAgain(List<String> permissions) {
+                //如果用户拒绝了其中一个授权请求，且勾选了不再提醒，则需要引导用户到权限管理页面开启
+//                showMessage("Need to go to the settings");
+                mPermissionDialog.setMessage("请前往设置中心开启相应权限");
+                mPermissionDialog.show();
+            }
+        };
     }
 
     @Override
@@ -186,6 +210,8 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
     public void onViewClicked(View view) {
         if (view.getId() == R.id.img_user_head) {
             showMessage("头像");
+            mPresenter.checkPermission(UploadFileUserCardType.HeadPhoto);
+
         } else if (view.getId() == R.id.img_card_user_s) {
             showMessage("身份证正面照");
         } else if (view.getId() == R.id.img_card_user_n) {

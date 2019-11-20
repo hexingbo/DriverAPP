@@ -27,5 +27,10 @@ public enum UploadFileUserCardType {
     /**
      * 手持身份证照
      */
-    LifePhoto
+    LifePhoto,
+
+    /**
+     * 用户头像
+     */
+    HeadPhoto
 }

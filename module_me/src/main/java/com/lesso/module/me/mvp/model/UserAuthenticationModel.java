@@ -57,7 +57,7 @@ public class UserAuthenticationModel extends BaseModel implements UserAuthentica
     @Override
     public void checkPermission(RxPermissions rxPermissions, PermissionUtil.RequestPermission requestPermission, RxErrorHandler mErrorHandler) {
             //请求外部存储权限用于适配android6.0的权限管理机制
-            PermissionUtil.requestPermission(requestPermission, (RxPermissions) requestPermission, mErrorHandler,
+            PermissionUtil.requestPermission(requestPermission,rxPermissions, mErrorHandler,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION);
     }

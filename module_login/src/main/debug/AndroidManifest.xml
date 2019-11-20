@@ -10,8 +10,6 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-
-
     <application
         android:name="me.jessyan.armscomponent.commonsdk.base.app.MyBaseApplication"
         android:allowBackup="true"
