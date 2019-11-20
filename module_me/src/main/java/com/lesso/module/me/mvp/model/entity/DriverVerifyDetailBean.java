@@ -34,6 +34,8 @@ public class DriverVerifyDetailBean {
     private String driverCardPath;//驾驶证正面附件路径地址
     private String driverCardBackPath;//驾驶证反面附件路径地址
     private String headSrc;//用户头像附件路径地址
+    private String lifePhotoPath;
+    private String lifePhotoUrl;
 
     public DriverVerifyDetailBean() {
 
@@ -250,6 +252,22 @@ public class DriverVerifyDetailBean {
         this.driverCardBackPath = driverCardBackPath;
     }
 
+    public String getLifePhotoPath() {
+        return lifePhotoPath;
+    }
+
+    public void setLifePhotoPath(String lifePhotoPath) {
+        this.lifePhotoPath = lifePhotoPath;
+    }
+
+    public String getLifePhotoUrl() {
+        return lifePhotoUrl;
+    }
+
+    public void setLifePhotoUrl(String lifePhotoUrl) {
+        this.lifePhotoUrl = lifePhotoUrl;
+    }
+
     @Override
     public String toString() {
         return "DriverVerifyDetailBean{" +
@@ -277,4 +295,5 @@ public class DriverVerifyDetailBean {
                 ", headSrc='" + headSrc + '\'' +
                 '}';
     }
+
 }

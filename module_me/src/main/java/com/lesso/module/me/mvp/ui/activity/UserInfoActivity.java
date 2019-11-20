@@ -161,15 +161,14 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
     @Override
     public void setDriverVerifyDetailBean(DriverVerifyDetailBean bean) {
         if (bean != null) {
-            LogUtils.debugInfo("hxb--->",bean.toString());
             etUserName.setText(bean.getDriverBy());
             etUserCardNumber.setText(bean.getIdno());
             etDriverCardNumber.setText(bean.getDriverno());
             loadImageData(bean.getIdCardUrl(), imgCardUserS);
             loadImageData(bean.getIdCardBackUrl(), imgCardUserN);
             loadImageData(bean.getDriverCardUrl(), imgAddCardDriverS);
-            loadImageData(bean.getDriverCardBackUrl(), imgCardDriverN);
-//            loadImageData(bean.getIdCardUrl(), imgAddCardUserGetCard);
+            loadImageData(bean.getDriverCardBackUrl(), imgAddCardDriverN);
+            loadImageData(bean.getLifePhotoUrl(), imgAddCardUserGetCard);
             loadImageData(bean.getHeadUrl(), imgUserHead);
         }
     }

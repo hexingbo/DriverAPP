@@ -1,14 +1,12 @@
 package me.jessyan.armscomponent.commonsdk.base.observer;
 
-import android.os.Bundle;
-
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.jess.arms.utils.AppManagerUtil;
+import com.jess.arms.utils.LogUtils;
 
 import me.jessyan.armscomponent.commonsdk.base.bean.MyHttpResult;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.utils.SaveOrClearUserInfo;
-import me.jessyan.armscomponent.commonsdk.utils.Utils;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 
@@ -27,6 +25,7 @@ public abstract class MyHttpResultObserver<T extends MyHttpResult> extends Error
 
     @Override
     public void onNext(T httpResult) {
+        LogUtils.debugInfo("hxb--->",httpResult.toString());
         switch (HttpResultEnum.getCodeType(httpResult.getErrcode())) {
             case Success_Code://请求成功
                 onResult(httpResult);
