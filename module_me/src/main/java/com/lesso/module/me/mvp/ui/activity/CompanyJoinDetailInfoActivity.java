@@ -24,7 +24,6 @@ import com.lesso.module.me.mvp.presenter.CompanyJoinDetailInfoPresenter;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.armscomponent.commonres.base.BaseIntentBean;
 import me.jessyan.armscomponent.commonres.other.CircleImageView;

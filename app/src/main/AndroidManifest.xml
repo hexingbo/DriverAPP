@@ -77,7 +77,11 @@
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
         <!--高德地图配置结束-->
-        <activity android:name="com.lesso.module.mvp.ui.activity.WelcomeActivity">
+        <activity android:name="com.lesso.module.mvp.ui.activity.WelcomeActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -27,7 +27,6 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import org.apache.http.conn.BasicEofSensorWatcher;
 
 import java.io.File;
 import java.util.List;

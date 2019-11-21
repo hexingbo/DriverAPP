@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.jess.arms.utils.DataHelper;
 import com.lesso.module.waybill.R;
 import com.lesso.module.waybill.R2;
 import com.lesso.module.waybill.di.component.DaggerOrderAccountsChildComponent;
@@ -29,6 +30,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import me.jessyan.armscomponent.commonres.enums.OrderAccountStateType;
+import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.core.RouterHub;
+import me.jessyan.armscomponent.commonsdk.utils.Utils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -54,6 +58,8 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
     @BindView(R2.id.recyclerview)
     XRecyclerView mRecyclerView;
 
+    private View viewUnAuthened;
+
     public static OrderAccountsChildFragment newInstance() {
         OrderAccountsChildFragment fragment = new OrderAccountsChildFragment();
         return fragment;
@@ -78,6 +84,13 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
     public void initData(@Nullable Bundle savedInstanceState) {
         initRecyclerView();
         mRecyclerView.setAdapter(mAdapter);
+//        viewUnAuthened = View.inflate(getContext(), R2.layout.layout_user_un_authorized, null);
+//        viewUnAuthened.findViewById(R.id.tv_authoriz).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Utils.navigation(getContext(), RouterHub.Me_UserAuthenticationActivity);
+//            }
+//        });
     }
 
     private void initRecyclerView() {
@@ -88,7 +101,7 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                mPresenter.getOrderAccounts(stateType, true);
+               lazyLoadData();
             }
 
             @Override
@@ -198,7 +211,11 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
 
     @Override
     protected void lazyLoadData() {
-        mRecyclerView.refresh();
+        //加盟管理
+//        if (ArmsUtils.isEmpty(DataHelper.getStringSF(getContext(), Constants.SP_VERIFY_STATUS))) {
+//            mRecyclerView.setEmptyView(viewUnAuthened);
+//        } else
+            mRecyclerView.refresh();
     }
 
     @Override

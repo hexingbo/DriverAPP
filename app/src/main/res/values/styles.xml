@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/public_color_orange_light</item>
+        <!--通知栏等的颜色-->
+        <item name="colorPrimaryDark">@color/public_color_orange_light</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
 </resources>

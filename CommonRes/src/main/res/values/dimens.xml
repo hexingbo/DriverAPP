@@ -95,6 +95,7 @@
     <dimen name="public_width_90dp">90dp</dimen>
     <dimen name="public_width_100dp">100dp</dimen>
     <dimen name="public_width_120dp">120dp</dimen>
+    <dimen name="public_width_145dp">145dp</dimen>
 
     //padding
     <dimen name="public_padding_20dp">20dp</dimen>
