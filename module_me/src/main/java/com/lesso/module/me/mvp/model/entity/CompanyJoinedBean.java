@@ -81,4 +81,17 @@ public class CompanyJoinedBean {
         this.auditStatusCode = auditStatusCode;
     }
 
+    @Override
+    public String toString() {
+        return "CompanyJoinedBean{" +
+                "companyId='" + companyId + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", driverId='" + driverId + '\'' +
+                ", joinDate='" + joinDate + '\'' +
+                ", joinSource=" + joinSource +
+                ", auditStatus='" + auditStatus + '\'' +
+                ", guid='" + guid + '\'' +
+                ", auditStatusCode='" + auditStatusCode + '\'' +
+                '}';
+    }
 }

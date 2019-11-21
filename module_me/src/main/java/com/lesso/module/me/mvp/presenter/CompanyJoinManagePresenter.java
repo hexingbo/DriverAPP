@@ -10,20 +10,19 @@ import com.jess.arms.http.imageloader.ImageLoader;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
-import me.jessyan.armscomponent.commonsdk.base.observer.MyHttpResultObserver;
-import me.jessyan.armscomponent.commonsdk.core.Constants;
+
+import me.jessyan.armscomponent.commonsdk.core.RouterHub;
+import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 
 import javax.inject.Inject;
 
 import com.jess.arms.utils.ArmsUtils;
-import com.jess.arms.utils.DataHelper;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.lesso.module.me.BuildConfig;
 import com.lesso.module.me.mvp.contract.CompanyJoinManageContract;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinBean;
-import com.lesso.module.me.mvp.model.entity.UserInfoBean;
 import com.lesso.module.me.mvp.ui.adapter.ChoseCompanyJoinListAdapter;
 
 import java.util.List;

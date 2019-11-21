@@ -2,7 +2,6 @@ package com.lesso.module.me.mvp.contract;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.widget.LinearLayout;
 
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;

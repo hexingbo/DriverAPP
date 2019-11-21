@@ -1,5 +1,7 @@
 package me.jessyan.armscomponent.commonsdk.base.bean;
 
+import com.jess.arms.base.MyHttpResult;
+
 /**
  * @Author :hexingbo
  * @Date :2019/8/4

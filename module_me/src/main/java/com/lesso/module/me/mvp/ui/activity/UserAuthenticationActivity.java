@@ -3,6 +3,7 @@ package com.lesso.module.me.mvp.ui.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,9 @@ import com.lesso.module.me.R2;
 import com.lesso.module.me.di.component.DaggerUserAuthenticationComponent;
 import com.lesso.module.me.mvp.contract.UserAuthenticationContract;
 import com.lesso.module.me.mvp.presenter.UserAuthenticationPresenter;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.List;
@@ -191,5 +195,50 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
                 mPermissionDialog.show();
             }
         };
+    }
+
+    @Override
+    public void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes) {
+        ImageView imageView = null;
+        switch (fileTypes) {
+            case IdCard:
+                imageView = imgCardUserS;
+                break;
+            case IdCardBack:
+                imageView = imgCardUserN;
+                break;
+            case LifePhoto:
+                imageView = imgAddCardUserGetCard;
+                break;
+            case DriverCard:
+                imageView = imgAddCardDriverS;
+                break;
+            case DriverCardBack:
+                imageView = imgAddCardDriverN;
+                break;
+        }
+        if (imageView != null && filePath != null)
+            imageView.setImageBitmap(BitmapFactory.decodeFile(filePath));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片、视频、音频选择结果回调
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    // 例如 LocalMedia 里面返回四种path
+                    // 1.media.getPath(); 为原图path
+                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true  注意：音视频除外
+                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true  注意：音视频除外
+                    // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
+                    // 4.media.getAndroidQToPath();为Android Q版本特有返回的字段，此字段有值就用来做上传使用
+//                    adapter.setList(selectList);
+//                    adapter.notifyDataSetChanged();
+                    break;
+            }
+        }
     }
 }

@@ -2,35 +2,44 @@ package com.lesso.module.me.mvp.presenter;
 
 import android.app.Application;
 
-import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
-import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.http.body.ProgressInfo;
 import com.jess.arms.http.imageloader.ImageLoader;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
-import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
-import me.jessyan.armscomponent.commonsdk.base.observer.MyHttpResultObserver;
-import me.jessyan.armscomponent.commonsdk.core.Constants;
-import me.jessyan.rxerrorhandler.core.RxErrorHandler;
-import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
-
-import javax.inject.Inject;
-
+import com.jess.arms.integration.AppManager;
+import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.DataHelper;
+import com.jess.arms.utils.LogUtils;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.lesso.module.me.BuildConfig;
-import com.lesso.module.me.R;
 import com.lesso.module.me.mvp.contract.UserInfoContract;
 import com.lesso.module.me.mvp.model.entity.DriverVerifyDetailBean;
+import com.lesso.module.me.mvp.model.entity.UploadFileBean;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import me.jessyan.armscomponent.commonres.constant.CommonHttpUrl;
+import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
+import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
+
+import com.jess.arms.http.observer.UploadObserver;
+import com.jess.arms.http.throwable.HttpThrowable;
+import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.core.RouterHub;
+import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
+
+import static com.lesso.module.me.mvp.model.api.Api.Module_Me_Doman_Url;
 
 
 /**
@@ -53,7 +62,7 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
 
     private DriverVerifyDetailBean mDriverVerifyDetailBean;
     private UploadFileUserCardType fileTypes;
-    private List<File> fileArr;
+    private List<File> fileArr = new ArrayList<>();
 
     @Inject
     public UserInfoPresenter(UserInfoContract.Model model, UserInfoContract.View rootView) {
@@ -74,6 +83,7 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
      */
     public void checkPermission(UploadFileUserCardType fileTypes) {
         this.fileTypes = fileTypes;
+        fileArr.clear();
         if (mRootView.getRequestPermission() != null && mRootView.getRxPermissions() != null)
             mModel.checkPermission(mRootView.getRxPermissions(), mRootView.getRequestPermission(), mErrorHandler);
 
@@ -82,7 +92,79 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
     /**
      * 上传文件
      */
-    public void postUploadDriverInfoFile() {
+    public void postUploadFile(File file) {
+        if (file == null) {
+            mRootView.showMessage("请选择你要上传的头像");
+            return;
+        }
+        mRootView.setImageViewPicture(file.getPath(), fileTypes);
+        UploadObserver observer = new UploadObserver<HttpResult<UploadFileBean>>
+                (fileTypes == UploadFileUserCardType.HeadPhoto ? (Module_Me_Doman_Url + CommonHttpUrl.API_postUploadDriverHeadFile)
+                        : Module_Me_Doman_Url + CommonHttpUrl.API_postUploadDriverInfoFile) {
+
+            @Override
+            public void onProgress(ProgressInfo progressInfo) {
+                LogUtils.debugInfo("上传进度：" + progressInfo.getCurrentbytes() + "%");
+            }
+
+            @Override
+            public void onResult(HttpResult<UploadFileBean> result) {
+                mRootView.showMessage("上传成功");
+                if (mDriverVerifyDetailBean != null) {
+                    mDriverVerifyDetailBean.setHeadSrc(result.getData().getHeadPath());
+                }
+            }
+
+            @Override
+            public void onError(long progressInfoId, HttpThrowable throwable) {
+                mRootView.showMessage(throwable.message);
+                mRootView.hideLoading();//隐藏下拉刷新的进度条
+            }
+
+        };
+
+        if (fileTypes == UploadFileUserCardType.HeadPhoto) {
+            postUploadDriverHeadFile(file, observer);
+        } else {
+            fileArr.add(file);
+            postUploadDriverInfoFile(fileArr, observer);
+        }
+
+    }
+
+    /**
+     * 上传头像
+     *
+     * @param personFile
+     * @param mUploadObserver
+     */
+    private void postUploadDriverHeadFile(File personFile, UploadObserver mUploadObserver) {
+
+        mModel.postUploadDriverHeadFile(DataHelper.getStringSF(AppManagerUtil.getCurrentActivity(), Constants.SP_USER_ID), personFile)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(
+                        //遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                        BuildConfig.HTTP_MaxRetries, BuildConfig.HTTP_RetryDelaySecond))
+                .doOnSubscribe(disposable -> {
+                    mRootView.showLoading();//显示下拉刷新的进度条
+                }).subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(() -> {
+                    mRootView.hideLoading();//隐藏下拉刷新的进度条
+                })
+                //使用 Rxlifecycle,使 Disposable 和 Activity 一起销毁
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(mUploadObserver);
+
+    }
+
+    /**
+     * 上传证件照
+     *
+     * @param fileArr
+     * @param mUploadObserver
+     */
+    private void postUploadDriverInfoFile(List<File> fileArr, UploadObserver mUploadObserver) {
         mModel.postUploadDriverInfoFile(fileTypes, fileArr)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(
@@ -97,15 +179,9 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
                 })
                 //使用 Rxlifecycle,使 Disposable 和 Activity 一起销毁
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
-                    @Override
-                    public void onResult(HttpResult result) {
-
-                    }
-
-                });
-
+                .subscribe(mUploadObserver);
     }
+
 
     /**
      * 获取用户信息
@@ -137,7 +213,10 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
 
     }
 
-    public void getPictureSelector(){
+    /**
+     * 选择图片
+     */
+    public void getPictureSelector() {
         PictureSelector.create(mRootView.getActivity())
                 .openGallery(PictureMimeType.ofImage())
                 .forResult(PictureConfig.CHOOSE_REQUEST);

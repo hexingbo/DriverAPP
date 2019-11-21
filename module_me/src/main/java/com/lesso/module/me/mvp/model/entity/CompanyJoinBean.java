@@ -71,4 +71,17 @@ public class CompanyJoinBean {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return "CompanyJoinBean{" +
+                "companyId='" + companyId + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", headUrl='" + headUrl + '\'' +
+                ", legalPersonName='" + legalPersonName + '\'' +
+                ", contactBy='" + contactBy + '\'' +
+                ", contactMobile='" + contactMobile + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }

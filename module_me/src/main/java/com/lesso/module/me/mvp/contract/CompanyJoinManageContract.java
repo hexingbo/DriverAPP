@@ -11,7 +11,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
-import retrofit2.http.Query;
 
 
 /**

@@ -9,7 +9,6 @@ import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.mvp.BasePresenter;
-import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DeviceUtils;
 import com.jess.arms.utils.LogUtils;
@@ -29,9 +28,9 @@ import io.reactivex.schedulers.Schedulers;
 import me.jessyan.armscomponent.commonres.enums.LoginType;
 import me.jessyan.armscomponent.commonres.enums.SmsCodeType;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
-import me.jessyan.armscomponent.commonsdk.base.observer.MyHttpResultObserver;
 import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
+import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
 import me.jessyan.armscomponent.commonsdk.utils.CountDownTimerUtils;
 import me.jessyan.armscomponent.commonsdk.utils.SaveOrClearUserInfo;
 import me.jessyan.armscomponent.commonsdk.utils.Utils;
@@ -186,7 +185,7 @@ public class MainLoginPresenter extends BasePresenter<MainLoginContract.Model, M
                         //登录成功
                         SaveOrClearUserInfo.saveUserInfo(result.getData().getToken(), result.getData().getUserId(), result.getData().getVerifyStatus(), phone, deviceId);
                         if (isFirst) {
-                            Utils.navigation(mRootView.getActivity(), RouterHub.APP_MainStartActivity);
+                            Utils.navigation(mRootView.getActivity(),RouterHub.APP_MainStartActivity);
                         } else
                             EventBusManager.getInstance().post(new MessageEvent(EventBusHub.TAG_LOGIN_SUCCESS));
                         mRootView.getActivity().finish();

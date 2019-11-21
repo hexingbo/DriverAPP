@@ -1,4 +1,4 @@
-package me.jessyan.armscomponent.commonsdk.base.bean;
+package com.jess.arms.base;
 
 /**
  * @Author :hexingbo

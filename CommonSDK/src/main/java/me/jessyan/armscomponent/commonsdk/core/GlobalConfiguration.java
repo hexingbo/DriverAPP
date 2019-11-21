@@ -42,7 +42,7 @@ import timber.log.Timber;
 /**
  * ================================================
  * CommonSDK 的 GlobalConfiguration 含有有每个组件都可公用的配置信息, 每个组件的 AndroidManifest 都应该声明此 ConfigModule
- *
+ * <p>
  * ================================================
  */
 public class GlobalConfiguration implements ConfigModule {

@@ -7,11 +7,9 @@ import android.support.annotation.Nullable;
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinBean;
-import com.lesso.module.me.mvp.model.entity.SubmitCompanyJoiningBean;
 
 import io.reactivex.Observable;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
-import retrofit2.http.Body;
 
 
 /**

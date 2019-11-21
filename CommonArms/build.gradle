@@ -74,6 +74,8 @@ dependencies {
         exclude module: 'support-annotations'
     }
     api rootProject.ext.dependencies['rxerrorhandler2']
+//    //一行代码即可监听 App 中所有网络链接的上传以及下载进度, 包括 Glide 的图片加载进度)
+//    api rootProject.ext.dependencies['progressmanager']
 
     //network
     api(rootProject.ext.dependencies["retrofit"]) {

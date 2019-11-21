@@ -171,16 +171,16 @@ public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> impl
     public void setUserInfo(UserInfoBean bean) {
         tvUserNice.setText(bean.getDriverName());
         tvSendOrderNumber.setText(getActivity().getText(R.string.me_name_send_order_number) + bean.getDepartNum());
-        if (!TextUtils.isEmpty(bean.getHeadUrl())) {
-            ArmsUtils.obtainAppComponentFromContext(getActivity()).imageLoader().loadImage(getActivity(),
-                    CommonImageConfigImpl
-                            .builder()
-                            .url(bean.getHeadUrl())
-                            .imageView(imgUserHead)
-                            .build());
-        } else {
-            imgUserHead.setImageResource(R.mipmap.ic_head_default);
-        }
+//        if (!TextUtils.isEmpty(bean.getHeadUrl())) {
+//            ArmsUtils.obtainAppComponentFromContext(getActivity()).imageLoader().loadImage(getActivity(),
+//                    CommonImageConfigImpl
+//                            .builder()
+//                            .url(bean.getHeadUrl())
+//                            .imageView(imgUserHead)
+//                            .build());
+//        } else {
+//            imgUserHead.setImageResource(R.mipmap.ic_head_default);
+//        }
     }
 
     @Override

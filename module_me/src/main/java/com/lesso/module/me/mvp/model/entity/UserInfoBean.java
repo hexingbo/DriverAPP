@@ -55,4 +55,15 @@ public class UserInfoBean implements Serializable {
     public void setQrCode(String qrCode) {
         this.qrCode = qrCode;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfoBean{" +
+                "headUrl='" + headUrl + '\'' +
+                ", driverName='" + driverName + '\'' +
+                ", departNum='" + departNum + '\'' +
+                ", driverId='" + driverId + '\'' +
+                ", qrCode='" + qrCode + '\'' +
+                '}';
+    }
 }

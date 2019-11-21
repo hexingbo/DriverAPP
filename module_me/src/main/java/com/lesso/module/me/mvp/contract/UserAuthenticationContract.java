@@ -8,6 +8,7 @@ import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.utils.PermissionUtil;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinedBean;
+import com.lesso.module.me.mvp.model.entity.UploadFileBean;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -35,6 +36,8 @@ public interface UserAuthenticationContract {
         RxPermissions getRxPermissions();
 
         PermissionUtil.RequestPermission getRequestPermission();
+
+        void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -57,7 +60,7 @@ public interface UserAuthenticationContract {
          * @param fileArr   多文件上传时，文件流数组和文件类型得一一对应
          * @return
          */
-        Observable<HttpResult> postUploadDriverInfoFile(@Nullable UploadFileUserCardType fileTypes, @Nullable List<File> fileArr);
+        Observable<HttpResult<UploadFileBean>> postUploadDriverInfoFile(@Nullable UploadFileUserCardType fileTypes, @Nullable List<File> fileArr);
 
         /**
          * 实际认证提交参数

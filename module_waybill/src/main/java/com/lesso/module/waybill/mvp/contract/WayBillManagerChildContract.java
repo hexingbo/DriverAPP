@@ -3,7 +3,6 @@ package com.lesso.module.waybill.mvp.contract;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;

@@ -101,8 +101,14 @@ public abstract class ClientModule {
      */
     @Singleton
     @Provides
-    static OkHttpClient provideClient(Application application, @Nullable OkhttpConfiguration configuration, OkHttpClient.Builder builder, Interceptor intercept
-            , @Nullable List<Interceptor> interceptors, @Nullable GlobalHttpHandler handler, ExecutorService executorService) {
+    static OkHttpClient provideClient(Application application,
+                                      @Nullable OkhttpConfiguration configuration,
+                                      OkHttpClient.Builder builder,
+                                      Interceptor intercept,
+                                      @Nullable List<Interceptor> interceptors,
+                                      @Nullable GlobalHttpHandler handler,
+//                                      HttpProgressInterceptor progressInterceptor,
+                                      ExecutorService executorService) {
         builder
                 .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .readTimeout(TIME_OUT, TimeUnit.SECONDS)
@@ -128,6 +134,7 @@ public abstract class ClientModule {
 
         if (configuration != null)
             configuration.configOkhttp(application, builder);
+
         return builder.build();
     }
 
@@ -145,6 +152,9 @@ public abstract class ClientModule {
 
     @Binds
     abstract Interceptor bindInterceptor(RequestInterceptor interceptor);
+
+//    @Binds
+//    abstract Interceptor bindInterceptorHttpProgressInterceptor(HttpProgressInterceptor interceptor);
 
     /**
      * 提供 {@link RxCache}

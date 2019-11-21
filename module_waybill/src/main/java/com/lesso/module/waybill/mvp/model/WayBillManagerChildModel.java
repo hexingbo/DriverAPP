@@ -15,7 +15,6 @@ import javax.inject.Inject;
 import com.lesso.module.waybill.mvp.contract.WayBillManagerChildContract;
 import com.lesso.module.waybill.mvp.model.api.service.ModuleWayBillService;
 import com.lesso.module.waybill.mvp.model.entity.SubmitDriverTransportPunchBean;
-import com.lesso.module.waybill.mvp.model.entity.SubmitSaveFreightNoBean;
 import com.lesso.module.waybill.mvp.model.entity.SubmitWayBillListBean;
 import com.lesso.module.waybill.mvp.model.entity.SubmitWayBillReceiptBean;
 import com.lesso.module.waybill.mvp.model.entity.SubmitWayBillSendBean;
