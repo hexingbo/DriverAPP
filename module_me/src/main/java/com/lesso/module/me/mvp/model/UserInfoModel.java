@@ -17,7 +17,8 @@ import com.lesso.module.me.mvp.contract.UserInfoContract;
 import com.lesso.module.me.mvp.model.api.service.ModuleMeService;
 import com.lesso.module.me.mvp.model.entity.DriverVerifyDetailBean;
 import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyDetailBean;
-import com.lesso.module.me.mvp.model.entity.UploadFileBean;
+import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
+import com.lesso.module.me.mvp.model.entity.UploadHeadFileResultBean;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -70,13 +71,14 @@ public class UserInfoModel extends BaseModel implements UserInfoContract.Model {
     }
 
     @Override
-    public Observable<HttpResult<UploadFileBean>> postUploadDriverInfoFile(@Nullable UploadFileUserCardType fileTypes, @Nullable List<File> fileArr) {
+    public Observable<HttpResult<UploadCardFileResultBean>> postUploadDriverInfoFile(@Nullable String currentUserId, @Nullable UploadFileUserCardType fileTypes, @Nullable List<File> fileArr) {
         Map<String, Object> mapValues = new HashMap<>();
+        mapValues.put("currentUserId ",currentUserId);//订单id
         mapValues.put("fileTypes ", fileTypes);//订单id
         Map<String, File> map = new HashMap<>();
         map.put("fileArr", fileArr.get(0));
         return mRepositoryManager.obtainRetrofitService(ModuleMeService.class).postUploadDriverInfoFile
-                (RequestBodyUtil.getRequestBodyValueAndFile(map, new RequestBodyBean(null, mapValues) ));
+                (RequestBodyUtil.getRequestBodyValueAndFile(map, new RequestBodyBean(null, mapValues)));
     }
 
     @Override
@@ -85,13 +87,13 @@ public class UserInfoModel extends BaseModel implements UserInfoContract.Model {
     }
 
     @Override
-    public Observable<HttpResult<UploadFileBean>> postUploadDriverHeadFile(@Nullable String currentUserId, @Nullable File personFile) {
+    public Observable<HttpResult<UploadHeadFileResultBean>> postUploadDriverHeadFile(@Nullable String currentUserId, @Nullable File personFile) {
         Map<String, Object> mapValues = new HashMap<>();
         mapValues.put("currentUserId ", currentUserId);//订单id
         Map<String, File> map = new HashMap<>();
         map.put("personFile", personFile);
         return mRepositoryManager.obtainRetrofitService(ModuleMeService.class).postUploadDriverHeadFile
-                (RequestBodyUtil.getRequestBodyValueAndFile(map, new RequestBodyBean(null, mapValues) ));
+                (RequestBodyUtil.getRequestBodyValueAndFile(map, new RequestBodyBean(null, mapValues)));
     }
 
     @Override

@@ -7,6 +7,8 @@ import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.AppManagerUtil;
+import com.jess.arms.utils.DataHelper;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.lesso.module.me.BuildConfig;
 import com.lesso.module.me.mvp.contract.UserAuthenticationContract;
@@ -20,6 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
+import me.jessyan.armscomponent.commonsdk.core.Constants;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
@@ -74,7 +77,7 @@ public class UserAuthenticationPresenter extends BasePresenter<UserAuthenticatio
      * 上传文件
      */
     public void postUploadDriverInfoFile() {
-        mModel.postUploadDriverInfoFile(fileTypes, fileArr)
+        mModel.postUploadDriverInfoFile( DataHelper.getStringSF(AppManagerUtil.getCurrentActivity(), Constants.SP_USER_ID),fileTypes, fileArr)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(
                         //遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔

@@ -62,8 +62,9 @@ dependencies {
     api rootProject.ext.dependencies["loadLayout"]
     api rootProject.ext.dependencies["YCRefreshViewLib"]
     api rootProject.ext.dependencies["YCStateLib"]
-    api rootProject.ext.dependencies["ImagePreview"]
+//    api rootProject.ext.dependencies["ImagePreview"]
     api rootProject.ext.dependencies["WheelPickerAddress"]
+    api rootProject.ext.dependencies["picture_library"]
     api project(':lib_flycotablayout')
     api project(':lib_easyrecyclerview')
 

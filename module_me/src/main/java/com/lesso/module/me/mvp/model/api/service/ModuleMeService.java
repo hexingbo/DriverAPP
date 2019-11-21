@@ -10,7 +10,8 @@ import com.lesso.module.me.mvp.model.entity.SubmitCompanyJoiningBean;
 import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyBean;
 import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyDetailBean;
 import com.lesso.module.me.mvp.model.entity.SubmitLoginOutBean;
-import com.lesso.module.me.mvp.model.entity.UploadFileBean;
+import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
+import com.lesso.module.me.mvp.model.entity.UploadHeadFileResultBean;
 import com.lesso.module.me.mvp.model.entity.UserInfoBean;
 
 import java.util.List;
@@ -118,14 +119,14 @@ public interface ModuleMeService {
      */
     @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
     @POST(CommonHttpUrl.API_postUploadDriverInfoFile)
-    Observable<HttpResult<UploadFileBean>> postUploadDriverInfoFile(@Body RequestBody body);
+    Observable<HttpResult<UploadCardFileResultBean>> postUploadDriverInfoFile(@Body RequestBody body);
 
     /**
      * 29、个人头像上传
      */
     @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
     @POST(CommonHttpUrl.API_postUploadDriverHeadFile)
-    Observable<HttpResult<UploadFileBean>> postUploadDriverHeadFile(@Body RequestBody body);
+    Observable<HttpResult<UploadHeadFileResultBean>> postUploadDriverHeadFile(@Body RequestBody body);
 
 
 }

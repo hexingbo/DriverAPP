@@ -8,7 +8,8 @@ import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.utils.PermissionUtil;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinedBean;
-import com.lesso.module.me.mvp.model.entity.UploadFileBean;
+import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
+import com.lesso.module.me.mvp.model.entity.UploadHeadFileResultBean;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -60,7 +61,7 @@ public interface UserAuthenticationContract {
          * @param fileArr   多文件上传时，文件流数组和文件类型得一一对应
          * @return
          */
-        Observable<HttpResult<UploadFileBean>> postUploadDriverInfoFile(@Nullable UploadFileUserCardType fileTypes, @Nullable List<File> fileArr);
+        Observable<HttpResult<UploadCardFileResultBean>> postUploadDriverInfoFile(@Nullable String currentUserId, @Nullable UploadFileUserCardType fileTypes, @Nullable List<File> fileArr);
 
         /**
          * 实际认证提交参数

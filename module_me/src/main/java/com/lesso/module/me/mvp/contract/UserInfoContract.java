@@ -7,7 +7,8 @@ import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.utils.PermissionUtil;
 import com.lesso.module.me.mvp.model.entity.DriverVerifyDetailBean;
-import com.lesso.module.me.mvp.model.entity.UploadFileBean;
+import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
+import com.lesso.module.me.mvp.model.entity.UploadHeadFileResultBean;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -38,6 +39,10 @@ public interface UserInfoContract {
         void setDriverVerifyDetailBean(DriverVerifyDetailBean bean);
 
         void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes);
+
+        void setUserCardNumber(String userCardNumber);
+
+        void setDriverCardNumber(String driverCardNumber);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -60,7 +65,7 @@ public interface UserInfoContract {
          * @param fileArr   多文件上传时，文件流数组和文件类型得一一对应
          * @return
          */
-        Observable<HttpResult<UploadFileBean>> postUploadDriverInfoFile(@Nullable UploadFileUserCardType fileTypes, @Nullable List<File> fileArr);
+        Observable<HttpResult<UploadCardFileResultBean>> postUploadDriverInfoFile(@Nullable String currentUserId, @Nullable UploadFileUserCardType fileTypes, @Nullable List<File> fileArr);
 
         /**
          * 获取个人信息
@@ -77,7 +82,7 @@ public interface UserInfoContract {
          * @param personFile
          * @return
          */
-        Observable<HttpResult<UploadFileBean>> postUploadDriverHeadFile(@Nullable String currentUserId, @Nullable File personFile);
+        Observable<HttpResult<UploadHeadFileResultBean>> postUploadDriverHeadFile(@Nullable String currentUserId, @Nullable File personFile);
 
         /**
          * 提交保存用户信息

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -50,7 +51,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> implements MainMyContract.View {
 
     @BindView(R2.id.img_user_head)
-    CircleImageView imgUserHead;
+    ImageView imgUserHead;
     @BindView(R2.id.tv_user_nice)
     TextView tvUserNice;
     @BindView(R2.id.tv_send_order_number)
@@ -171,16 +172,7 @@ public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> impl
     public void setUserInfo(UserInfoBean bean) {
         tvUserNice.setText(bean.getDriverName());
         tvSendOrderNumber.setText(getActivity().getText(R.string.me_name_send_order_number) + bean.getDepartNum());
-//        if (!TextUtils.isEmpty(bean.getHeadUrl())) {
-//            ArmsUtils.obtainAppComponentFromContext(getActivity()).imageLoader().loadImage(getActivity(),
-//                    CommonImageConfigImpl
-//                            .builder()
-//                            .url(bean.getHeadUrl())
-//                            .imageView(imgUserHead)
-//                            .build());
-//        } else {
-//            imgUserHead.setImageResource(R.mipmap.ic_head_default);
-//        }
+        mPresenter.setUserHeadImager(imgUserHead,bean.getHeadUrl());
     }
 
     @Override

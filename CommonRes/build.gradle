@@ -35,6 +35,4 @@ dependencies {
     api rootProject.ext.dependencies["paginate"]
     api rootProject.ext.dependencies["lottie"]
 
-    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.5'
-
 }

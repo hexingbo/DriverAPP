@@ -1,8 +1,10 @@
 package com.lesso.module.me.mvp.presenter;
 
 import android.app.Application;
+import android.widget.ImageView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.mvp.BasePresenter;
@@ -14,6 +16,7 @@ import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
+import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
 import me.jessyan.armscomponent.commonsdk.utils.SaveOrClearUserInfo;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
@@ -23,8 +26,10 @@ import javax.inject.Inject;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
+import com.jess.arms.utils.LogUtils;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.lesso.module.me.BuildConfig;
+import com.lesso.module.me.R;
 import com.lesso.module.me.mvp.contract.MainMyContract;
 import com.lesso.module.me.mvp.model.entity.UserInfoBean;
 
@@ -100,7 +105,7 @@ public class MainMyPresenter extends BasePresenter<MainMyContract.Model, MainMyC
     public void postLoginOut() {
         SaveOrClearUserInfo.clearUserInfo();
         ARouter.getInstance().build(RouterHub.Loging_MainLoginActivity)
-                .withBoolean("isFirst",false).navigation(AppManagerUtil.getCurrentActivity());
+                .withBoolean("isFirst", false).navigation(AppManagerUtil.getCurrentActivity());
         mModel.postLoginOut(DataHelper.getStringSF(mRootView.getActivity(), Constants.SP_USER_ID),
                 DataHelper.getStringSF(mRootView.getActivity(), Constants.SP_DEVICE_ID))
                 .subscribeOn(Schedulers.io())
@@ -122,5 +127,18 @@ public class MainMyPresenter extends BasePresenter<MainMyContract.Model, MainMyC
 
                     }
                 });
+    }
+
+    public void setUserHeadImager(ImageView view, String url) {
+        LogUtils.debugInfo("hxb--->", url);
+        if (!ArmsUtils.isEmpty(url))
+            mImageLoader.loadImage(mApplication, CommonImageConfigImpl
+                    .builder()
+                    .url(url)
+                    .errorPic(R.mipmap.ic_head_default)
+                    .placeholder(R.mipmap.ic_head_default)
+                    .transformation(new CircleCrop())
+                    .imageView(view)
+                    .build());
     }
 }

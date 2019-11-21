@@ -8,6 +8,7 @@ package me.jessyan.armscomponent.commonsdk.http.observer;
  */
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.Gson;
 import com.jess.arms.base.MyHttpResult;
 import com.jess.arms.http.observer.HttpResultObserver;
 import com.jess.arms.utils.AppManagerUtil;
@@ -31,7 +32,7 @@ public abstract class MyHttpResultObserver<T extends MyHttpResult> extends HttpR
 
     @Override
     public void onNext(T httpResult) {
-        LogUtils.debugInfo("hxb--->", httpResult.toString());
+        LogUtils.debugInfo("hxb--->", new Gson().toJson(httpResult));
         switch (HttpResultEnum.getCodeType(httpResult.getErrcode())) {
             case Success_Code://请求成功
                 onResult(httpResult);

@@ -21,7 +21,7 @@
             android:paddingTop="@dimen/public_pad_top_60dp"
             android:paddingBottom="@dimen/public_pad_bottom_50dp">
 
-            <me.jessyan.armscomponent.commonres.other.CircleImageView
+            <ImageView
                 android:id="@+id/img_user_head"
                 android:layout_width="@dimen/public_width_100dp"
                 android:layout_height="@dimen/public_height_100dp"
@@ -106,6 +106,7 @@
             <ImageView style="@style/My_Item_ImageView_Right_Style" />
 
         </LinearLayout>
+
         <include layout="@layout/public_line_horizontal_gray_mar15" />
 
         <LinearLayout

@@ -19,6 +19,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.utils.ArmsUtils;
@@ -89,14 +90,16 @@ public class WayBillListAdapter extends HelperRecyclerViewAdapter<WayBillListBea
                     break;
             }
         }
+        if (!ArmsUtils.isEmpty(item.getShipperCompanyHeadUrl()))
+            mImageLoader.loadImage(viewHolder.itemView.getContext(), CommonImageConfigImpl
+                    .builder()
+                    .url(item.getShipperCompanyHeadUrl())
+                    .errorPic(R.mipmap.ic_head_default)
+                    .placeholder(R.mipmap.ic_head_default)
+                    .transformation(new CircleCrop())
+                    .imageView(imgHead)
+                    .build());
 
-        if (!ArmsUtils.isEmpty(item.getShipperCompanyHeadUrl())) {
-            //itemView 的 Context 就是 Activity, Glide 会自动处理并和该 Activity 的生命周期绑定
-            mImageLoader.loadImage(viewHolder.itemView.getContext(),
-                CommonImageConfigImpl.builder().url(item.getShipperCompanyHeadUrl()).imageView(imgHead).build());
-        } else {
-            imgHead.setImageResource(R.mipmap.ic_head_default);
-        }
     }
 
     /**

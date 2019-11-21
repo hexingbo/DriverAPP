@@ -14,7 +14,8 @@ import com.lesso.module.me.mvp.contract.UserAuthenticationContract;
 import com.lesso.module.me.mvp.model.api.service.ModuleMeService;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinedBean;
 import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyBean;
-import com.lesso.module.me.mvp.model.entity.UploadFileBean;
+import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
+import com.lesso.module.me.mvp.model.entity.UploadHeadFileResultBean;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -67,8 +68,9 @@ public class UserAuthenticationModel extends BaseModel implements UserAuthentica
     }
 
     @Override
-    public Observable<HttpResult<UploadFileBean>> postUploadDriverInfoFile(@Nullable UploadFileUserCardType fileTypes, @Nullable List<File> fileArr) {
+    public Observable<HttpResult<UploadCardFileResultBean>> postUploadDriverInfoFile(@Nullable String currentUserId, @Nullable UploadFileUserCardType fileTypes, @Nullable List<File> fileArr) {
         Map<String, Object> mapValues = new HashMap<>();
+        mapValues.put("currentUserId ", currentUserId);//订单id
         mapValues.put("fileTypes ", fileTypes);//订单id
         Map<String, File> map = new HashMap<>();
         map.put("fileArr", fileArr.get(0));

@@ -27,6 +27,8 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import org.apache.http.conn.BasicEofSensorWatcher;
+
 import java.io.File;
 import java.util.List;
 
@@ -37,12 +39,14 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.jessyan.armscomponent.commonres.dialog.MaterialDialog;
 import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
+import me.jessyan.armscomponent.commonres.enums.AuthenticationStatusType;
 import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
 import me.jessyan.armscomponent.commonres.other.CircleImageView;
 import me.jessyan.armscomponent.commonres.other.ClearEditText;
 import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
+import static org.openjdk.tools.sjavac.Util.set;
 
 
 /**
@@ -66,10 +70,12 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
     @BindString(R2.string.permission_request_location)
     String mStrPermission;
 
+    @BindView(R2.id.img_verify_status)
+    ImageView imgVerifyStatus;
     @BindView(R2.id.public_toolbar_text_rigth)
     TextView publicToolbarTextRigth;
     @BindView(R2.id.img_user_head)
-    CircleImageView imgUserHead;
+    ImageView imgUserHead;
     @BindView(R2.id.et_user_name)
     ClearEditText etUserName;
     @BindView(R2.id.et_user_card_number)
@@ -189,15 +195,29 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
     public void setDriverVerifyDetailBean(DriverVerifyDetailBean bean) {
         if (bean != null) {
             etUserName.setText(bean.getDriverBy());
-            etUserCardNumber.setText(bean.getIdno());
-            etDriverCardNumber.setText(bean.getDriverno());
-            loadImageData(bean.getIdCardUrl(), imgCardUserS);
-            loadImageData(bean.getIdCardBackUrl(), imgCardUserN);
-            loadImageData(bean.getDriverCardUrl(), imgAddCardDriverS);
-            loadImageData(bean.getDriverCardBackUrl(), imgAddCardDriverN);
-            loadImageData(bean.getLifePhotoUrl(), imgAddCardUserGetCard);
-            loadImageData(bean.getHeadUrl(), imgUserHead);
+            setUserCardNumber(bean.getIdno());
+            setDriverCardNumber(bean.getDriverno());
+            mPresenter.setImageViewPicture(bean.getIdCardUrl(), imgCardUserS, R.mipmap.ic_card_user_s);
+            mPresenter.setImageViewPicture(bean.getIdCardBackUrl(), imgCardUserN, R.mipmap.ic_card_user_n);
+            mPresenter.setImageViewPicture(bean.getDriverCardUrl(), imgCardDriverS, R.mipmap.ic_card_driver_s);
+            mPresenter.setImageViewPicture(bean.getDriverCardBackUrl(), imgCardDriverN, R.mipmap.ic_card_driver_n);
+            mPresenter.setImageViewPicture(bean.getLifePhotoUrl(), imgCardUserGetCard, R.mipmap.ic_card_user_get_card);
+            mPresenter.setImageViewHeadPicture(bean.getHeadUrl(), imgUserHead);
+            setViewVerifyStatus(bean.getVerifyStatus());
         }
+    }
+
+    private void setViewVerifyStatus(String verifyStatus) {
+        if (verifyStatus.equals(AuthenticationStatusType.D.name())) {
+            //审批通过
+            imgVerifyStatus.setImageResource(R.mipmap.ic_user_attestationed);
+        } else if (verifyStatus.equals(AuthenticationStatusType.F.name())) {
+            //审批未通过
+            imgVerifyStatus.setImageResource(R.mipmap.ic_user_attestation_error);
+        } else {
+            imgVerifyStatus.setImageResource(R.mipmap.ic_user_attestation_not);
+        }
+
     }
 
     private void setAddViewGONE() {
@@ -237,42 +257,52 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 
     }
 
-    private void loadImageData(String url, ImageView imageView) {
-        if (!ArmsUtils.isEmpty(url)) {
-            ArmsUtils.obtainAppComponentFromContext(getActivity()).imageLoader().loadImage(getActivity(),
-                    CommonImageConfigImpl
-                            .builder()
-                            .url(url)
-                            .imageView(imageView)
-                            .build());
+    @Override
+    public void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes) {
+
+        if (fileTypes == UploadFileUserCardType.HeadPhoto) {
+            mPresenter.setImageViewHeadPicture(filePath, imgUserHead);
+        } else {
+            ImageView imageView = null;
+            int red;
+            switch (fileTypes) {
+                case IdCard:
+                    imageView = imgCardUserS;
+                    red = R.mipmap.ic_card_user_s;
+                    break;
+                case IdCardBack:
+                    imageView = imgCardUserN;
+                    red = R.mipmap.ic_card_user_n;
+                    break;
+                case LifePhoto:
+                    imageView = imgAddCardUserGetCard;
+                    red = R.mipmap.ic_card_user_get_card;
+                    break;
+                case DriverCard:
+                    imageView = imgAddCardDriverS;
+                    red = R.mipmap.ic_card_driver_s;
+                    break;
+                case DriverCardBack:
+                    imageView = imgAddCardDriverN;
+                    red = R.mipmap.ic_card_driver_n;
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: have not mipmap resId");
+            }
+            if (red != 0)
+                mPresenter.setImageViewPicture(filePath, imageView, red);
+
         }
     }
 
     @Override
-    public void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes) {
-        ImageView imageView = null;
-        switch (fileTypes) {
-            case HeadPhoto:
-                imageView = imgUserHead;
-                break;
-            case IdCard:
-                imageView = imgCardUserS;
-                break;
-            case IdCardBack:
-                imageView = imgCardUserN;
-                break;
-            case LifePhoto:
-                imageView = imgAddCardUserGetCard;
-                break;
-            case DriverCard:
-                imageView = imgAddCardDriverS;
-                break;
-            case DriverCardBack:
-                imageView = imgAddCardDriverN;
-                break;
-        }
-        if (imageView != null && filePath != null)
-            imageView.setImageBitmap(BitmapFactory.decodeFile(filePath));
+    public void setUserCardNumber(String userCardNumber) {
+        etUserCardNumber.setText(userCardNumber);
+    }
+
+    @Override
+    public void setDriverCardNumber(String driverCardNumber) {
+        etDriverCardNumber.setText(driverCardNumber);
     }
 
     @Override
@@ -292,7 +322,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 //                    adapter.setList(selectList);
 //                    adapter.notifyDataSetChanged();
                     for (LocalMedia localMedia : selectList) {
-                        String path = localMedia.getPath();
+                        String path = localMedia.getCompressPath();
                         Log.i("hxb：", "图片保存路径==>" + path);
                         //上传头像
                         File file = new File(path);

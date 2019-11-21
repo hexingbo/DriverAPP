@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/public_height_67dp">
 
-            <me.jessyan.armscomponent.commonres.other.CircleImageView
+            <ImageView
                 android:id="@+id/img_head"
                 android:layout_width="@dimen/public_width_40dp"
                 android:layout_height="@dimen/public_height_40dp"

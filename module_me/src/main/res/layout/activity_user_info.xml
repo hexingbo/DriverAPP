@@ -51,7 +51,7 @@
                             android:textColor="#ff999999"
                             android:textSize="@dimen/public_font_17sp" />
 
-                        <me.jessyan.armscomponent.commonres.other.CircleImageView
+                        <ImageView
                             android:id="@+id/img_user_head"
                             android:layout_width="@dimen/public_width_50dp"
                             android:layout_height="@dimen/public_height_50dp"
@@ -155,6 +155,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/img_verify_status"
                     android:layout_width="@dimen/public_width_100dp"
                     android:layout_height="@dimen/public_height_100dp"
                     android:layout_alignParentRight="true"
