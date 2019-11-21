@@ -8,6 +8,7 @@ import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.utils.PermissionUtil;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinedBean;
+import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyBean;
 import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
 import com.lesso.module.me.mvp.model.entity.UploadHeadFileResultBean;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -39,6 +40,10 @@ public interface UserAuthenticationContract {
         PermissionUtil.RequestPermission getRequestPermission();
 
         void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes);
+
+        void setUserCardNumber(String idNum);
+
+        void setDriverCardNumber(String idNum);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -66,18 +71,7 @@ public interface UserAuthenticationContract {
         /**
          * 实际认证提交参数
          *
-         * @param currentUserId      当前用户id
-         * @param name               司机姓名
-         * @param idno               身份证号
-         * @param driverno           驾驶证号
-         * @param idCardPath         身份证正面附件地址
-         * @param idCardBackPath     身份证反面附件地址
-         * @param driverCardPath     驾驶证主页附件地址
-         * @param driverCardBackPath 驾驶证副页附件地址
-         * @param lifePhotoPath      手持身份证附件地址
          */
-        Observable<HttpResult<CompanyJoinedBean>> postDriverVerify(@NonNull String currentUserId, @NonNull String name, @NonNull String idno,
-                                                                   @NonNull String driverno, @NonNull String idCardPath, @NonNull String idCardBackPath,
-                                                                   @NonNull String driverCardPath, @NonNull String driverCardBackPath, String lifePhotoPath);
+        Observable<HttpResult<CompanyJoinedBean>> postDriverVerify(@Nullable SubmitDriverVerifyBean bean);
     }
 }

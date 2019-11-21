@@ -232,28 +232,33 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
     @OnClick({R2.id.public_toolbar_text_rigth, R2.id.img_user_head, R2.id.img_card_user_s,
             R2.id.img_card_user_n, R2.id.img_card_user_get_card, R2.id.img_card_driver_s, R2.id.img_card_driver_n})
     public void onViewClicked(View view) {
-        UploadFileUserCardType fileTypes;
-        if (view.getId() == R.id.img_user_head) {
-            showMessage("头像");
-            fileTypes = UploadFileUserCardType.HeadPhoto;
-        } else if (view.getId() == R.id.img_card_user_s) {
-            fileTypes = UploadFileUserCardType.IdCard;
-            showMessage("身份证正面照");
-        } else if (view.getId() == R.id.img_card_user_n) {
-            fileTypes = UploadFileUserCardType.IdCardBack;
-            showMessage("身份证背面照");
-        } else if (view.getId() == R.id.img_card_user_get_card) {
-            fileTypes = UploadFileUserCardType.LifePhoto;
-            showMessage("手持身份证正面照");
-        } else if (view.getId() == R.id.img_card_driver_s) {
-            fileTypes = UploadFileUserCardType.DriverCard;
-            showMessage("驾驶证正面照");
-        } else if (view.getId() == R.id.img_card_driver_n) {
-            fileTypes = UploadFileUserCardType.DriverCardBack;
-            showMessage("驾驶证背面照");
-        } else fileTypes = UploadFileUserCardType.LifePhoto;
+        if (view.getId() == R.id.public_toolbar_text_rigth) {
+            mPresenter.postSaveDriverVerifyInfo(etUserName.getText().toString().trim(),
+                    etUserCardNumber.getText().toString().trim(), etDriverCardNumber.getText().toString().trim());
+        } else {
+            UploadFileUserCardType fileTypes;
+            if (view.getId() == R.id.img_user_head) {
+                showMessage("头像");
+                fileTypes = UploadFileUserCardType.HeadPhoto;
+            } else if (view.getId() == R.id.img_card_user_s) {
+                fileTypes = UploadFileUserCardType.IdCard;
+                showMessage("身份证正面照");
+            } else if (view.getId() == R.id.img_card_user_n) {
+                fileTypes = UploadFileUserCardType.IdCardBack;
+                showMessage("身份证背面照");
+            } else if (view.getId() == R.id.img_card_user_get_card) {
+                fileTypes = UploadFileUserCardType.LifePhoto;
+                showMessage("手持身份证正面照");
+            } else if (view.getId() == R.id.img_card_driver_s) {
+                fileTypes = UploadFileUserCardType.DriverCard;
+                showMessage("驾驶证正面照");
+            } else if (view.getId() == R.id.img_card_driver_n) {
+                fileTypes = UploadFileUserCardType.DriverCardBack;
+                showMessage("驾驶证背面照");
+            } else fileTypes = UploadFileUserCardType.LifePhoto;
 
-        mPresenter.checkPermission(fileTypes);
+            mPresenter.checkPermission(fileTypes);
+        }
 
     }
 
@@ -322,11 +327,14 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 //                    adapter.setList(selectList);
 //                    adapter.notifyDataSetChanged();
                     for (LocalMedia localMedia : selectList) {
-                        String path = localMedia.getCompressPath();
-                        Log.i("hxb：", "图片保存路径==>" + path);
-                        //上传头像
-                        File file = new File(path);
-                        mPresenter.postUploadFile(file);
+                        if (localMedia.isCut()){
+                            String path = localMedia.getCutPath();
+                            Log.i("hxb：", "图片保存路径==>" + path);
+                            //上传头像
+                            File file = new File(path);
+                            mPresenter.postUploadFile(file);
+                        }
+
                     }
 
                     break;

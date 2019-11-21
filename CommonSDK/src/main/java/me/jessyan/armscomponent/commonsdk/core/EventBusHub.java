@@ -41,4 +41,5 @@ public interface EventBusHub extends BaseEventBusHub {
     String GOLD = "gold";//稀土掘金组件
 
     String Message_MessageManagerList_UpdateData = "Message/MessageManagerListUpdateData";
+    String Message_UpdateUserInfo = "Me/UpdateUserInfo";
 }

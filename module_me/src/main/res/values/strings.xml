@@ -21,5 +21,6 @@
     <string name="module_me_name_send_order_account">发起对账</string>
     <string name="module_me_name_save">保存</string>
     <string name="module_me_user_authentication">实名认证</string>
+    <string name="module_me_name_submit">提交</string>
 
 </resources>

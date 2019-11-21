@@ -4,12 +4,14 @@ import android.app.Application;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.http.body.ProgressInfo;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.http.observer.UploadObserver;
 import com.jess.arms.http.throwable.HttpThrowable;
 import com.jess.arms.integration.AppManager;
+import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
@@ -35,6 +37,7 @@ import me.jessyan.armscomponent.commonres.constant.CommonHttpUrl;
 import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
 import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
 import me.jessyan.armscomponent.commonsdk.utils.PictureSelectorUtils;
@@ -96,7 +99,7 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
      */
     public void postUploadFile(File file) {
         if (file == null) {
-            mRootView.showMessage("请选择你要上传的头像");
+            mRootView.showMessage("请选择你要上传的文件");
             return;
         }
         mRootView.setImageViewPicture(file.getPath(), fileTypes);
@@ -146,6 +149,7 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
 
                     @Override
                     public void onError(long progressInfoId, HttpThrowable throwable) {
+                        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateUserInfo));
                         mRootView.showMessage(throwable.message);
                         mRootView.hideLoading();//隐藏下拉刷新的进度条
                     }
@@ -269,6 +273,22 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
             mRootView.showMessage("请输入驾驶证号");
             return;
         }
+        if (ArmsUtils.isEmpty(mDriverVerifyDetailBean.getIdCardPath())) {
+            mRootView.showMessage("请上传身份证正面照");
+            return;
+        }
+        if (ArmsUtils.isEmpty(mDriverVerifyDetailBean.getIdCardBackPath())) {
+            mRootView.showMessage("请上传身份证背面照");
+            return;
+        }
+        if (ArmsUtils.isEmpty(mDriverVerifyDetailBean.getDriverCardPath())) {
+            mRootView.showMessage("请上传驾驶证正面照");
+            return;
+        }
+        if (ArmsUtils.isEmpty(mDriverVerifyDetailBean.getDriverCardBackPath())) {
+            mRootView.showMessage("请上传驾驶证背面照");
+            return;
+        }
         mDriverVerifyDetailBean.setDriverBy(userName);
         mDriverVerifyDetailBean.setIdno(userCard);
         mDriverVerifyDetailBean.setDriverno(driverCard);
@@ -290,6 +310,8 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
                     @Override
                     public void onResult(HttpResult result) {
                         mRootView.showMessage("保存成功");
+                        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateUserInfo));
+                        AppManagerUtil.getCurrentActivity().finish();
                     }
 
                 });
@@ -300,7 +322,7 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
      * 选择图片
      */
     public void getPictureSelector() {
-        PictureSelectorUtils.postPictureSelector(true, false, 1, 1);
+        PictureSelectorUtils.postPictureSelector(true, true, fileTypes==UploadFileUserCardType.HeadPhoto?1:3, fileTypes==UploadFileUserCardType.HeadPhoto?1:2);
     }
 
     public void setImageViewHeadPicture(String url, ImageView view) {

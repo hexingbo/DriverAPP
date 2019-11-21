@@ -14,7 +14,8 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/white"
         android:fadingEdge="none"
         android:orientation="vertical"
@@ -141,4 +142,18 @@
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/public_pad_left_30dp"
+        android:paddingTop="@dimen/public_pad_top_10dp"
+        android:paddingRight="@dimen/public_pad_right_30dp"
+        android:paddingBottom="@dimen/public_pad_bottom_10dp">
+
+        <include layout="@layout/layout_btn_submit" />
+    </LinearLayout>
 </LinearLayout>

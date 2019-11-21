@@ -15,7 +15,6 @@ import com.lesso.module.me.mvp.model.api.service.ModuleMeService;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinedBean;
 import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyBean;
 import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
-import com.lesso.module.me.mvp.model.entity.UploadHeadFileResultBean;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -61,10 +60,10 @@ public class UserAuthenticationModel extends BaseModel implements UserAuthentica
 
     @Override
     public void checkPermission(RxPermissions rxPermissions, PermissionUtil.RequestPermission requestPermission, RxErrorHandler mErrorHandler) {
-            //请求外部存储权限用于适配android6.0的权限管理机制
-            PermissionUtil.requestPermission(requestPermission,rxPermissions, mErrorHandler,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION);
+        //请求外部存储权限用于适配android6.0的权限管理机制
+        PermissionUtil.requestPermission(requestPermission, rxPermissions, mErrorHandler,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
     @Override
@@ -75,17 +74,12 @@ public class UserAuthenticationModel extends BaseModel implements UserAuthentica
         Map<String, File> map = new HashMap<>();
         map.put("fileArr", fileArr.get(0));
         return mRepositoryManager.obtainRetrofitService(ModuleMeService.class).postUploadDriverInfoFile
-                (RequestBodyUtil.getRequestBodyValueAndFile(map, new RequestBodyBean(null, mapValues) ));
+                (RequestBodyUtil.getRequestBodyValueAndFile(map, new RequestBodyBean(null, mapValues)));
     }
 
     @Override
-    public Observable<HttpResult<CompanyJoinedBean>> postDriverVerify(@NonNull String currentUserId,
-                                                                      @NonNull String name, @NonNull String idno,
-                                                                      @NonNull String driverno, @NonNull String idCardPath,
-                                                                      @NonNull String idCardBackPath, @NonNull String driverCardPath,
-                                                                      @NonNull String driverCardBackPath, String lifePhotoPath) {
+    public Observable<HttpResult<CompanyJoinedBean>> postDriverVerify(@NonNull SubmitDriverVerifyBean bean) {
         return mRepositoryManager.obtainRetrofitService(ModuleMeService.class)
-                .postDriverVerify(new SubmitDriverVerifyBean(currentUserId, name, idno, driverno,
-                        idCardPath, idCardBackPath, driverCardPath, driverCardBackPath, lifePhotoPath));
+                .postDriverVerify(bean);
     }
 }

@@ -7,8 +7,10 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
@@ -25,6 +27,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -89,6 +92,8 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     ImageView imgCardDriverN;
     @BindView(R2.id.img_add_card_driver_n)
     ImageView imgAddCardDriverN;
+    @BindView(R2.id.btn_submit)
+    TextView btnSubmit;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -109,6 +114,7 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     public void initData(@Nullable Bundle savedInstanceState) {
         ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         setTitle(R.string.module_me_user_authentication);
+        btnSubmit.setText(getString(R.string.module_me_name_submit));
     }
 
     @Override
@@ -138,27 +144,32 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
         finish();
     }
 
-    @OnClick({R2.id.img_card_user_s, R2.id.img_card_user_n, R2.id.img_card_user_get_card, R2.id.img_card_driver_s, R2.id.img_card_driver_n})
+    @OnClick({R2.id.btn_submit, R2.id.img_card_user_s, R2.id.img_card_user_n, R2.id.img_card_user_get_card, R2.id.img_card_driver_s, R2.id.img_card_driver_n})
     public void onViewClicked(View view) {
-        UploadFileUserCardType fileTypes;
         if (view.getId() == R.id.img_card_user_s) {
-            fileTypes = UploadFileUserCardType.IdCard;
-            showMessage("身份证正面照");
-        } else if (view.getId() == R.id.img_card_user_n) {
-            fileTypes = UploadFileUserCardType.IdCardBack;
-            showMessage("身份证背面照");
-        } else if (view.getId() == R.id.img_card_user_get_card) {
-            fileTypes = UploadFileUserCardType.LifePhoto;
-            showMessage("手持身份证正面照");
-        } else if (view.getId() == R.id.img_card_driver_s) {
-            fileTypes = UploadFileUserCardType.DriverCard;
-            showMessage("驾驶证正面照");
-        } else if (view.getId() == R.id.img_card_driver_n) {
-            fileTypes = UploadFileUserCardType.DriverCardBack;
-            showMessage("驾驶证背面照");
-        } else fileTypes = UploadFileUserCardType.LifePhoto;
 
-        mPresenter.checkPermission(fileTypes);
+        }else {
+            UploadFileUserCardType fileTypes;
+            if (view.getId() == R.id.img_card_user_s) {
+                fileTypes = UploadFileUserCardType.IdCard;
+                showMessage("身份证正面照");
+            } else if (view.getId() == R.id.img_card_user_n) {
+                fileTypes = UploadFileUserCardType.IdCardBack;
+                showMessage("身份证背面照");
+            } else if (view.getId() == R.id.img_card_user_get_card) {
+                fileTypes = UploadFileUserCardType.LifePhoto;
+                showMessage("手持身份证正面照");
+            } else if (view.getId() == R.id.img_card_driver_s) {
+                fileTypes = UploadFileUserCardType.DriverCard;
+                showMessage("驾驶证正面照");
+            } else if (view.getId() == R.id.img_card_driver_n) {
+                fileTypes = UploadFileUserCardType.DriverCardBack;
+                showMessage("驾驶证背面照");
+            } else fileTypes = UploadFileUserCardType.LifePhoto;
+
+            mPresenter.checkPermission(fileTypes);
+        }
+
     }
 
     @Override
@@ -177,7 +188,7 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
             @Override
             public void onRequestPermissionSuccess() {
                 //request permission success, do something.
-
+                mPresenter.getPictureSelector();
             }
 
             @Override
@@ -200,25 +211,43 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     @Override
     public void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes) {
         ImageView imageView = null;
+        int red;
         switch (fileTypes) {
             case IdCard:
                 imageView = imgCardUserS;
+                red = R.mipmap.ic_card_user_s;
                 break;
             case IdCardBack:
                 imageView = imgCardUserN;
+                red = R.mipmap.ic_card_user_n;
                 break;
             case LifePhoto:
                 imageView = imgAddCardUserGetCard;
+                red = R.mipmap.ic_card_user_get_card;
                 break;
             case DriverCard:
                 imageView = imgAddCardDriverS;
+                red = R.mipmap.ic_card_driver_s;
                 break;
             case DriverCardBack:
                 imageView = imgAddCardDriverN;
+                red = R.mipmap.ic_card_driver_n;
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: have not mipmap resId");
         }
-        if (imageView != null && filePath != null)
-            imageView.setImageBitmap(BitmapFactory.decodeFile(filePath));
+        if (red != 0)
+            mPresenter.setImageViewPicture(filePath, imageView, red);
+    }
+
+    @Override
+    public void setUserCardNumber(String userCardNumber) {
+        etUserCardNumber.setText(userCardNumber);
+    }
+
+    @Override
+    public void setDriverCardNumber(String driverCardNumber) {
+        etDriverCardNumber.setText(driverCardNumber);
     }
 
     @Override
@@ -237,6 +266,16 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
                     // 4.media.getAndroidQToPath();为Android Q版本特有返回的字段，此字段有值就用来做上传使用
 //                    adapter.setList(selectList);
 //                    adapter.notifyDataSetChanged();
+                    for (LocalMedia localMedia : selectList) {
+                        if (localMedia.isCut()) {
+                            String path = localMedia.getCutPath();
+                            Log.i("hxb：", "图片保存路径==>" + path);
+                            //上传头像
+                            File file = new File(path);
+                            mPresenter.postUploadFile(file);
+                        }
+
+                    }
                     break;
             }
         }
