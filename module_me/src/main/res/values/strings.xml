@@ -23,4 +23,9 @@
     <string name="module_me_user_authentication">实名认证</string>
     <string name="module_me_name_submit">提交</string>
 
+    <string name="qr_code">二维码</string>
+    <string name="version_update">版本更新</string>
+    <string name="use_help">使用帮助</string>
+    <string name="privacy_policy">隐私政策</string>
+
 </resources>
