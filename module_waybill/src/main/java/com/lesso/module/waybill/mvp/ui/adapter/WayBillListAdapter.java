@@ -17,6 +17,7 @@ package com.lesso.module.waybill.mvp.ui.adapter;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -27,11 +28,14 @@ import com.lesso.module.waybill.R;
 import com.lesso.module.waybill.mvp.model.entity.WayBillListBean;
 import com.zhouyou.recyclerview.adapter.HelperRecyclerViewAdapter;
 import com.zhouyou.recyclerview.adapter.HelperRecyclerViewHolder;
+import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
 
 import java.util.List;
 
 import me.jessyan.armscomponent.commonres.enums.WayBillStateType;
+import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
+import me.jessyan.armscomponent.commonsdk.utils.Utils;
 
 /**
  * =============================================
@@ -40,7 +44,7 @@ import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImp
  * 描    述：订单列表适配器
  * =============================================
  */
-public class WayBillListAdapter extends HelperRecyclerViewAdapter<WayBillListBean> {
+public class WayBillListAdapter extends HelperStateRecyclerViewAdapter<WayBillListBean> {
 
     private WayBillStateType stateType;
 
@@ -111,5 +115,28 @@ public class WayBillListAdapter extends HelperRecyclerViewAdapter<WayBillListBea
             mImageLoader.clear(mAppComponent.application(), CommonImageConfigImpl.builder()
                     .imageViews(imgHead)
                     .build());
+    }
+
+
+    @Override
+    public View getEmptyView(ViewGroup parent) {
+        return mLInflater.inflate(R.layout.view_custom_empty_data, parent, false);
+    }
+
+    @Override
+    public View getErrorView(ViewGroup parent) {
+        View loadingView = mLInflater.inflate(R.layout.layout_user_un_authorized, parent, false);
+        loadingView.findViewById(R.id.tv_authoriz).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.navigation(mContext, RouterHub.Me_UserAuthenticationActivity);
+            }
+        });
+        return loadingView;
+    }
+
+    @Override
+    public View getLoadingView(ViewGroup parent) {
+        return mLInflater.inflate(R.layout.view_custom_loading_data, parent, false);
     }
 }

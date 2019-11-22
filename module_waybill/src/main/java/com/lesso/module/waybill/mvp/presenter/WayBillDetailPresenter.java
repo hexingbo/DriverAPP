@@ -13,6 +13,7 @@ import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.PermissionUtil;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.lesso.module.waybill.BuildConfig;
+import com.lesso.module.waybill.R;
 import com.lesso.module.waybill.mvp.contract.WayBillDetailContract;
 import com.lesso.module.waybill.mvp.model.entity.WayBillDetailBean;
 import com.lesso.module.waybill.mvp.ui.adapter.TransportTrackAdapter;
@@ -81,7 +82,7 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
      */
     private void getWayBillDetail(String orderId) {
         if (ArmsUtils.isEmpty(orderId)) {
-            mRootView.showMessage("运单号不存在");
+            mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_order_number_have_not));
             mRootView.setLayoutState_FAILED();
             return;
         }
@@ -125,18 +126,14 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
     }
 
     /**
-     * 获取运单详情
+     * 保存货运单号
      *
      * @param orderId
      */
 
     public void postSaveFreightNo(@Nullable String orderId, @Nullable String freightNo) {
-        if (ArmsUtils.isEmpty(orderId)) {
-            mRootView.showMessage("运单号不存在");
-            return;
-        }
-        if (ArmsUtils.isEmpty(freightNo)) {
-            mRootView.showMessage("货运单号不存在");
+        if (ArmsUtils.isEmpty(orderId)||ArmsUtils.isEmpty(freightNo)) {
+            mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_order_number_have_not));
             return;
         }
         mModel.postSaveFreightNo(orderId, freightNo)
@@ -205,7 +202,7 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
-                        mRootView.showMessage("打卡成功");
+                        mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_daka_success));
                     }
 
                 });
@@ -241,7 +238,7 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
-                        mRootView.showMessage("收货成功");
+                        mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_shouhuo_success));
                         getWayBillDetail(orderId);
                     }
 
@@ -249,7 +246,7 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
     }
 
     /**
-     * 订单收货
+     * 订单发货
      *
      * @param orderId       订单id
      * @param orderNo       订单号
@@ -277,7 +274,7 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
-                        mRootView.showMessage("发货成功");
+                        mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_send_success));
                         getWayBillDetail(orderId);
                     }
 

@@ -51,7 +51,6 @@ public class MeMainActivity extends BaseActivity<MeMainPresenter> implements MeM
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         setTitle(me.jessyan.armscomponent.commonres.R.string.public_name_my);
         MyFragmentUtils.addFragment(getSupportFragmentManager(), MainMyFragment.newInstance(), R.id.fl_content);
     }

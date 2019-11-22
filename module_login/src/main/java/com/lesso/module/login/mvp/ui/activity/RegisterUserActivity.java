@@ -77,7 +77,6 @@ public class RegisterUserActivity extends BaseActivity<RegisterUserPresenter> im
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setTitle(R.string.login_lab_register_user);
         btnSubmit.setText(R.string.login_lab_register);

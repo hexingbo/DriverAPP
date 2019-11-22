@@ -11,15 +11,12 @@ import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
-
 import com.jess.arms.utils.DataHelper;
 import com.lesso.module.BuildConfig;
+import com.lesso.module.R;
 import com.lesso.module.di.component.DaggerWelcomeComponent;
 import com.lesso.module.mvp.contract.WelcomeContract;
 import com.lesso.module.mvp.presenter.WelcomePresenter;
-
-import com.lesso.module.R;
-
 
 import me.jessyan.armscomponent.commonsdk.core.Constants;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
@@ -54,7 +51,6 @@ public class WelcomeActivity extends BaseActivity<WelcomePresenter> implements W
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

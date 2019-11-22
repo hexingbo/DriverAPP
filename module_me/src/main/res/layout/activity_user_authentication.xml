@@ -65,8 +65,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/public_color_transparent"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:hint="请输入姓名"
+                        android:maxLength="12"
+                        android:singleLine="true"
                         android:textColor="#ff333331"
                         android:textSize="@dimen/public_font_17sp" />
                 </LinearLayout>
@@ -94,8 +97,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/public_color_transparent"
+                        android:digits="1234567890x"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:hint="请输入身份证号"
+                        android:inputType="phone"
+                        android:maxLength="18"
+                        android:singleLine="true"
                         android:textColor="#ff333331"
                         android:textSize="@dimen/public_font_17sp" />
                 </LinearLayout>
@@ -123,8 +131,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/public_color_transparent"
+                        android:digits="1234567890x"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:hint="请输入驾驶证号"
+                        android:inputType="phone"
+                        android:maxLength="18"
+                        android:singleLine="true"
                         android:textColor="#ff333331"
                         android:textSize="@dimen/public_font_17sp" />
                 </LinearLayout>

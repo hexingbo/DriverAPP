@@ -89,6 +89,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStatusBar();//设置状态栏颜色为黑色
+        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         this.savedInstanceState = savedInstanceState;
         try {
             int layoutResID = initView(savedInstanceState);

@@ -22,7 +22,7 @@
         android:networkSecurityConfig="@xml/public_network_security_config"
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/public_AppTheme"
+        android:theme="@style/AppTheme"
         tools:replace="android:appComponentFactory">
 
         <activity

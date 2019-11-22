@@ -10,25 +10,19 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.utils.ArmsUtils;
-
 import com.jess.arms.utils.DataHelper;
-import com.jess.arms.utils.DeviceUtils;
-import com.jess.arms.utils.LogUtils;
+import com.lesso.module.login.R;
 import com.lesso.module.login.R2;
 import com.lesso.module.login.di.component.DaggerMainLoginComponent;
 import com.lesso.module.login.mvp.contract.MainLoginContract;
 import com.lesso.module.login.mvp.presenter.MainLoginPresenter;
-
-import com.lesso.module.login.R;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-
 
 import javax.inject.Inject;
 
@@ -99,7 +93,6 @@ public class MainLoginActivity extends BaseActivity<MainLoginPresenter> implemen
     public void initData(@Nullable Bundle savedInstanceState) {
         boolean isFirst = getIntent().getBooleanExtra("isFirst", true);
         mPresenter.setFirst(isFirst);
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         btnSubmit.setText(R.string.login_lab_login);
         etUserPhone.setText(DataHelper.getStringSF(this, Constants.SP_LOGIN_USER));
         changeLoginTypeView(mPresenter.getLoginType());

@@ -31,6 +31,7 @@ import com.lesso.module.waybill.mvp.ui.adapter.WayBillListAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhouyou.recyclerview.XRecyclerView;
 import com.zhouyou.recyclerview.adapter.BaseRecyclerViewAdapter;
+import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
 import com.zhouyou.recyclerview.custom.CustomMoreFooter;
 import com.zhouyou.recyclerview.custom.CustomRefreshHeader2;
 
@@ -43,11 +44,11 @@ import butterknife.BindView;
 import me.jessyan.armscomponent.commonres.constant.CommonConstant;
 import me.jessyan.armscomponent.commonres.dialog.MaterialDialog;
 import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
+import me.jessyan.armscomponent.commonres.enums.AuthenticationStatusType;
 import me.jessyan.armscomponent.commonres.enums.WayBillStateType;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.utils.MapManagerUtils;
-import me.jessyan.armscomponent.commonsdk.utils.MapUtils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -281,7 +282,10 @@ public class WayBillManagerChildFragment extends BaseLazyLoadFragment<WayBillMan
 
     @Override
     protected void lazyLoadData() {
-        mRecyclerView.refresh();
+        if (!DataHelper.getStringSF(getContext(), Constants.SP_VERIFY_STATUS).equals(AuthenticationStatusType.D.name())) {
+            mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_ERROR);
+        } else
+            mRecyclerView.refresh();
     }
 
     @Override

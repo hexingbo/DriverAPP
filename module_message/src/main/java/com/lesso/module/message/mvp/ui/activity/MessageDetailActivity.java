@@ -21,7 +21,6 @@ import com.lesso.module.message.mvp.presenter.MessageDetailPresenter;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 

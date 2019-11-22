@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.jess.arms.base.BaseActivity;
@@ -68,7 +69,7 @@ public class MainWayBillActivity extends BaseActivity<MainWayBillPresenter> impl
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
+        ARouter.getInstance().inject(this);//在Activity/Fragment类里面进入Arouter 注入
         setTitle(R.string.waybill_name_waybill_manager);
         MyFragmentUtils.addFragment(getSupportFragmentManager(), new WayBillManagerFragment(), R.id.fl_content);
     }

@@ -3,7 +3,6 @@ package com.lesso.module.me.mvp.ui.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -112,7 +111,6 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         setTitle(R.string.module_me_user_authentication);
         btnSubmit.setText(getString(R.string.module_me_name_submit));
     }

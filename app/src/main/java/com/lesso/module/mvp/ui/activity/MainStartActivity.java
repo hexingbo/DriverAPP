@@ -13,8 +13,6 @@ import android.widget.FrameLayout;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationListener;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -40,7 +38,6 @@ import butterknife.BindView;
 import me.jessyan.armscomponent.commonres.dialog.MaterialDialog;
 import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
-import me.jessyan.armscomponent.commonsdk.utils.MapManagerUtils;
 import me.jessyan.armscomponent.commonservice.me.bean.MessageFragmentView;
 import me.jessyan.armscomponent.commonservice.me.bean.MyFragmentView;
 import me.jessyan.armscomponent.commonservice.me.bean.WayBillManagerFragmentView;
@@ -111,7 +108,6 @@ public class MainStartActivity extends BaseActivity<MainStartPresenter> implemen
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);//在Activity/Fragment类里面进入Arouter 注入
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         loadFragmentView();
         ArrayList<CustomTabEntity> mTabEntities = mPresenter.getTabEntity();
         mainTable.setTabData(mTabEntities);

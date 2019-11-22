@@ -9,13 +9,10 @@ import android.support.annotation.Nullable;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
-
+import com.lesso.module.me.R;
 import com.lesso.module.me.di.component.DaggerUpdatePwdComponent;
 import com.lesso.module.me.mvp.contract.UpdatePwdContract;
 import com.lesso.module.me.mvp.presenter.UpdatePwdPresenter;
-
-import com.lesso.module.me.R;
-
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -46,7 +43,6 @@ public class UpdatePwdActivity extends BaseActivity<UpdatePwdPresenter> implemen
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         setTitle(R.string.me_name_update_pwd);
     }
 

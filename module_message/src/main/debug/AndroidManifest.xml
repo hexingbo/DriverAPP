@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/public_network_security_config"
         android:supportsRtl="true"
-        android:theme="@style/public_AppTheme"
+        android:theme="@style/AppTheme"
         tools:replace="android:appComponentFactory">
         <activity android:name=".mvp.ui.activity.MainMessageActivity">
             <intent-filter>

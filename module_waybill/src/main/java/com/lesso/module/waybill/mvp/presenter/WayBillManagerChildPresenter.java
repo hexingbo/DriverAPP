@@ -13,9 +13,11 @@ import com.jess.arms.utils.DataHelper;
 import com.jess.arms.utils.PermissionUtil;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.lesso.module.waybill.BuildConfig;
+import com.lesso.module.waybill.R;
 import com.lesso.module.waybill.mvp.contract.WayBillManagerChildContract;
 import com.lesso.module.waybill.mvp.model.entity.WayBillListBean;
 import com.lesso.module.waybill.mvp.ui.adapter.WayBillListAdapter;
+import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -160,7 +162,7 @@ public class WayBillManagerChildPresenter extends BasePresenter<WayBillManagerCh
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
-                        mRootView.showMessage("打卡成功");
+                        mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_daka_success));
                     }
 
                 });
@@ -196,7 +198,7 @@ public class WayBillManagerChildPresenter extends BasePresenter<WayBillManagerCh
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
-                        mRootView.showMessage("收货成功");
+                        mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_shouhuo_success));
                         getWayBillList(true);
                     }
 
@@ -204,7 +206,7 @@ public class WayBillManagerChildPresenter extends BasePresenter<WayBillManagerCh
     }
 
     /**
-     * 订单收货
+     * 订单发货
      *
      * @param orderId       订单id
      * @param orderNo       订单号
@@ -232,7 +234,7 @@ public class WayBillManagerChildPresenter extends BasePresenter<WayBillManagerCh
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
-                        mRootView.showMessage("发货成功");
+                        mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_send_success));
                         getWayBillList(true);
                     }
 

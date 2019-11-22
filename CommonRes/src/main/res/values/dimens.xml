@@ -32,6 +32,7 @@
     <dimen name="public_radius_20dp">20dp</dimen>
     <dimen name="public_radius_23dp">23dp</dimen>
     <dimen name="public_radius_30dp">30dp</dimen>
+    <dimen name="public_radius_50dp">50dp</dimen>
 
     //高
     <dimen name="public_height_1dp">1dp</dimen>
@@ -180,6 +181,9 @@
     <dimen name="public_mar_right_20dp">20dp</dimen>
     <dimen name="public_mar_right_25dp">25dp</dimen>
     <dimen name="public_mar_right_30dp">30dp</dimen>
+    <dimen name="public_mar_right_100dp">100dp</dimen>
+    <dimen name="public_mar_right_120dp">120dp</dimen>
+    <dimen name="public_mar_right_130dp">130dp</dimen>
     <dimen name="public_mar_right_150dp">150dp</dimen>
 
     //marginBottom

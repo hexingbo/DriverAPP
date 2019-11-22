@@ -9,14 +9,11 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
-
+import com.lesso.module.message.R;
 import com.lesso.module.message.di.component.DaggerMainMessageComponent;
 import com.lesso.module.message.mvp.contract.MainMessageContract;
 import com.lesso.module.message.mvp.presenter.MainMessagePresenter;
-
-import com.lesso.module.message.R;
 import com.lesso.module.message.mvp.ui.fragment.MessageManagerFragment;
-
 
 import me.jessyan.armscomponent.commonres.utils.MyFragmentUtils;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
@@ -50,7 +47,6 @@ public class MainMessageActivity extends BaseActivity<MainMessagePresenter> impl
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         setTitle(R.string.public_message_center);
         MyFragmentUtils.addFragment(getSupportFragmentManager(), MessageManagerFragment.newInstance(), R.id.fl_content);
     }

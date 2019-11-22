@@ -3,7 +3,6 @@ package com.lesso.module.me.mvp.ui.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,7 +26,6 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-
 import java.io.File;
 import java.util.List;
 
@@ -40,12 +38,9 @@ import me.jessyan.armscomponent.commonres.dialog.MaterialDialog;
 import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
 import me.jessyan.armscomponent.commonres.enums.AuthenticationStatusType;
 import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
-import me.jessyan.armscomponent.commonres.other.CircleImageView;
 import me.jessyan.armscomponent.commonres.other.ClearEditText;
-import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
-import static org.openjdk.tools.sjavac.Util.set;
 
 
 /**
@@ -119,7 +114,6 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         setTitle(R.string.me_name_user_info);
         publicToolbarTextRigth.setText(getString(R.string.module_me_name_save));
         setAddViewGONE();

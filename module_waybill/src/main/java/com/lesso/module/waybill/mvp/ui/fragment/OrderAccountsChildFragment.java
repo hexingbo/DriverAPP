@@ -23,16 +23,16 @@ import com.lesso.module.waybill.mvp.contract.OrderAccountsChildContract;
 import com.lesso.module.waybill.mvp.presenter.OrderAccountsChildPresenter;
 import com.lesso.module.waybill.mvp.ui.adapter.OrderAccountListAdapter;
 import com.zhouyou.recyclerview.XRecyclerView;
+import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
 import com.zhouyou.recyclerview.custom.CustomMoreFooter;
 import com.zhouyou.recyclerview.custom.CustomRefreshHeader2;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import me.jessyan.armscomponent.commonres.enums.AuthenticationStatusType;
 import me.jessyan.armscomponent.commonres.enums.OrderAccountStateType;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
-import me.jessyan.armscomponent.commonsdk.core.RouterHub;
-import me.jessyan.armscomponent.commonsdk.utils.Utils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -58,8 +58,6 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
     @BindView(R2.id.recyclerview)
     XRecyclerView mRecyclerView;
 
-    private View viewUnAuthened;
-
     public static OrderAccountsChildFragment newInstance() {
         OrderAccountsChildFragment fragment = new OrderAccountsChildFragment();
         return fragment;
@@ -84,13 +82,6 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
     public void initData(@Nullable Bundle savedInstanceState) {
         initRecyclerView();
         mRecyclerView.setAdapter(mAdapter);
-//        viewUnAuthened = View.inflate(getContext(), R2.layout.layout_user_un_authorized, null);
-//        viewUnAuthened.findViewById(R.id.tv_authoriz).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Utils.navigation(getContext(), RouterHub.Me_UserAuthenticationActivity);
-//            }
-//        });
     }
 
     private void initRecyclerView() {
@@ -101,7 +92,7 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-               lazyLoadData();
+                lazyLoadData();
             }
 
             @Override
@@ -211,15 +202,16 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
 
     @Override
     protected void lazyLoadData() {
-        //加盟管理
-//        if (ArmsUtils.isEmpty(DataHelper.getStringSF(getContext(), Constants.SP_VERIFY_STATUS))) {
-//            mRecyclerView.setEmptyView(viewUnAuthened);
-//        } else
+        if (!DataHelper.getStringSF(getContext(), Constants.SP_VERIFY_STATUS).equals(AuthenticationStatusType.D.name())) {
+            mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_ERROR);
+        } else
             mRecyclerView.refresh();
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        mAdapter.clear();//清除掉适配器中数据
+        super.onDestroy();
     }
+
 }
