@@ -73,30 +73,29 @@ public class RegisterUserPresenter extends BasePresenter<RegisterUserContract.Mo
     /**
      * 用户注册
      *
-     * @param name
      * @param phone
      * @param sms
      * @param password
      */
-    public void postRegisterUserApp(String name, String phone, String sms, String password) {
+    public void postRegisterUserApp( String phone, String sms, String password) {
         //请求外部存储权限用于适配android6.0的权限管理机制
         PermissionUtil.readPhonestate(new PermissionUtil.RequestPermission() {
             @Override
             public void onRequestPermissionSuccess() {
                 //request permission success, do something.
-                postRegisterUserApp(name, phone, sms, password, DeviceUtils.getDeviceId(AppManagerUtil.getCurrentActivity()));
+                postRegisterUserApp( phone, sms, password, DeviceUtils.getDeviceId(AppManagerUtil.getCurrentActivity()));
             }
 
             @Override
             public void onRequestPermissionFailure(List<String> permissions) {
                 mRootView.showMessage("Request permissions failure");
-                postRegisterUserApp(name, phone, sms, password, "");
+                postRegisterUserApp( phone, sms, password, "");
             }
 
             @Override
             public void onRequestPermissionFailureWithAskNeverAgain(List<String> permissions) {
                 mRootView.showMessage("Need to go to the settings");
-                postRegisterUserApp(name, phone, sms, password, "");
+                postRegisterUserApp( phone, sms, password, "");
             }
         }, mRootView.getRxPermissions(), mErrorHandler);
 
@@ -106,16 +105,11 @@ public class RegisterUserPresenter extends BasePresenter<RegisterUserContract.Mo
     /**
      * 用户注册
      *
-     * @param name
      * @param phone
      * @param sms
      * @param password
      */
-    public void postRegisterUserApp(String name, String phone, String sms, String password, String deviceId) {
-        if (ArmsUtils.isEmpty(name)) {
-            ArmsUtils.snackbarText(mRootView.getActivity().getResources().getString(R.string.login_hint_input_name));
-            return;
-        }
+    public void postRegisterUserApp( String phone, String sms, String password, String deviceId) {
         if (ArmsUtils.isEmpty(phone)) {
             ArmsUtils.snackbarText(mRootView.getActivity().getResources().getString(R.string.login_hint_input_phone_number));
             return;
@@ -134,7 +128,7 @@ public class RegisterUserPresenter extends BasePresenter<RegisterUserContract.Mo
             return;
         }
 
-        mModel.postRegisterUserApp(name, phone, sms, password)
+        mModel.postRegisterUserApp( phone, sms, password)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(
                         //遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -153,7 +147,6 @@ public class RegisterUserPresenter extends BasePresenter<RegisterUserContract.Mo
                     @Override
                     public void onResult(HttpResult<LoginResultBean> result) {
                         SaveOrClearUserInfo.saveUserInfo(result.getData().getToken(), result.getData().getUserId(), result.getData().getVerifyStatus(), phone, deviceId);
-                        Utils.navigation(mRootView.getActivity(), RouterHub.APP_MainStartActivity);
                         EventBusManager.getInstance().post(EventBusHub.TAG_LOGIN_SUCCESS);
                         mRootView.getActivity().finish();
                     }

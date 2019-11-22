@@ -184,11 +184,7 @@ public class MainLoginPresenter extends BasePresenter<MainLoginContract.Model, M
                         LogUtils.debugInfo("hxb---->","isFirst："+isFirst);
                         //登录成功
                         SaveOrClearUserInfo.saveUserInfo(result.getData().getToken(), result.getData().getUserId(), result.getData().getVerifyStatus(), phone, deviceId);
-                        if (isFirst) {
-                            Utils.navigation(mRootView.getActivity(),RouterHub.APP_MainStartActivity);
-                        } else
-                            EventBusManager.getInstance().post(new MessageEvent(EventBusHub.TAG_LOGIN_SUCCESS));
-                        mRootView.getActivity().finish();
+                        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.TAG_LOGIN_SUCCESS));
                     }
                 });
     }
@@ -271,5 +267,12 @@ public class MainLoginPresenter extends BasePresenter<MainLoginContract.Model, M
         mModel.goMainForgetPasswordActivity();
     }
 
+
+    public void goMainOrFinsh(){
+        if (isFirst) {
+            Utils.navigation(mRootView.getActivity(),RouterHub.APP_MainStartActivity);
+        } else
+            mRootView.getActivity().finish();
+    }
 
 }

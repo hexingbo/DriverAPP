@@ -47,8 +47,6 @@ public class RegisterUserActivity extends BaseActivity<RegisterUserPresenter> im
     @Inject
     RxPermissions mRxPermissions;
 
-    @BindView(R2.id.et_user_name)
-    ClearEditText etUserName;
     @BindView(R2.id.et_userPwd)
     ClearEditText etUserPwd;
     @BindView(R2.id.et_user_phone)
@@ -128,7 +126,7 @@ public class RegisterUserActivity extends BaseActivity<RegisterUserPresenter> im
     @OnClick(R2.id.btn_submit)
     public void onClickSubmitView() {
         // 确认登录
-        mPresenter.postRegisterUserApp(etUserName.getText().toString().trim(), etUserPhone.getText().toString().trim(),
+        mPresenter.postRegisterUserApp( etUserPhone.getText().toString().trim(),
                 etCheckNumebr.getText().toString().trim(), etUserPwd.getText().toString().trim());
     }
 
@@ -136,6 +134,11 @@ public class RegisterUserActivity extends BaseActivity<RegisterUserPresenter> im
     public void onClickSendSmsCodeView() {
         // 发送成功进入倒计时
         mPresenter.submitSendSmsValue(etUserPhone.getText().toString().trim(), tvSendNumber);
+    }
+
+    @OnClick(R2.id.tv_go_login)
+    public void onClickLoginView() {
+        finish();
     }
 
 

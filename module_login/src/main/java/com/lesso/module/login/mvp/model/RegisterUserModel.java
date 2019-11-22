@@ -55,8 +55,8 @@ public class RegisterUserModel extends BaseModel implements RegisterUserContract
     }
 
     @Override
-    public Observable<HttpResult<LoginResultBean>> postRegisterUserApp(String name, String account, String code, String password) {
+    public Observable<HttpResult<LoginResultBean>> postRegisterUserApp( String account, String code, String password) {
         return mRepositoryManager.obtainRetrofitService(ModuleLoginService.class).postRegisterUserApp(
-                new SubmitRegisterBean(name, account, code, password, DeviceUtils.getDeviceId(mApplication)));
+                new SubmitRegisterBean(account, code, password, DeviceUtils.getDeviceId(mApplication)));
     }
 }

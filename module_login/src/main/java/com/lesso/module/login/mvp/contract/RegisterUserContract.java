@@ -46,13 +46,12 @@ public interface RegisterUserContract {
         /**
          * 用户注册
          *
-         * @param name
          * @param account
          * @param code
          * @param password
          * @return
          */
-        Observable<HttpResult<LoginResultBean>> postRegisterUserApp(String name, String account, String code,
+        Observable<HttpResult<LoginResultBean>> postRegisterUserApp( String account, String code,
                                                                     String password);
 
     }

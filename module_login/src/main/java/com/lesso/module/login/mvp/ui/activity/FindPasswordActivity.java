@@ -126,6 +126,11 @@ public class FindPasswordActivity extends BaseActivity<FindPasswordPresenter> im
         mPresenter.submitSendSmsValue(etUserPhone.getText().toString().trim(), tvSendNumber);
     }
 
+    @OnClick(R2.id.tv_go_login)
+    public void onClickLoginView() {
+        finish();
+    }
+
     @Override
     public void onTick(long millisUntilFinished) {
         if (etUserPhone != null)

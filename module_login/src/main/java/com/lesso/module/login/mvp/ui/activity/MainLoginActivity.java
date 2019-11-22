@@ -31,8 +31,10 @@ import butterknife.OnClick;
 import me.jessyan.armscomponent.commonres.enums.LoginType;
 import me.jessyan.armscomponent.commonres.other.ClearEditText;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.utils.CountDownTimerUtils;
+import me.jessyan.armscomponent.commonsdk.utils.Utils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -223,6 +225,8 @@ public class MainLoginActivity extends BaseActivity<MainLoginPresenter> implemen
 
     @Override
     protected void getEventBusHub_Activity(MessageEvent message) {
-
+        if (message.getType().equals(EventBusHub.TAG_LOGIN_SUCCESS))
+          mPresenter.goMainOrFinsh();
     }
+
 }
