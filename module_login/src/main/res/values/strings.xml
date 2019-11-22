@@ -24,4 +24,10 @@
     <string name="login_lab_login_type_sms">验证码登录</string>
     <string name="tv_find_pwd">找回密码</string>
     <string name="tv_find_pwd_to_login">找回成功,请重新登录</string>
+    <string name="module_login_name_update_pwd">修改密码</string>
+    <string name="module_login_name_update">修改</string>
+    <string name="module_login_name_update_success">修改成功</string>
+    <string name="login_hint_input_pwd_old">请输入旧密码</string>
+    <string name="login_hint_input_pwd_new">请输入新密码</string>
+
 </resources>

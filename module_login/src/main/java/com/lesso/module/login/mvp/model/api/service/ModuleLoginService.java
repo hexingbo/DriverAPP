@@ -22,6 +22,7 @@ import com.lesso.module.login.mvp.model.entity.SendSmsCodeBean;
 import com.lesso.module.login.mvp.model.entity.SubmitFindPwdBean;
 import com.lesso.module.login.mvp.model.entity.SubmitLoginBean;
 import com.lesso.module.login.mvp.model.entity.SubmitRegisterBean;
+import com.lesso.module.login.mvp.model.entity.SubmitUpdatePwdBean;
 
 import io.reactivex.Observable;
 import me.jessyan.armscomponent.commonres.constant.CommonHttpUrl;
@@ -76,6 +77,14 @@ public interface ModuleLoginService {
     @POST(CommonHttpUrl.API_postFindPasswordAPP)
     Observable<HttpResult> postFindPasswordApp(@Body SubmitFindPwdBean bean);
 
+    /**
+     * 31、修改密码
+     *
+     * @return
+     */
+    @Headers({DOMAIN_NAME_HEADER + Api.Module_Login_Doman_Name})
+    @POST(CommonHttpUrl.API_postUpdatePassword)
+    Observable<HttpResult> postUpdatePassword(@Body SubmitUpdatePwdBean bean);
 
 
 }

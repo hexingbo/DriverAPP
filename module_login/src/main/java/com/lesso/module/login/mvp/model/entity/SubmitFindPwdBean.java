@@ -1,6 +1,8 @@
 package com.lesso.module.login.mvp.model.entity;
 
 
+import android.support.annotation.Nullable;
+
 /**
  * @Author :hexingbo
  * @Date :2019/11/14
@@ -13,7 +15,7 @@ public class SubmitFindPwdBean {
     private String code;//验证码
     private String password;// 密码
 
-    public SubmitFindPwdBean(String account, String code, String password) {
+    public SubmitFindPwdBean(@Nullable String account,@Nullable String code,@Nullable String password) {
         this.account = account;
         this.code = code;
         this.password = password;

@@ -1,6 +1,7 @@
 package com.lesso.module.login.mvp.model;
 
 import android.app.Application;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.jess.arms.integration.IRepositoryManager;
@@ -11,6 +12,11 @@ import com.jess.arms.di.scope.ActivityScope;
 import javax.inject.Inject;
 
 import com.lesso.module.login.mvp.contract.UpdatePwdActivityContract;
+import com.lesso.module.login.mvp.model.api.service.ModuleLoginService;
+import com.lesso.module.login.mvp.model.entity.SubmitUpdatePwdBean;
+
+import io.reactivex.Observable;
+import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 
 
 /**
@@ -37,5 +43,10 @@ public class UpdatePwdActivityModel extends BaseModel implements UpdatePwdActivi
         super.onDestroy();
         this.mGson = null;
         this.mApplication = null;
+    }
+
+    @Override
+    public Observable<HttpResult> postUpdatePassword(@Nullable SubmitUpdatePwdBean bean) {
+        return mRepositoryManager.obtainRetrofitService(ModuleLoginService.class).postUpdatePassword(bean);
     }
 }

@@ -166,7 +166,7 @@ public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> impl
             AppManagerUtil.jump(UserInfoActivity.class);
         } else if (view.getId() == R.id.ll_update_pwd) {
             //修改密码
-            Utils.navigation(AppManagerUtil.getCurrentActivity(), RouterHub.Loging_MainLoginActivity);
+            Utils.navigation(AppManagerUtil.getCurrentActivity(), RouterHub.Loging_UpdatePwdActivityActivity);
         } else if (view.getId() == R.id.ll_about_us) {
             //关于我们
             AppManagerUtil.jump(AboutUsActivity.class);

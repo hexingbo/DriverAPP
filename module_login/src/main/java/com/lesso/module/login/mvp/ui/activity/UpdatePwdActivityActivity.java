@@ -1,22 +1,26 @@
 package com.lesso.module.login.mvp.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
-
+import com.lesso.module.login.R;
+import com.lesso.module.login.R2;
 import com.lesso.module.login.di.component.DaggerUpdatePwdActivityComponent;
 import com.lesso.module.login.mvp.contract.UpdatePwdActivityContract;
 import com.lesso.module.login.mvp.presenter.UpdatePwdActivityPresenter;
 
-import com.lesso.module.login.R;
-
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import me.jessyan.armscomponent.commonres.other.ClearEditText;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -29,8 +33,15 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * Description:
  * ================================================
  */
-@Route(path = RouterHub.Loging_MainLoginActivity)
+@Route(path = RouterHub.Loging_UpdatePwdActivityActivity)
 public class UpdatePwdActivityActivity extends BaseActivity<UpdatePwdActivityPresenter> implements UpdatePwdActivityContract.View {
+
+    @BindView(R2.id.et_pwd_old)
+    ClearEditText etPwdOld;
+    @BindView(R2.id.et_pwd_new)
+    ClearEditText etPwdNew;
+    @BindView(R2.id.btn_submit)
+    TextView btnSubmit;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -49,7 +60,8 @@ public class UpdatePwdActivityActivity extends BaseActivity<UpdatePwdActivityPre
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        setTitle(R.string.module_login_name_update_pwd);
+        btnSubmit.setText(getString(R.string.module_login_name_update));
     }
 
     @Override
@@ -77,5 +89,16 @@ public class UpdatePwdActivityActivity extends BaseActivity<UpdatePwdActivityPre
     @Override
     public void killMyself() {
         finish();
+    }
+
+
+    @OnClick(R2.id.btn_submit)
+    public void onViewClicked() {
+        mPresenter.postUpdatePassword(etPwdOld.getText().toString().trim(),etPwdNew.getText().toString().trim());
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 }
