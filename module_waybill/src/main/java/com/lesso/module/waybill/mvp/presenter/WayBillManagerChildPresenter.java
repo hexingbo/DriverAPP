@@ -108,7 +108,7 @@ public class WayBillManagerChildPresenter extends BasePresenter<WayBillManagerCh
                             //1.使用setListAll（覆盖数据）后就不需要再调用notifyDataSetChanged（）
                             //2.如果是addAll()追加
                             if (pullToRefresh) {
-                                mAdapter.setListAll(result.getData());
+                                mAdapter.setListAll(result.getData());//不需要设置任何东西setListAll有数据了会自动到内容页面
                             } else {
                                 mAdapter.addItemsToLast(result.getData());
                             }

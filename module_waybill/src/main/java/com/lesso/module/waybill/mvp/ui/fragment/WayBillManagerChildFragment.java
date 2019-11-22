@@ -284,8 +284,10 @@ public class WayBillManagerChildFragment extends BaseLazyLoadFragment<WayBillMan
     protected void lazyLoadData() {
         if (!DataHelper.getStringSF(getContext(), Constants.SP_VERIFY_STATUS).equals(AuthenticationStatusType.D.name())) {
             mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_ERROR);
-        } else
-            mRecyclerView.refresh();
+        } else {
+            mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_LOADING);
+            mPresenter.setStateType(getWayBillStateType());
+        }
     }
 
     @Override

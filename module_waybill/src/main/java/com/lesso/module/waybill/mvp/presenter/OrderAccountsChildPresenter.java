@@ -14,6 +14,7 @@ import com.lesso.module.waybill.BuildConfig;
 import com.lesso.module.waybill.mvp.contract.OrderAccountsChildContract;
 import com.lesso.module.waybill.mvp.model.entity.OrderAccountBean;
 import com.lesso.module.waybill.mvp.ui.adapter.OrderAccountListAdapter;
+import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -57,8 +58,8 @@ public class OrderAccountsChildPresenter extends BasePresenter<OrderAccountsChil
 
     private int currentPage = 1, pageSize = 10;
     private String condition;//搜索词（公司或者订单号）
-    private String driverDateStart="2019-11-10";//开始时间
-    private String driverDateEnd="2019-11-19";//结束时间
+    private String driverDateStart = "2019-11-10";//开始时间
+    private String driverDateEnd = "2019-11-19";//结束时间
 
     @Inject
     public OrderAccountsChildPresenter(OrderAccountsChildContract.Model model, OrderAccountsChildContract.View rootView) {
@@ -102,8 +103,8 @@ public class OrderAccountsChildPresenter extends BasePresenter<OrderAccountsChil
                         if (!ArmsUtils.isEmpty(result.getData())) {
                             //1.使用setListAll（覆盖数据）后就不需要再调用notifyDataSetChanged（）
                             //2.如果是addAll()追加
-                            if (pullToRefresh) {
-                                mAdapter.setListAll(result.getData());
+                            if (pullToRefresh||mAdapter.getState()== HelperStateRecyclerViewAdapter.TYPE_LOADING) {
+                                mAdapter.setListAll(result.getData());//不需要设置任何东西setListAll有数据了会自动到内容页面
                             } else {
                                 mAdapter.addItemsToLast(result.getData());
                             }
