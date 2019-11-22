@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.AppManagerUtil;
@@ -32,6 +33,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.jessyan.armscomponent.commonres.base.BaseIntentBean;
 import me.jessyan.armscomponent.commonres.enums.CompanyActionType;
+import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -43,6 +45,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * Description:加盟公司管理
  * ================================================
  */
+@Route(path = RouterHub.Me_CompanyJoinedManageActivity)
 public class CompanyJoinedManageActivity extends BaseActivity<CompanyJoinedManagePresenter>
         implements CompanyJoinedManageContract.View, BaseRecyclerViewAdapter.OnItemClickListener<CompanyJoinedBean> {
 

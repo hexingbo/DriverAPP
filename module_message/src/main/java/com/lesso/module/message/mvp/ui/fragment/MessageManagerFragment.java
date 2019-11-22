@@ -13,8 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.lesso.module.message.R;
@@ -34,8 +36,11 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import me.jessyan.armscomponent.commonres.base.BaseLoadLayoutFragment;
+import me.jessyan.armscomponent.commonres.constant.CommonConstant;
+import me.jessyan.armscomponent.commonres.enums.MessagePushType;
 import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
+import me.jessyan.armscomponent.commonsdk.utils.Utils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -192,9 +197,31 @@ public class MessageManagerFragment extends BaseLoadLayoutFragment<MessageManage
         return new BaseRecyclerViewAdapter.OnItemClickListener<MessageBean>() {
             @Override
             public void onItemClick(View view, MessageBean item, int position) {
-                currentMessageBean = item;
-                currentPosition = position;
-                AppManagerUtil.jump(MessageDetailActivity.class, MessageDetailActivity.IntentValue, item);
+                //item 点击事件
+//                currentMessageBean = item;
+//                currentPosition = position;
+//                AppManagerUtil.jump(MessageDetailActivity.class, MessageDetailActivity.IntentValue, item);
+
+                if (item.getLinkUrl().contains(MessagePushType.DriverBalance.name())) {
+                    //对账列表
+                    Utils.navigation(mContext, RouterHub.Waybill_OrderAccountsManagerActivity);
+                } else if (item.getLinkUrl().contains(MessagePushType.DriverJoin.name())) {
+                    //加盟列表
+                    Utils.navigation(mContext, RouterHub.Me_CompanyJoinedManageActivity);
+
+                } else if (item.getLinkUrl().contains(MessagePushType.DriverOrder.name())) {
+                    //运单列表
+                    EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_SelectedWayBillManagerFragment));
+                } else if (item.getLinkUrl().contains(MessagePushType.OrderDetail.name())) {
+                    //订单详情
+                    if (item.getLinkUrl().contains("=")) {
+                        String id = item.getLinkUrl().substring(item.getLinkUrl().lastIndexOf("="), item.getLinkUrl().length());
+                        ARouter.getInstance().build(RouterHub.Waybill_WayBillDetailActivity)
+                                .withString(CommonConstant.IntentWayBillDetailKey_OrderId, id)
+                                .navigation(AppManagerUtil.getCurrentActivity());
+                    }
+
+                }
             }
         };
     }

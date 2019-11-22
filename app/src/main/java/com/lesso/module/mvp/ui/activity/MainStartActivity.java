@@ -37,6 +37,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import me.jessyan.armscomponent.commonres.dialog.MaterialDialog;
 import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonservice.me.bean.MessageFragmentView;
 import me.jessyan.armscomponent.commonservice.me.bean.MyFragmentView;
@@ -141,7 +142,7 @@ public class MainStartActivity extends BaseActivity<MainStartPresenter> implemen
             }
         });
 
-      mPresenter.  checkPermission();
+        mPresenter.checkPermission();
     }
 
 
@@ -294,7 +295,7 @@ public class MainStartActivity extends BaseActivity<MainStartPresenter> implemen
 
     @Override
     public void setLocationAddress(String result) {
-            showMessage(result);
+        showMessage(result);
     }
 
     @Override
@@ -329,6 +330,9 @@ public class MainStartActivity extends BaseActivity<MainStartPresenter> implemen
 
     @Override
     protected void getEventBusHub_Activity(MessageEvent message) {
-
+        if (message.getType().equals(EventBusHub.Message_SelectedWayBillManagerFragment)) {
+            mainTable.setCurrentTab(0);
+        }
     }
+
 }

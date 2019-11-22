@@ -42,4 +42,5 @@ public interface EventBusHub extends BaseEventBusHub {
 
     String Message_MessageManagerList_UpdateData = "Message/MessageManagerListUpdateData";
     String Message_UpdateUserInfo = "Me/UpdateUserInfo";
+    String Message_SelectedWayBillManagerFragment = "MayBill/SelectedWayBillManagerFragment";
 }
