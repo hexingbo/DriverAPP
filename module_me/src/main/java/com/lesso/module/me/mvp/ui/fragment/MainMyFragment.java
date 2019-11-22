@@ -26,7 +26,6 @@ import com.lesso.module.me.mvp.presenter.MainMyPresenter;
 import com.lesso.module.me.mvp.ui.activity.AboutUsActivity;
 import com.lesso.module.me.mvp.ui.activity.CompanyJoinManageActivity;
 import com.lesso.module.me.mvp.ui.activity.CompanyJoinedManageActivity;
-import com.lesso.module.me.mvp.ui.activity.UpdatePwdActivity;
 import com.lesso.module.me.mvp.ui.activity.UserInfoActivity;
 
 import javax.inject.Inject;
@@ -167,7 +166,7 @@ public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> impl
             AppManagerUtil.jump(UserInfoActivity.class);
         } else if (view.getId() == R.id.ll_update_pwd) {
             //修改密码
-            AppManagerUtil.jump(UpdatePwdActivity.class);
+            Utils.navigation(AppManagerUtil.getCurrentActivity(), RouterHub.Loging_MainLoginActivity);
         } else if (view.getId() == R.id.ll_about_us) {
             //关于我们
             AppManagerUtil.jump(AboutUsActivity.class);

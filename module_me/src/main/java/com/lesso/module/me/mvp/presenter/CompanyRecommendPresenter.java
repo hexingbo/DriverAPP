@@ -11,18 +11,18 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
 import javax.inject.Inject;
 
-import com.lesso.module.me.mvp.contract.UpdatePwdContract;
+import com.lesso.module.me.mvp.contract.CompanyRecommendContract;
 
 
 /**
  * ================================================
  * user：贺兴波
- * 2019/11/18 10:27
+ * 2019/11/22 09:41
  * Description:
  * ================================================
  */
 @ActivityScope
-public class UpdatePwdPresenter extends BasePresenter<UpdatePwdContract.Model, UpdatePwdContract.View> {
+public class CompanyRecommendPresenter extends BasePresenter<CompanyRecommendContract.Model, CompanyRecommendContract.View> {
     @Inject
     RxErrorHandler mErrorHandler;
     @Inject
@@ -33,7 +33,7 @@ public class UpdatePwdPresenter extends BasePresenter<UpdatePwdContract.Model, U
     AppManager mAppManager;
 
     @Inject
-    public UpdatePwdPresenter(UpdatePwdContract.Model model, UpdatePwdContract.View rootView) {
+    public CompanyRecommendPresenter(CompanyRecommendContract.Model model, CompanyRecommendContract.View rootView) {
         super(model, rootView);
     }
 

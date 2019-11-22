@@ -1,4 +1,4 @@
-package com.lesso.module.me.mvp.model;
+package com.lesso.module.login.mvp.model;
 
 import android.app.Application;
 
@@ -10,25 +10,25 @@ import com.jess.arms.di.scope.ActivityScope;
 
 import javax.inject.Inject;
 
-import com.lesso.module.me.mvp.contract.UpdatePwdContract;
+import com.lesso.module.login.mvp.contract.UpdatePwdActivityContract;
 
 
 /**
  * ================================================
  * user：贺兴波
- * 2019/11/18 10:27
+ * 2019/11/22 09:47
  * Description:
  * ================================================
  */
 @ActivityScope
-public class UpdatePwdModel extends BaseModel implements UpdatePwdContract.Model {
+public class UpdatePwdActivityModel extends BaseModel implements UpdatePwdActivityContract.Model {
     @Inject
     Gson mGson;
     @Inject
     Application mApplication;
 
     @Inject
-    public UpdatePwdModel(IRepositoryManager repositoryManager) {
+    public UpdatePwdActivityModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
     }
 

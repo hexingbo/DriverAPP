@@ -70,7 +70,7 @@ public interface RouterHub {
     String Loging_MainLoginActivity = Loging + "/MainLoginActivity";
     String Loging_RegisterUserActivity = Loging + "/RegisterUserActivity";
     String Loging_FindPasswordActivity = Loging + "/FindPasswordActivity";
-    String Loging_UpdateLoginPasswordActivity = Loging + "/UpdateLoginPasswordActivity";
+    String Loging_UpdatePwdActivityActivity = Loging + "/UpdatePwdActivityActivity";
 
     //我的
     String Me_Service_MyViewService = Me + SERVICE + "/MyViewService";

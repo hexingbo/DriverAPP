@@ -1,6 +1,5 @@
 package com.lesso.module.me.mvp.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,10 +8,13 @@ import android.support.annotation.Nullable;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+
+import com.lesso.module.me.di.component.DaggerCompanyRecommendComponent;
+import com.lesso.module.me.mvp.contract.CompanyRecommendContract;
+import com.lesso.module.me.mvp.presenter.CompanyRecommendPresenter;
+
 import com.lesso.module.me.R;
-import com.lesso.module.me.di.component.DaggerUpdatePwdComponent;
-import com.lesso.module.me.mvp.contract.UpdatePwdContract;
-import com.lesso.module.me.mvp.presenter.UpdatePwdPresenter;
+
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -20,15 +22,15 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 /**
  * ================================================
  * user：贺兴波
- * 2019/11/18 10:27
- * Description:修改密码
+ * 2019/11/22 09:41
+ * Description:
  * ================================================
  */
-public class UpdatePwdActivity extends BaseActivity<UpdatePwdPresenter> implements UpdatePwdContract.View {
+public class CompanyRecommendActivity extends BaseActivity<CompanyRecommendPresenter> implements CompanyRecommendContract.View {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-        DaggerUpdatePwdComponent //如找不到该类,请编译一下项目
+        DaggerCompanyRecommendComponent //如找不到该类,请编译一下项目
                 .builder()
                 .appComponent(appComponent)
                 .view(this)
@@ -38,12 +40,12 @@ public class UpdatePwdActivity extends BaseActivity<UpdatePwdPresenter> implemen
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.activity_update_pwd; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
+        return R.layout.activity_company_recommend; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        setTitle(R.string.me_name_update_pwd);
+
     }
 
     @Override
@@ -71,10 +73,5 @@ public class UpdatePwdActivity extends BaseActivity<UpdatePwdPresenter> implemen
     @Override
     public void killMyself() {
         finish();
-    }
-
-    @Override
-    public Activity getActivity() {
-        return this;
     }
 }
