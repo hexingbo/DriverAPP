@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -119,6 +121,22 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
         setAddViewGONE();
         //可以在任何可以拿到 Context 的地方,拿到 AppComponent,从而得到用 Dagger 管理的单例对象
         mPresenter.getDriverVerifyDetail();
+        etUserCardNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                etDriverCardNumber.setText(s);
+            }
+        });
     }
 
     @Override
@@ -320,7 +338,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 //                    adapter.setList(selectList);
 //                    adapter.notifyDataSetChanged();
                     for (LocalMedia localMedia : selectList) {
-                        if (localMedia.isCut()){
+                        if (localMedia.isCut()) {
                             String path = localMedia.getCutPath();
                             Log.i("hxb：", "图片保存路径==>" + path);
                             //上传头像

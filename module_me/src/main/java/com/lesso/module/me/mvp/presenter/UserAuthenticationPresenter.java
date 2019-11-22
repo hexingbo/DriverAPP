@@ -34,6 +34,7 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.jessyan.armscomponent.commonres.constant.CommonHttpUrl;
+import me.jessyan.armscomponent.commonres.enums.AuthenticationStatusType;
 import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
@@ -66,10 +67,9 @@ public class UserAuthenticationPresenter extends BasePresenter<UserAuthenticatio
     @Inject
     AppManager mAppManager;
 
-    private SubmitDriverVerifyBean mSubmitDriverVerifyBean=new SubmitDriverVerifyBean();
+    private SubmitDriverVerifyBean mSubmitDriverVerifyBean = new SubmitDriverVerifyBean();
     private UploadFileUserCardType fileTypes;
     private List<File> fileArr = new ArrayList<>();
-
 
 
     @Inject
@@ -178,7 +178,7 @@ public class UserAuthenticationPresenter extends BasePresenter<UserAuthenticatio
     /**
      * 实际认证提交参数
      */
-    public void postDriverVerify(String userName, String userCard, String driverCard ) {
+    public void postDriverVerify(String userName, String userCard, String driverCard) {
         if (ArmsUtils.isEmpty(userName)) {
             mRootView.showMessage("请输入姓名");
             return;
@@ -211,7 +211,7 @@ public class UserAuthenticationPresenter extends BasePresenter<UserAuthenticatio
         mSubmitDriverVerifyBean.setName(userName);
         mSubmitDriverVerifyBean.setIdno(userCard);
         mSubmitDriverVerifyBean.setDriverno(driverCard);
-        mSubmitDriverVerifyBean.setCurrentUserId(DataHelper.getStringSF(mApplication,Constants.SP_USER_ID));
+        mSubmitDriverVerifyBean.setCurrentUserId(DataHelper.getStringSF(mApplication, Constants.SP_USER_ID));
 
         mModel.postDriverVerify(mSubmitDriverVerifyBean)
                 .subscribeOn(Schedulers.io())
@@ -230,6 +230,7 @@ public class UserAuthenticationPresenter extends BasePresenter<UserAuthenticatio
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
+                        DataHelper.setStringSF(mApplication, Constants.SP_VERIFY_STATUS, AuthenticationStatusType.D.name());
                         EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateUserInfo));
                         AppManagerUtil.getCurrentActivity().finish();
                     }

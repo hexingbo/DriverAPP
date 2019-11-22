@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -113,6 +115,22 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     public void initData(@Nullable Bundle savedInstanceState) {
         setTitle(R.string.module_me_user_authentication);
         btnSubmit.setText(getString(R.string.module_me_name_submit));
+        etUserCardNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                etDriverCardNumber.setText(s);
+            }
+        });
     }
 
     @Override
@@ -146,7 +164,7 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     public void onViewClicked(View view) {
         if (view.getId() == R.id.img_card_user_s) {
 
-        }else {
+        } else {
             UploadFileUserCardType fileTypes;
             if (view.getId() == R.id.img_card_user_s) {
                 fileTypes = UploadFileUserCardType.IdCard;
