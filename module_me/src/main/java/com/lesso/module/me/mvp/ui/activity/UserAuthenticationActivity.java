@@ -22,6 +22,7 @@ import com.lesso.module.me.R;
 import com.lesso.module.me.R2;
 import com.lesso.module.me.di.component.DaggerUserAuthenticationComponent;
 import com.lesso.module.me.mvp.contract.UserAuthenticationContract;
+import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyBean;
 import com.lesso.module.me.mvp.presenter.UserAuthenticationPresenter;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -77,22 +78,32 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     ImageView imgCardUserS;
     @BindView(R2.id.img_add_card_user_s)
     ImageView imgAddCardUserS;
+    @BindView(R2.id.img_add_card_user_delete_s)
+    ImageView imgAddCardUserDeleteS;
     @BindView(R2.id.img_card_user_n)
     ImageView imgCardUserN;
     @BindView(R2.id.img_add_card_user_n)
     ImageView imgAddCardUserN;
+    @BindView(R2.id.img_add_card_user_delete_n)
+    ImageView imgAddCardUserDeleteN;
     @BindView(R2.id.img_card_user_get_card)
     ImageView imgCardUserGetCard;
     @BindView(R2.id.img_add_card_user_get_card)
     ImageView imgAddCardUserGetCard;
+    @BindView(R2.id.img_card_user_get_card_delete)
+    ImageView imgAddCardUserGetCardDelete;
     @BindView(R2.id.img_card_driver_s)
     ImageView imgCardDriverS;
     @BindView(R2.id.img_add_card_driver_s)
     ImageView imgAddCardDriverS;
+    @BindView(R2.id.img_add_card_driver_delete_s)
+    ImageView imgAddCardDriverDeleteS;
     @BindView(R2.id.img_card_driver_n)
     ImageView imgCardDriverN;
     @BindView(R2.id.img_add_card_driver_n)
     ImageView imgAddCardDriverN;
+    @BindView(R2.id.img_add_card_driver_delete_n)
+    ImageView imgAddCardDriverDeleteN;
     @BindView(R2.id.btn_submit)
     TextView btnSubmit;
 
@@ -115,6 +126,7 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     public void initData(@Nullable Bundle savedInstanceState) {
         setTitle(R.string.module_me_user_authentication);
         btnSubmit.setText(getString(R.string.module_me_name_submit));
+        setAddViewGONE();
         etUserCardNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -160,31 +172,137 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
         finish();
     }
 
-    @OnClick({R2.id.btn_submit, R2.id.img_card_user_s, R2.id.img_card_user_n, R2.id.img_card_user_get_card, R2.id.img_card_driver_s, R2.id.img_card_driver_n})
+
+    private void setAddViewGONE() {
+//        imgAddCardUserN.setVisibility(View.GONE);
+//        imgAddCardUserS.setVisibility(View.GONE);
+//        imgAddCardDriverS.setVisibility(View.GONE);
+//        imgAddCardDriverN.setVisibility(View.GONE);
+//        imgAddCardUserGetCard.setVisibility(View.GONE);
+
+        imgAddCardUserDeleteS.setVisibility(View.GONE);
+        imgAddCardUserDeleteN.setVisibility(View.GONE);
+        imgAddCardDriverDeleteS.setVisibility(View.GONE);
+        imgAddCardDriverDeleteN.setVisibility(View.GONE);
+        imgAddCardUserGetCardDelete.setVisibility(View.GONE);
+
+    }
+
+    @OnClick({R2.id.btn_submit})
+    public void onViewOtherClicked(View view) {
+        mPresenter.postDriverVerify(etUserName.getText().toString().trim(),
+                etUserCardNumber.getText().toString().trim(),
+                etDriverCardNumber.getText().toString().trim());
+    }
+
+
+    @OnClick({R2.id.img_card_user_s,
+            R2.id.img_card_user_n, R2.id.img_card_user_get_card,
+            R2.id.img_card_driver_s, R2.id.img_card_driver_n})
     public void onViewClicked(View view) {
+        String path = "";
         if (view.getId() == R.id.img_card_user_s) {
-
-        } else {
-            UploadFileUserCardType fileTypes;
-            if (view.getId() == R.id.img_card_user_s) {
-                fileTypes = UploadFileUserCardType.IdCard;
-                showMessage("身份证正面照");
-            } else if (view.getId() == R.id.img_card_user_n) {
-                fileTypes = UploadFileUserCardType.IdCardBack;
-                showMessage("身份证背面照");
-            } else if (view.getId() == R.id.img_card_user_get_card) {
-                fileTypes = UploadFileUserCardType.LifePhoto;
-                showMessage("手持身份证正面照");
-            } else if (view.getId() == R.id.img_card_driver_s) {
-                fileTypes = UploadFileUserCardType.DriverCard;
-                showMessage("驾驶证正面照");
-            } else if (view.getId() == R.id.img_card_driver_n) {
-                fileTypes = UploadFileUserCardType.DriverCardBack;
-                showMessage("驾驶证背面照");
-            } else fileTypes = UploadFileUserCardType.LifePhoto;
-
-            mPresenter.checkPermission(fileTypes);
+            path = mPresenter.getSubmitDriverVerifyBean().getIdCardPath();
+        } else if (view.getId() == R.id.img_card_user_n) {
+            path = mPresenter.getSubmitDriverVerifyBean().getIdCardBackUrl();
+        } else if (view.getId() == R.id.img_card_user_get_card) {
+            path = mPresenter.getSubmitDriverVerifyBean().getDriverCardUrl();
+        } else if (view.getId() == R.id.img_card_driver_s) {
+            path = mPresenter.getSubmitDriverVerifyBean().getLifePhotoUrl();
+        } else if (view.getId() == R.id.img_card_driver_n) {
+            path = mPresenter.getSubmitDriverVerifyBean().getDriverCardBackPath();
         }
+        mPresenter.openExternalPreview(path);
+    }
+
+    @OnClick({R2.id.img_user_head_delete, R2.id.img_add_card_user_delete_s,
+            R2.id.img_add_card_user_delete_n, R2.id.img_card_user_get_card_delete,
+            R2.id.img_add_card_driver_delete_s, R2.id.img_add_card_driver_delete_n})
+    public void onViewDeleteImgClicked(View view) {
+        UploadFileUserCardType fileTypes = null;
+        if (view.getId() == R.id.img_user_head_delete) {
+            fileTypes = UploadFileUserCardType.HeadPhoto;
+        } else if (view.getId() == R.id.img_add_card_user_delete_s) {
+            fileTypes = UploadFileUserCardType.IdCard;
+        } else if (view.getId() == R.id.img_add_card_user_delete_n) {
+            fileTypes = UploadFileUserCardType.IdCardBack;
+        } else if (view.getId() == R.id.img_card_user_get_card_delete) {
+            fileTypes = UploadFileUserCardType.LifePhoto;
+        } else if (view.getId() == R.id.img_add_card_driver_delete_s) {
+            fileTypes = UploadFileUserCardType.DriverCard;
+        } else if (view.getId() == R.id.img_add_card_driver_delete_n) {
+            fileTypes = UploadFileUserCardType.DriverCardBack;
+        }
+        setImageViewPicture("", fileTypes, mPresenter.getSubmitDriverVerifyBean());
+    }
+
+    @OnClick({R2.id.img_add_card_user_s,
+            R2.id.img_add_card_user_n, R2.id.img_add_card_user_get_card,
+            R2.id.img_add_card_driver_s, R2.id.img_add_card_driver_n})
+    public void onViewAddImgClicked(View view) {
+        UploadFileUserCardType fileTypes = null;
+        if (view.getId() == R.id.img_add_card_user_s) {
+            fileTypes = UploadFileUserCardType.IdCard;
+        } else if (view.getId() == R.id.img_add_card_user_n) {
+            fileTypes = UploadFileUserCardType.IdCardBack;
+        } else if (view.getId() == R.id.img_add_card_user_get_card) {
+            fileTypes = UploadFileUserCardType.LifePhoto;
+        } else if (view.getId() == R.id.img_add_card_driver_s) {
+            fileTypes = UploadFileUserCardType.DriverCard;
+        } else if (view.getId() == R.id.img_add_card_driver_n) {
+            fileTypes = UploadFileUserCardType.DriverCardBack;
+        }
+        mPresenter.checkPermission(fileTypes);
+
+    }
+
+
+    @Override
+    public void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes, SubmitDriverVerifyBean bean) {
+        ImageView imageView = null;
+        int red;
+        switch (fileTypes) {
+            case IdCard:
+                red = R.mipmap.ic_card_user_s;
+                bean.setIdCardUrl(filePath);
+                imageView = imgCardUserS;
+                imgAddCardUserS.setVisibility(ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                imgAddCardUserDeleteS.setVisibility(!ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                break;
+            case IdCardBack:
+                red = R.mipmap.ic_card_user_n;
+                bean.setIdCardBackUrl(filePath);
+                imageView = imgCardUserN;
+                imgAddCardUserN.setVisibility(ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                imgAddCardUserDeleteN.setVisibility(!ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                break;
+            case LifePhoto:
+                red = R.mipmap.ic_card_user_get_card;
+                bean.setLifePhotoUrl(filePath);
+                imageView = imgCardUserGetCard;
+                imgAddCardUserGetCard.setVisibility(ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                imgAddCardUserGetCardDelete.setVisibility(!ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                break;
+            case DriverCard:
+                imageView = imgCardDriverS;
+                red = R.mipmap.ic_card_driver_s;
+                bean.setDriverCardUrl(filePath);
+                imgAddCardDriverS.setVisibility(ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                imgAddCardDriverDeleteS.setVisibility(!ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                break;
+            case DriverCardBack:
+                imageView = imgCardDriverN;
+                red = R.mipmap.ic_card_driver_n;
+                bean.setDriverCardBackUrl(filePath);
+                imgAddCardDriverN.setVisibility(ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                imgAddCardDriverDeleteN.setVisibility(!ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: have not mipmap resId");
+        }
+        imageView.setEnabled(ArmsUtils.isEmpty(filePath) ? false : true);
+        if (red != 0)
+            mPresenter.setImageViewPicture(filePath, imageView, red);
 
     }
 
@@ -225,38 +343,6 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     }
 
     @Override
-    public void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes) {
-        ImageView imageView = null;
-        int red;
-        switch (fileTypes) {
-            case IdCard:
-                imageView = imgCardUserS;
-                red = R.mipmap.ic_card_user_s;
-                break;
-            case IdCardBack:
-                imageView = imgCardUserN;
-                red = R.mipmap.ic_card_user_n;
-                break;
-            case LifePhoto:
-                imageView = imgAddCardUserGetCard;
-                red = R.mipmap.ic_card_user_get_card;
-                break;
-            case DriverCard:
-                imageView = imgAddCardDriverS;
-                red = R.mipmap.ic_card_driver_s;
-                break;
-            case DriverCardBack:
-                imageView = imgAddCardDriverN;
-                red = R.mipmap.ic_card_driver_n;
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: have not mipmap resId");
-        }
-        if (red != 0)
-            mPresenter.setImageViewPicture(filePath, imageView, red);
-    }
-
-    @Override
     public void setUserCardNumber(String userCardNumber) {
         etUserCardNumber.setText(userCardNumber);
     }
@@ -265,6 +351,7 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     public void setDriverCardNumber(String driverCardNumber) {
         etDriverCardNumber.setText(driverCardNumber);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -292,6 +379,7 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
                         }
 
                     }
+
                     break;
             }
         }

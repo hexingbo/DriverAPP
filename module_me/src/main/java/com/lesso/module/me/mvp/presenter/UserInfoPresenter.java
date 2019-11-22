@@ -40,6 +40,7 @@ import me.jessyan.armscomponent.commonsdk.core.Constants;
 import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
 import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
+import me.jessyan.armscomponent.commonsdk.utils.ImageViewLookImgsUtils;
 import me.jessyan.armscomponent.commonsdk.utils.PictureSelectorUtils;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
@@ -68,6 +69,13 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
     private DriverVerifyDetailBean mDriverVerifyDetailBean;
     private UploadFileUserCardType fileTypes;
     private List<File> fileArr = new ArrayList<>();
+
+    public DriverVerifyDetailBean getDriverVerifyDetailBean() {
+        if (mDriverVerifyDetailBean == null) {
+            mDriverVerifyDetailBean = new DriverVerifyDetailBean();
+        }
+        return mDriverVerifyDetailBean;
+    }
 
     @Inject
     public UserInfoPresenter(UserInfoContract.Model model, UserInfoContract.View rootView) {
@@ -102,7 +110,7 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
             mRootView.showMessage("请选择你要上传的文件");
             return;
         }
-        mRootView.setImageViewPicture(file.getPath(), fileTypes);
+        mRootView.setImageViewPicture(file.getPath(), fileTypes, mDriverVerifyDetailBean);
         if (fileTypes == UploadFileUserCardType.HeadPhoto) {
             postUploadDriverHeadFile(file);
         } else {
@@ -190,27 +198,28 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
                     @Override
                     public void onResult(HttpResult<UploadCardFileResultBean> result) {
                         mRootView.showMessage("上传成功");
-                        switch (fileTypes) {
-                            case IdCard:
-                                mDriverVerifyDetailBean.setIdCardPath(result.getData().getFilePathInfo().getIdCard());
-                                if (result.getData().getFilePathInfo().getIdCardBack().isSuccess())
-                                    mRootView.setUserCardNumber(result.getData().getFilePathInfo().getIdCardBack().getData().getIdNum());
-                                break;
-                            case IdCardBack:
-                                mDriverVerifyDetailBean.setIdCardBackPath(result.getData().getFilePathInfo().getIdCard());
-                                break;
-                            case LifePhoto:
-                                mDriverVerifyDetailBean.setLifePhotoPath(result.getData().getFilePathInfo().getIdCard());
-                                break;
-                            case DriverCard:
-                                mDriverVerifyDetailBean.setDriverCardPath(result.getData().getFilePathInfo().getIdCard());
-                                if (result.getData().getFilePathInfo().getIdCardBack().isSuccess())
-                                    mRootView.setDriverCardNumber(result.getData().getFilePathInfo().getIdCardBack().getData().getIdNum());
-                                break;
-                            case DriverCardBack:
-                                mDriverVerifyDetailBean.setDriverCardBackPath(result.getData().getFilePathInfo().getIdCard());
-                                break;
-                        }
+                        if (result.getData() != null)
+                            switch (fileTypes) {
+                                case IdCard:
+                                    mDriverVerifyDetailBean.setIdCardPath(result.getData().getFilePathInfo().getIdCard());
+                                    if (result.getData().getFilePathInfo().getIdCardBack().isSuccess())
+                                        mRootView.setUserCardNumber(result.getData().getFilePathInfo().getIdCardBack().getData().getIdNum());
+                                    break;
+                                case IdCardBack:
+                                    mDriverVerifyDetailBean.setIdCardBackPath(result.getData().getFilePathInfo().getIdCard());
+                                    break;
+                                case LifePhoto:
+                                    mDriverVerifyDetailBean.setLifePhotoPath(result.getData().getFilePathInfo().getIdCard());
+                                    break;
+                                case DriverCard:
+                                    mDriverVerifyDetailBean.setDriverCardPath(result.getData().getFilePathInfo().getIdCard());
+                                    if (result.getData().getFilePathInfo().getIdCardBack().isSuccess())
+                                        mRootView.setDriverCardNumber(result.getData().getFilePathInfo().getIdCardBack().getData().getIdNum());
+                                    break;
+                                case DriverCardBack:
+                                    mDriverVerifyDetailBean.setDriverCardBackPath(result.getData().getFilePathInfo().getIdCard());
+                                    break;
+                            }
 
                     }
 
@@ -322,7 +331,8 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
      * 选择图片
      */
     public void getPictureSelector() {
-        PictureSelectorUtils.postPictureSelector(true, true, fileTypes==UploadFileUserCardType.HeadPhoto?1:3, fileTypes==UploadFileUserCardType.HeadPhoto?1:2);
+        PictureSelectorUtils.postPictureSelector(true, true,
+                fileTypes == UploadFileUserCardType.HeadPhoto ? 1 : 3, fileTypes == UploadFileUserCardType.HeadPhoto ? 1 : 2);
     }
 
     public void setImageViewHeadPicture(String url, ImageView view) {
@@ -348,6 +358,18 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
                     .placeholder(errorPic)
                     .imageView(view)
                     .build());
+
+        else
+            view.setImageResource(errorPic);
+    }
+
+    /**
+     * 预览图片
+     *
+     * @param url
+     */
+    public void openExternalPreview(String url) {
+        ImageViewLookImgsUtils.init().lookImgs(AppManagerUtil.getCurrentActivity(), url);
     }
 
 

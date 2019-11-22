@@ -146,7 +146,7 @@ public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> impl
         }
     }
 
-    @OnClick({R2.id.ll_company_join, R2.id.ll_company_manager, R2.id.ll_order_account,
+    @OnClick({R2.id.img_user_head,R2.id.ll_company_join, R2.id.ll_company_manager, R2.id.ll_order_account,
             R2.id.ll_user_info, R2.id.ll_update_pwd, R2.id.ll_about_us, R2.id.btn_submit})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.ll_company_join) {
@@ -173,6 +173,8 @@ public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> impl
         } else if (view.getId() == R.id.btn_submit) {
             //退出登录
             mPresenter.postLoginOut();
+        }else if (view.getId()==R.id.img_user_head){
+          mPresenter.openExternalPreview();
         }
     }
 }

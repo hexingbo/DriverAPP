@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.amap.api.location.AMapLocationClient;
 import com.jess.arms.base.BaseApplication;
+import com.previewlibrary.ZoomMediaLoader;
+
+import me.jessyan.armscomponent.commonsdk.imgaEngine.GroupPhotoImageLoader;
 
 /**
  * @Author :hexingbo

@@ -19,6 +19,62 @@ public class SubmitDriverVerifyBean {
     private String driverCardPath;//驾驶证主页附件地址
     private String driverCardBackPath;//驾驶证副页附件地址
     private String lifePhotoPath;//手持身份证附件地址
+    private String idCardUrl;//身份证正面附件url
+    private String idCardBackUrl;//身份证反面附件url
+
+    private String driverCardUrl;//驾驶证正面附件url
+    private String driverCardBackUrl;//驾驶证反面附件url
+
+    private String headSrc;//用户头像附件路径地址
+    private String lifePhotoUrl;
+
+    public String getIdCardUrl() {
+        return idCardUrl;
+    }
+
+    public void setIdCardUrl(String idCardUrl) {
+        this.idCardUrl = idCardUrl;
+    }
+
+    public String getIdCardBackUrl() {
+        return idCardBackUrl;
+    }
+
+    public void setIdCardBackUrl(String idCardBackUrl) {
+        this.idCardBackUrl = idCardBackUrl;
+    }
+
+    public String getDriverCardUrl() {
+        return driverCardUrl;
+    }
+
+    public void setDriverCardUrl(String driverCardUrl) {
+        this.driverCardUrl = driverCardUrl;
+    }
+
+    public String getDriverCardBackUrl() {
+        return driverCardBackUrl;
+    }
+
+    public void setDriverCardBackUrl(String driverCardBackUrl) {
+        this.driverCardBackUrl = driverCardBackUrl;
+    }
+
+    public String getHeadSrc() {
+        return headSrc;
+    }
+
+    public void setHeadSrc(String headSrc) {
+        this.headSrc = headSrc;
+    }
+
+    public String getLifePhotoUrl() {
+        return lifePhotoUrl;
+    }
+
+    public void setLifePhotoUrl(String lifePhotoUrl) {
+        this.lifePhotoUrl = lifePhotoUrl;
+    }
 
     public SubmitDriverVerifyBean(){
 

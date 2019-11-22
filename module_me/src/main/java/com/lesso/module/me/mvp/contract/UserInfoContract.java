@@ -38,7 +38,7 @@ public interface UserInfoContract {
 
         void setDriverVerifyDetailBean(DriverVerifyDetailBean bean);
 
-        void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes);
+        void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes,DriverVerifyDetailBean bean);
 
         void setUserCardNumber(String userCardNumber);
 

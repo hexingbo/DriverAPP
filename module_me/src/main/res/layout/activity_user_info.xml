@@ -51,12 +51,27 @@
                             android:textColor="#ff999999"
                             android:textSize="@dimen/public_font_17sp" />
 
-                        <ImageView
-                            android:id="@+id/img_user_head"
-                            android:layout_width="@dimen/public_width_50dp"
-                            android:layout_height="@dimen/public_height_50dp"
-                            android:scaleType="centerCrop"
-                            android:src="@mipmap/ic_head_default" />
+                        <RelativeLayout
+                            android:layout_width="@dimen/public_width_60dp"
+                            android:layout_height="@dimen/public_height_60dp">
+
+                            <ImageView
+                                android:id="@+id/img_user_head"
+                                android:layout_width="@dimen/public_width_50dp"
+                                android:layout_height="@dimen/public_height_50dp"
+                                android:layout_centerInParent="true"
+                                android:scaleType="centerCrop"
+                                android:src="@mipmap/ic_head_default" />
+
+                            <ImageView
+                                android:id="@+id/img_user_head_delete"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:background="@mipmap/ic_deletel_red" />
+                        </RelativeLayout>
+
+
                     </LinearLayout>
 
                     <View xmlns:android="http://schemas.android.com/apk/res/android"

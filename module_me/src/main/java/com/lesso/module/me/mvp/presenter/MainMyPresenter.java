@@ -5,24 +5,10 @@ import android.widget.ImageView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.FragmentScope;
-import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
-import me.jessyan.armscomponent.commonsdk.core.Constants;
-import me.jessyan.armscomponent.commonsdk.core.RouterHub;
-import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
-import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
-import me.jessyan.armscomponent.commonsdk.utils.SaveOrClearUserInfo;
-import me.jessyan.rxerrorhandler.core.RxErrorHandler;
-import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
-
-import javax.inject.Inject;
-
+import com.jess.arms.integration.AppManager;
+import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
@@ -32,6 +18,25 @@ import com.lesso.module.me.BuildConfig;
 import com.lesso.module.me.R;
 import com.lesso.module.me.mvp.contract.MainMyContract;
 import com.lesso.module.me.mvp.model.entity.UserInfoBean;
+import com.luck.picture.lib.entity.LocalMedia;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
+import me.jessyan.armscomponent.commonsdk.base.bean.ImageLookBean;
+import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.core.RouterHub;
+import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
+import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
+import me.jessyan.armscomponent.commonsdk.utils.ImageViewLookImgsUtils;
+import me.jessyan.armscomponent.commonsdk.utils.SaveOrClearUserInfo;
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 
 
 /**
@@ -130,6 +135,7 @@ public class MainMyPresenter extends BasePresenter<MainMyContract.Model, MainMyC
     }
 
     public void setUserHeadImager(ImageView view, String url) {
+        userHead = url;
         LogUtils.debugInfo("hxb--->", url);
         if (!ArmsUtils.isEmpty(url))
             mImageLoader.loadImage(mApplication, CommonImageConfigImpl
@@ -140,5 +146,11 @@ public class MainMyPresenter extends BasePresenter<MainMyContract.Model, MainMyC
                     .transformation(new CircleCrop())
                     .imageView(view)
                     .build());
+    }
+
+    private String userHead;
+
+    public void openExternalPreview() {
+        ImageViewLookImgsUtils.init().lookImgs(AppManagerUtil.getCurrentActivity(), userHead);
     }
 }

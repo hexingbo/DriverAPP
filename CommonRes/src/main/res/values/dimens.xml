@@ -90,6 +90,7 @@
     <dimen name="public_width_34dp">34dp</dimen>
     <dimen name="public_width_40dp">40dp</dimen>
     <dimen name="public_width_50dp">50dp</dimen>
+    <dimen name="public_width_60dp">60dp</dimen>
     <dimen name="public_width_67dp">67dp</dimen>
     <dimen name="public_width_77dp">77dp</dimen>
     <dimen name="public_width_80dp">80dp</dimen>

@@ -1,7 +1,6 @@
 package com.lesso.module.me.mvp.contract;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.jess.arms.mvp.IModel;
@@ -10,7 +9,6 @@ import com.jess.arms.utils.PermissionUtil;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinedBean;
 import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyBean;
 import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
-import com.lesso.module.me.mvp.model.entity.UploadHeadFileResultBean;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -39,7 +37,7 @@ public interface UserAuthenticationContract {
 
         PermissionUtil.RequestPermission getRequestPermission();
 
-        void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes);
+        void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes, SubmitDriverVerifyBean bean);
 
         void setUserCardNumber(String idNum);
 

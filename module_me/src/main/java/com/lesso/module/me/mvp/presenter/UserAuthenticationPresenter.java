@@ -1,8 +1,6 @@
 package com.lesso.module.me.mvp.presenter;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.jess.arms.base.MessageEvent;
@@ -21,7 +19,6 @@ import com.jess.arms.utils.LogUtils;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.lesso.module.me.BuildConfig;
 import com.lesso.module.me.mvp.contract.UserAuthenticationContract;
-import com.lesso.module.me.mvp.model.entity.DriverVerifyDetailBean;
 import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyBean;
 import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
 
@@ -39,9 +36,9 @@ import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
 import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
-import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
 import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
+import me.jessyan.armscomponent.commonsdk.utils.ImageViewLookImgsUtils;
 import me.jessyan.armscomponent.commonsdk.utils.PictureSelectorUtils;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
@@ -67,10 +64,14 @@ public class UserAuthenticationPresenter extends BasePresenter<UserAuthenticatio
     @Inject
     AppManager mAppManager;
 
-    private SubmitDriverVerifyBean mSubmitDriverVerifyBean = new SubmitDriverVerifyBean();
+    private SubmitDriverVerifyBean mSubmitDriverVerifyBean;
     private UploadFileUserCardType fileTypes;
     private List<File> fileArr = new ArrayList<>();
 
+    public SubmitDriverVerifyBean getSubmitDriverVerifyBean() {
+        if (mSubmitDriverVerifyBean == null) mSubmitDriverVerifyBean = new SubmitDriverVerifyBean();
+        return mSubmitDriverVerifyBean;
+    }
 
     @Inject
     public UserAuthenticationPresenter(UserAuthenticationContract.Model model, UserAuthenticationContract.View rootView) {
@@ -104,7 +105,7 @@ public class UserAuthenticationPresenter extends BasePresenter<UserAuthenticatio
             mRootView.showMessage("请选择你要上传的文件");
             return;
         }
-        mRootView.setImageViewPicture(file.getPath(), fileTypes);
+        mRootView.setImageViewPicture(file.getPath(), fileTypes,mSubmitDriverVerifyBean);
         fileArr.add(file);
         postUploadDriverInfoFile(fileArr, fileTypes);
     }
@@ -258,5 +259,16 @@ public class UserAuthenticationPresenter extends BasePresenter<UserAuthenticatio
                     .imageView(view)
                     .build());
     }
+
+
+    /**
+     * 预览图片
+     *
+     * @param url
+     */
+    public void openExternalPreview(String url) {
+        ImageViewLookImgsUtils.init().lookImgs(AppManagerUtil.getCurrentActivity(), url);
+    }
+
 
 }
