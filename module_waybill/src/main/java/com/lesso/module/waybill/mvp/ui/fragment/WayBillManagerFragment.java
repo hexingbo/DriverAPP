@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.jess.arms.base.BaseFragment;
 import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -26,8 +26,6 @@ import com.lesso.module.waybill.mvp.ui.adapter.MyPagerAdapter;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import me.jessyan.armscomponent.commonres.base.BaseLoadLayoutFragment;
-import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -39,8 +37,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * Description:
  * ================================================
  */
-@Route(path = RouterHub.Waybill_WayBillManagerFragment)
-public class WayBillManagerFragment extends BaseLoadLayoutFragment<WayBillManagerPresenter> implements WayBillManagerContract.View {
+public class WayBillManagerFragment extends BaseFragment<WayBillManagerPresenter> implements WayBillManagerContract.View {
 
     @BindView(R2.id.tab_menu)
     SlidingTabLayout tabMenu;
@@ -72,12 +69,6 @@ public class WayBillManagerFragment extends BaseLoadLayoutFragment<WayBillManage
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        initDateDefault(savedInstanceState);
-        setLayoutState_SUCCESS();
-    }
-
-    @Override
-    protected void initDateDefault(@Nullable Bundle savedInstanceState) {
         vpContent.setAdapter(mAdapter);
         vpContent.setOffscreenPageLimit(mPresenter.getFragments().size());
         vpContent.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -99,7 +90,6 @@ public class WayBillManagerFragment extends BaseLoadLayoutFragment<WayBillManage
         vpContent.setCurrentItem(0);
         tabMenu.setViewPager(vpContent);
     }
-
 
     /**
      * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
@@ -167,10 +157,6 @@ public class WayBillManagerFragment extends BaseLoadLayoutFragment<WayBillManage
     @Override
     public void killMyself() {
 
-    }
-
-    @Override
-    public void onLoad() {
     }
 
     @Override

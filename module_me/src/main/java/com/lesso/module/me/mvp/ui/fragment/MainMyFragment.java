@@ -8,10 +8,16 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.hxb.app.loadlayoutlibrary.LoadLayout;
+import com.hxb.app.loadlayoutlibrary.OnLoadListener;
+import com.hxb.app.loadlayoutlibrary.State;
+import com.jess.arms.base.BaseEventBusHub;
+import com.jess.arms.base.BaseFragment;
 import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.AppManagerUtil;
@@ -32,7 +38,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import me.jessyan.armscomponent.commonres.base.BaseLoadLayoutFragment;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
 import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
@@ -48,7 +53,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * =============================================
  */
 @Route(path = RouterHub.Me_MainMyFragment)
-public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> implements MainMyContract.View {
+public class MainMyFragment extends BaseFragment<MainMyPresenter> implements MainMyContract.View, OnLoadListener {
 
     @BindView(R2.id.img_user_head)
     ImageView imgUserHead;
@@ -58,6 +63,9 @@ public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> impl
     TextView tvSendOrderNumber;
     @BindView(R2.id.btn_submit)
     TextView btnSubmit;
+
+    protected FrameLayout frameLayout;
+    protected LoadLayout mLoadLayout;
 
     @Inject
     Dialog mDialog;
@@ -79,16 +87,21 @@ public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> impl
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main_my, container, false);
+        View rootView = inflater.inflate(com.jess.arms.R.layout.public_base_loadlayout_fragment, container, false);
+        frameLayout = rootView.findViewById(com.jess.arms.R.id.fl_content);
+        mLoadLayout = rootView.findViewById(com.jess.arms.R.id.base_load_layout);
+
+        View contentView = inflater.inflate(R.layout.fragment_main_my, container, false);
+        if (contentView != null) {
+            frameLayout.addView(contentView);
+        }
+        mLoadLayout.setOnLoadListener(this);
+        mLoadLayout.setLoadingViewId(R.layout.view_custom_loading_data);
+        return rootView;
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        initDateDefault(savedInstanceState);
-    }
-
-    @Override
-    protected void initDateDefault(@Nullable Bundle savedInstanceState) {
         btnSubmit.setText(R.string.me_login_out);
         onLoad();
     }
@@ -97,7 +110,6 @@ public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> impl
     public void setData(@Nullable Object data) {
 
     }
-
 
     @Override
     public void showLoading() {
@@ -140,13 +152,12 @@ public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> impl
 
     @Override
     protected void getEventBusHub_Fragment(MessageEvent message) {
-        super.getEventBusHub_Fragment(message);
-        if (message.getType().equals(EventBusHub.Message_UpdateUserInfo)) {
+        if (message.getType().equals(BaseEventBusHub.TAG_LOGIN_SUCCESS) && message.getType().equals(EventBusHub.Message_UpdateUserInfo)) {
             onLoad();
         }
     }
 
-    @OnClick({R2.id.img_user_head,R2.id.ll_company_join, R2.id.ll_company_manager, R2.id.ll_order_account,
+    @OnClick({R2.id.img_user_head, R2.id.ll_company_join, R2.id.ll_company_manager, R2.id.ll_order_account,
             R2.id.ll_user_info, R2.id.ll_update_pwd, R2.id.ll_about_us, R2.id.btn_submit})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.ll_company_join) {
@@ -173,8 +184,32 @@ public class MainMyFragment extends BaseLoadLayoutFragment<MainMyPresenter> impl
         } else if (view.getId() == R.id.btn_submit) {
             //退出登录
             mPresenter.postLoginOut();
-        }else if (view.getId()==R.id.img_user_head){
-          mPresenter.openExternalPreview();
+        } else if (view.getId() == R.id.img_user_head) {
+            mPresenter.openExternalPreview();
         }
     }
+
+    @Override
+    public void setLayoutState_LOADING() {
+        mLoadLayout.setLayoutState(State.LOADING);
+    }
+
+    @Override
+    public void setLayoutState_SUCCESS() {
+        mLoadLayout.setLayoutState(State.SUCCESS);
+    }
+
+    @Override
+    public void setLayoutState_FAILED() {
+        if (mLoadLayout.getLayerType() != State.SUCCESS)
+            mLoadLayout.setLayoutState(State.FAILED);
+    }
+
+    @Override
+    public void setLayoutState_NO_DATA() {
+        if (mLoadLayout.getLayerType() != State.SUCCESS)
+            mLoadLayout.setLayoutState(State.NO_DATA);
+    }
+
+
 }

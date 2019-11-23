@@ -8,6 +8,23 @@
         </compositeConfiguration>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/CommonArms" />
+            <option value="$PROJECT_DIR$/CommonRes" />
+            <option value="$PROJECT_DIR$/CommonSDK" />
+            <option value="$PROJECT_DIR$/CommonService" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/lib_easyrecyclerview" />
+            <option value="$PROJECT_DIR$/lib_flycotablayout" />
+            <option value="$PROJECT_DIR$/lib_imageloader_glide" />
+            <option value="$PROJECT_DIR$/module_login" />
+            <option value="$PROJECT_DIR$/module_me" />
+            <option value="$PROJECT_DIR$/module_message" />
+            <option value="$PROJECT_DIR$/module_waybill" />
+          </set>
+        </option>
         <option name="resolveModulePerSourceSet" value="false" />
         <option name="testRunner" value="PLATFORM" />
       </GradleProjectSettings>

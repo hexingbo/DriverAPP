@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.jess.arms.base.BaseActivity;
 import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -21,7 +22,6 @@ import com.lesso.module.waybill.mvp.ui.adapter.MyPagerAdapter;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import me.jessyan.armscomponent.commonres.base.BaseLoadLayoutActivity;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -35,7 +35,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 @Route(path = RouterHub.Waybill_OrderAccountsManagerActivity)
-public class OrderAccountsManagerActivity extends BaseLoadLayoutActivity<OrderAccountsManagerPresenter> implements OrderAccountsManagerContract.View {
+public class OrderAccountsManagerActivity extends BaseActivity<OrderAccountsManagerPresenter> implements OrderAccountsManagerContract.View {
 
     @BindView(R2.id.tab_menu)
     SlidingTabLayout tabMenu;
@@ -64,7 +64,6 @@ public class OrderAccountsManagerActivity extends BaseLoadLayoutActivity<OrderAc
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         setTitle(R.string.module_waybill_name_order_accounts_manager);
-        setLayoutState_SUCCESS();
         vpContent.setAdapter(mAdapter);
         vpContent.setOffscreenPageLimit(mPresenter.getFragments().size());
         vpContent.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

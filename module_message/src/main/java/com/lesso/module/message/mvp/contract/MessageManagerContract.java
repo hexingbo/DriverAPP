@@ -3,6 +3,7 @@ package com.lesso.module.message.mvp.contract;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
+import com.jess.arms.base.ILoadlayoutView;
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 import com.lesso.module.message.mvp.model.entity.MessageBean;
@@ -11,7 +12,6 @@ import com.zhouyou.recyclerview.adapter.BaseRecyclerViewAdapter;
 import java.util.List;
 
 import io.reactivex.Observable;
-import me.jessyan.armscomponent.commonres.base.ILoadlayoutView;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 
 

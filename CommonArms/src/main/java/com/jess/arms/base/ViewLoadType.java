@@ -1,4 +1,4 @@
-package me.jessyan.armscomponent.commonres.base;
+package com.jess.arms.base;
 
 /**
  * @Author :NUC

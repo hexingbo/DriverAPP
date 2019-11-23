@@ -15,6 +15,7 @@ import com.jess.arms.base.BaseActivity;
 import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.integration.AppManager;
+import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
 import com.lesso.module.login.R;
@@ -220,7 +221,7 @@ public class MainLoginActivity extends BaseActivity<MainLoginPresenter> implemen
 
     @Override
     public void onBackPressed() {
-        AppManager.getAppManager().appExit();
+        AppManagerUtil.exitApp();
     }
 
     @Override

@@ -10,23 +10,27 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name="com.jess.arms.base.BaseApplication"
+        android:name="me.jessyan.armscomponent.commonsdk.base.app.MyBaseApplication"
         android:allowBackup="true"
         android:appComponentFactory="@string/public_module_name"
         android:icon="@mipmap/app_logo"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/public_network_security_config"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory">
 
+        <activity android:name=".mvp.ui.activity.MeMainActivity"></activity>
+        <activity android:name=".mvp.ui.activity.UserAuthenticationActivity"></activity>
+        <activity android:name=".mvp.ui.activity.CompanyJoinDetailInfoActivity"></activity>
+        <activity android:name=".mvp.ui.activity.CompanyJoinManageActivity"></activity>
+        <activity android:name=".mvp.ui.activity.UserInfoActivity"></activity>
         <activity
-            android:name=".mvp.ui.activity.MeMainActivity"
+            android:name=".mvp.ui.activity.AboutUsActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -35,12 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.ui.activity.UserAuthenticationActivity"></activity>
-        <activity android:name=".mvp.ui.activity.CompanyJoinDetailInfoActivity"></activity>
-        <activity android:name=".mvp.ui.activity.CompanyJoinManageActivity" />
-        <activity android:name=".mvp.ui.activity.UserInfoActivity" />
-        <activity android:name=".mvp.ui.activity.UpdatePwdActivity" />
-        <activity android:name=".mvp.ui.activity.AboutUsActivity" />
         <!--
          只要依赖 AutoSize 就必须填写设计图尺寸, 否则报错, 不想使用 AutoSize 就不要依赖 AutoSize
         只要填写完设计图的尺寸, AutoSize 就会自动启动, 以下 dp 尺寸是根据公式 px / (dpi / 160) 求出, 运算时使用测试机的 dpi 即可
@@ -64,6 +62,16 @@
         <meta-data
             android:name="com.lesso.module.me.app.GlobalConfiguration"
             android:value="ConfigModule" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 

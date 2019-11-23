@@ -1,21 +1,30 @@
 package com.lesso.module.me.mvp.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.Toast;
 
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.utils.AppUtils;
 import com.jess.arms.utils.ArmsUtils;
-
+import com.lesso.module.me.R;
+import com.lesso.module.me.R2;
 import com.lesso.module.me.di.component.DaggerAboutUsComponent;
 import com.lesso.module.me.mvp.contract.AboutUsContract;
 import com.lesso.module.me.mvp.presenter.AboutUsPresenter;
+import com.ycbjie.ycupdatelib.PermissionUtils;
+import com.ycbjie.ycupdatelib.UpdateFragment;
+import com.ycbjie.ycupdatelib.UpdateUtils;
 
-import com.lesso.module.me.R;
+import java.io.File;
 
+import butterknife.OnClick;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -28,6 +37,13 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 public class AboutUsActivity extends BaseActivity<AboutUsPresenter> implements AboutUsContract.View {
+
+    //这个是你的包名
+    private static final String apkName = "apk";
+    private static final String firstUrl = "https://download.fir.im/apps/5dd1f571f9454805df438861/install?download_token=ef15171d45758de7425af4f81c029eee&release_id=5dd3616ff9454853f29d3aaf";
+    private static final String url = "http://img1.haowmc.com/hwmc/test/android_";
+    private static final String[] mPermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE};
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -48,6 +64,25 @@ public class AboutUsActivity extends BaseActivity<AboutUsPresenter> implements A
     public void initData(@Nullable Bundle savedInstanceState) {
         ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         setTitle(R.string.me_name_about_us);
+
+        PermissionUtils.init(this);
+        boolean granted = PermissionUtils.isGranted(mPermission);
+        if (!granted) {
+            PermissionUtils permission = PermissionUtils.permission(mPermission);
+            permission.callback(new PermissionUtils.SimpleCallback() {
+                @Override
+                public void onGranted() {
+
+                }
+
+                @Override
+                public void onDenied() {
+                    PermissionUtils.openAppSettings();
+                    Toast.makeText(AboutUsActivity.this, "请允许权限", Toast.LENGTH_SHORT).show();
+                }
+            });
+            permission.request();
+        }
     }
 
     @Override
@@ -80,5 +115,30 @@ public class AboutUsActivity extends BaseActivity<AboutUsPresenter> implements A
     @Override
     public Activity getActivity() {
         return this;
+    }
+
+
+    @OnClick({R2.id.ll_code_two, R2.id.ll_check_update_app, R2.id.ll_use_help, R2.id.ll_agreement})
+    public void onViewClicked(View view) {
+        if (view.getId() == R.id.ll_code_two) {
+
+        } else if (view.getId() == R.id.ll_check_update_app) {
+            //设置自定义下载文件路径
+            UpdateUtils.APP_UPDATE_DOWN_APK_PATH = "apk" + File.separator + "downApk";
+            String desc = getResources().getString(R.string.update_content_info);
+            /*
+             * @param isForceUpdate             是否强制更新
+             * @param desc                      更新文案
+             * @param url                       下载链接
+             * @param apkFileName               apk下载文件路径名称
+             * @param packName                  包名
+             */
+            UpdateFragment.showFragment(AboutUsActivity.this,
+                    false, firstUrl, apkName, desc, AppUtils.getPackageName(getActivity()));
+        } else if (view.getId() == R.id.ll_use_help) {
+
+        } else if (view.getId() == R.id.ll_agreement) {
+
+        }
     }
 }

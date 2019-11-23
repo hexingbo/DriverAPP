@@ -113,6 +113,9 @@ public class WayBillManagerChildPresenter extends BasePresenter<WayBillManagerCh
                                 mAdapter.addItemsToLast(result.getData());
                             }
 
+                        } else {
+                            if (pullToRefresh)
+                                mAdapter.clear();//不需要设置任何东西setListAll有数据了会自动到内容页面
                         }
                     }
 
@@ -123,7 +126,7 @@ public class WayBillManagerChildPresenter extends BasePresenter<WayBillManagerCh
      * 权限检测
      */
     public void checkPermission() {
-        if (mRootView.getRequestPermission() != null&& mRootView.getRxPermissions()!=null)
+        if (mRootView.getRequestPermission() != null && mRootView.getRxPermissions() != null)
             //请求外部存储权限用于适配android6.0的权限管理机制
             PermissionUtil.requestPermission(mRootView.getRequestPermission(), mRootView.getRxPermissions(), mErrorHandler,
                     Manifest.permission.ACCESS_COARSE_LOCATION,

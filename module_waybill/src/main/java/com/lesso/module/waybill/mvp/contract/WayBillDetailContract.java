@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.jess.arms.base.ILoadlayoutView;
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.utils.PermissionUtil;
@@ -11,7 +12,6 @@ import com.lesso.module.waybill.mvp.model.entity.WayBillDetailBean;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import io.reactivex.Observable;
-import me.jessyan.armscomponent.commonres.base.ILoadlayoutView;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 
 

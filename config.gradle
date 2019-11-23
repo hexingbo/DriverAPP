@@ -88,6 +88,7 @@ ext {
             "umeng-analytics"          : "com.umeng.analytics:analytics:6.0.1",
 
             //view
+            "YCUpdateApp"              : "com.github.hexingbo:YCUpdateApp:1.0.1",
             "YCRefreshViewLib"         : "org.yczbj:YCRefreshViewLib:2.5.6",//带刷新的列表
             "YCStateLib"               : "cn.yc:YCStateLib:1.1.5", //fragment使用加载布局状态
             "autolayout"               : "com.zhy:autolayout:1.4.5",
@@ -105,7 +106,7 @@ ext {
             "yanzhenjie-sofia"         : "com.yanzhenjie:sofia:1.0.5",
             "multidex"                 : 'com.android.support:multidex:1.0.3',
             "WheelPickerAddress"       : 'com.github.hexingbo:WheelPickerAddress:1.0.5',
-            "picture_library"       : 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.5',
+            "picture_library"          : 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.5',
             "ImagePreview"             : 'com.ycjiang:ImagePreview:2.2.0'  //拓展性极高类似微信图片和视频浏览,常见应用场景如微信朋友圈照片九宫格和微信聊天图片图片,视频,gif预览 //https://github.com/hexingbo/ZoomPreviewPicture
     ]
 

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lesso.module.me">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application>
         <activity android:name=".mvp.ui.activity.CompanyRecommendActivity"></activity>
         <activity android:name=".mvp.ui.activity.UserAuthenticationActivity" />
@@ -14,6 +18,7 @@
         <meta-data
             android:name="com.lesso.module.me.app.GlobalConfiguration"
             android:value="ConfigModule" />
+
     </application>
 
 </manifest>

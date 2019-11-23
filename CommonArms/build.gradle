@@ -111,4 +111,8 @@ dependencies {
     //test
     api rootProject.ext.dependencies["timber"]
 
+    api rootProject.ext.dependencies["yanzhenjie-sofia"]
+    api rootProject.ext.dependencies["loadLayout"]
+    api project(':lib_easyrecyclerview')
+
 }

@@ -7,9 +7,10 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_stausview" />
+    <include layout="@layout/layout_stausview"/>
 
-    <include layout="@layout/public_include_title" />
+    <include layout="@layout/public_include_title"/>
+
 
     <ImageView
         android:layout_width="wrap_content"
@@ -27,6 +28,7 @@
         tools:text="version " />
 
     <LinearLayout
+        android:id="@+id/ll_code_two"
         android:layout_width="match_parent"
         android:layout_height="@dimen/public_height_60dp"
         android:layout_marginTop="@dimen/public_mar_top_50dp"
@@ -54,6 +56,7 @@
     <include layout="@layout/public_line_horizontal_gray_mar15"/>
 
     <LinearLayout
+        android:id="@+id/ll_check_update_app"
         android:layout_width="match_parent"
         android:layout_height="@dimen/public_height_60dp"
         android:paddingLeft="@dimen/public_pad_left_15dp"
@@ -79,6 +82,7 @@
     <include layout="@layout/public_line_horizontal_gray_mar15"/>
 
     <LinearLayout
+        android:id="@+id/ll_use_help"
         android:layout_width="match_parent"
         android:layout_height="@dimen/public_height_60dp"
         android:paddingLeft="@dimen/public_pad_left_15dp"
@@ -104,6 +108,7 @@
     <include layout="@layout/public_line_horizontal_gray_mar15"/>
 
     <LinearLayout
+        android:id="@+id/ll_agreement"
         android:layout_width="match_parent"
         android:layout_height="@dimen/public_height_60dp"
         android:paddingLeft="@dimen/public_pad_left_15dp"

@@ -15,7 +15,6 @@ android {
     }
 
     defaultConfig {
-        multiDexEnabled true
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
@@ -58,14 +57,11 @@ dependencies {
         exclude module: 'support-annotations'
     }
     api rootProject.ext.dependencies["retrofit-url-manager"]
-    api rootProject.ext.dependencies["yanzhenjie-sofia"]
-    api rootProject.ext.dependencies["loadLayout"]
-    api rootProject.ext.dependencies["YCRefreshViewLib"]
-    api rootProject.ext.dependencies["YCStateLib"]
     api rootProject.ext.dependencies["ImagePreview"]
     api rootProject.ext.dependencies["WheelPickerAddress"]
     api rootProject.ext.dependencies["picture_library"]
+    api rootProject.ext.dependencies["YCRefreshViewLib"]
+    api rootProject.ext.dependencies["YCStateLib"]
     api project(':lib_flycotablayout')
-    api project(':lib_easyrecyclerview')
 
 }
