@@ -1,2 +1,2 @@
-include ':app', ':CommonSDK', ':lib_flycotablayout', ':lib_easyrecyclerview', ':lib_imageloader_glide', ':CommonRes', ':CommonArms', ':CommonService', ':module_me', ':module_message', ':module_login', ':module_waybill', ':lib_update_apk'
+include ':app', ':CommonSDK', ':lib_flycotablayout', ':lib_easyrecyclerview', ':lib_imageloader_glide', ':CommonRes', ':CommonArms', ':CommonService', ':module_me', ':module_message', ':module_login', ':module_waybill', ':lib_update_apk', ':lib_zxing_code'
 rootProject.name='DriverAPP'

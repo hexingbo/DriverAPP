@@ -63,5 +63,6 @@ dependencies {
     api rootProject.ext.dependencies["YCRefreshViewLib"]
     api rootProject.ext.dependencies["YCStateLib"]
     api project(':lib_flycotablayout')
+    api project(':lib_zxing_code')
 
 }

@@ -11,13 +11,16 @@ import android.widget.Toast;
 
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.AppUtils;
 import com.jess.arms.utils.ArmsUtils;
+import com.jess.arms.utils.LogUtils;
 import com.lesso.module.me.R;
 import com.lesso.module.me.R2;
 import com.lesso.module.me.di.component.DaggerAboutUsComponent;
 import com.lesso.module.me.mvp.contract.AboutUsContract;
 import com.lesso.module.me.mvp.presenter.AboutUsPresenter;
+import com.skateboard.zxinglib.CaptureActivity;
 import com.ycbjie.ycupdatelib.PermissionUtils;
 import com.ycbjie.ycupdatelib.UpdateFragment;
 import com.ycbjie.ycupdatelib.UpdateUtils;
@@ -42,8 +45,16 @@ public class AboutUsActivity extends BaseActivity<AboutUsPresenter> implements A
     private static final String apkName = "apk";
     private static final String firstUrl = "https://download.fir.im/apps/5dd1f571f9454805df438861/install?download_token=ef15171d45758de7425af4f81c029eee&release_id=5dd3616ff9454853f29d3aaf";
     private static final String url = "http://img1.haowmc.com/hwmc/test/android_";
-    private static final String[] mPermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    private static final String[] mPermission = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.INTERNET,
+            Manifest.permission.VIBRATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.READ_EXTERNAL_STORAGE};
+
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -121,7 +132,8 @@ public class AboutUsActivity extends BaseActivity<AboutUsPresenter> implements A
     @OnClick({R2.id.ll_code_two, R2.id.ll_check_update_app, R2.id.ll_use_help, R2.id.ll_agreement})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.ll_code_two) {
-
+            Intent intent = new Intent(getActivity(), CaptureActivity.class);
+            startActivityForResult(intent, 1001);
         } else if (view.getId() == R.id.ll_check_update_app) {
             //设置自定义下载文件路径
             UpdateUtils.APP_UPDATE_DOWN_APK_PATH = "apk" + File.separator + "downApk";
@@ -139,6 +151,15 @@ public class AboutUsActivity extends BaseActivity<AboutUsPresenter> implements A
 
         } else if (view.getId() == R.id.ll_agreement) {
 
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1001 && resultCode == Activity.RESULT_OK) {
+            String result = data.getStringExtra(CaptureActivity.KEY_DATA);
+            LogUtils.warnInfo("hxb--->", "qrcodeResult:" + result);
         }
     }
 }
