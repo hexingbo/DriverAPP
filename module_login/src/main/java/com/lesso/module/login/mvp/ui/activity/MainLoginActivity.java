@@ -14,7 +14,6 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
-import com.jess.arms.integration.AppManager;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;

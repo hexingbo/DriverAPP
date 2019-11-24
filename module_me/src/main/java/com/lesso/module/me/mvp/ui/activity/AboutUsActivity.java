@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
-import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.AppUtils;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.LogUtils;

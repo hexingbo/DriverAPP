@@ -175,96 +175,35 @@
 
                 <include layout="@layout/public_line_horizontal_gray" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/public_mar_top_20dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/lv_login_type_pwd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        tools:visibility="visible">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/public_pad_top_7dp"
-                            android:text="@string/login_lab_login_type_phone"
-                            android:textColor="#FACA0C"
-                            android:textSize="@dimen/public_font_20sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/lv_login_type_sms"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/public_pad_top_7dp"
-                            android:text="@string/login_lab_login_type_sms"
-                            android:textColor="#FACA0C"
-                            android:textSize="@dimen/public_font_20sp" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/lv_login_type_wx"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        tools:visibility="visible">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/public_pad_top_7dp"
-                            android:text="@string/login_lab_login_type_wx"
-                            android:textColor="#FACA0C"
-                            android:textSize="@dimen/public_font_20sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/public_mar_top_5dp">
-
-                    <TextView
-                        android:id="@+id/tv_forget_pwd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center"
-                        android:paddingTop="@dimen/public_pad_left_5dp"
-                        android:paddingBottom="@dimen/public_pad_bottom_5dp"
-                        android:text="@string/login_lab_forget_pwd"
-                        android:textColor="#333333"
-                        android:textSize="@dimen/public_font_20sp" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
         </LinearLayout>
 
 
         <include layout="@layout/layout_btn_submit" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/public_height_25dp"
+            android:layout_marginTop="@dimen/public_mar_top_5dp">
+
+            <TextView
+                android:id="@+id/tv_phone_register"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/login_lab_register_user"
+                android:textColor="#F79A3F"
+                android:textSize="@dimen/public_font_13sp" />
+
+            <TextView
+                android:id="@+id/tv_forget_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="@string/login_lab_forget_pwd"
+                android:textColor="#F79A3F"
+                android:textSize="@dimen/public_font_13sp" />
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
@@ -277,15 +216,104 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/public_height_1dp"
+                android:layout_weight="1"
+                android:background="@color/public_color_F0F0F0" />
+
             <TextView
-                android:id="@+id/tv_phone_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/public_mar_left_20dp"
+                android:layout_marginRight="@dimen/public_mar_right_20dp"
+                android:text="@string/login_lab_other_login_type"
+                android:textColor="#ff999999"
+                android:textSize="@dimen/public_font_12sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/public_height_1dp"
+                android:layout_weight="1"
+                android:background="@color/public_color_F0F0F0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/public_pad_top_20dp">
+
+            <LinearLayout
+                android:id="@+id/lv_login_type_wx"
+                android:layout_width="@dimen/public_width_80dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/public_pad_left_10dp"
-                android:text="@string/login_lab_register_user"
-                android:textColor="#F79A3F"
-                android:textSize="@dimen/public_font_20sp" />
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_login_weixin_lab" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/public_pad_top_7dp"
+                    android:text="@string/login_lab_login_type_wx"
+                    android:textColor="#ff999999"
+                    android:textSize="@dimen/public_font_12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lv_login_type_pwd"
+                android:layout_width="@dimen/public_width_80dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_login_pwd_lab" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/public_pad_top_7dp"
+                    android:text="@string/login_lab_login_type_phone"
+                    android:textColor="#ff999999"
+                    android:textSize="@dimen/public_font_12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lv_login_type_sms"
+                android:layout_width="@dimen/public_width_80dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_login_phone_lab" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/public_pad_top_7dp"
+                    android:text="@string/login_lab_login_type_sms"
+                    android:textColor="#ff999999"
+                    android:textSize="@dimen/public_font_12sp" />
+            </LinearLayout>
         </LinearLayout>
 
 

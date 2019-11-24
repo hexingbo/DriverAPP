@@ -8,197 +8,204 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_stausview" />
+    <include layout="@layout/layout_stausview"/>
 
-    <include layout="@layout/public_include_title" />
+    <include
+        layout="@layout/public_include_title"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-    <android.support.v4.widget.NestedScrollView
+    <!--    <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">-->
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never">
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/public_pad_left_25dp"
+        android:paddingRight="@dimen/public_pad_right_25dp">
+
+        <ImageView
+            android:layout_width="@dimen/public_width_100dp"
+            android:layout_height="@dimen/public_height_100dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/public_mar_top_50dp"
+            android:layout_marginBottom="@dimen/public_mar_bottom_25dp"
+            android:src="@mipmap/app_logo" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_marginTop="@dimen/public_mar_bottom_32dp"
+            android:layout_marginBottom="@dimen/public_mar_bottom_32dp"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/public_pad_left_25dp"
-            android:paddingRight="@dimen/public_pad_right_25dp">
-
-            <ImageView
-                android:layout_width="@dimen/public_width_100dp"
-                android:layout_height="@dimen/public_height_100dp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/public_mar_top_50dp"
-                android:layout_marginBottom="@dimen/public_mar_bottom_25dp"
-                android:src="@mipmap/app_logo" />
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/public_mar_bottom_32dp"
-                android:layout_marginBottom="@dimen/public_mar_bottom_32dp"
-                android:orientation="vertical"
-                android:visibility="visible">
+                android:layout_height="@dimen/public_height_72dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/login_lab_input_phone_number"
+                    android:textColor="@color/public_color_333333"
+                    android:textSize="@dimen/public_font_20sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/public_height_72dp"
-                    android:orientation="vertical">
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
+                    <me.jessyan.armscomponent.commonres.other.ClearEditText
+                        android:id="@+id/et_user_phone"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/login_lab_input_phone_number"
-                        android:textColor="@color/public_color_333333"
-                        android:textSize="@dimen/public_font_20sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"
+                        android:background="@color/transparent"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:hint="@string/login_hint_input_phone_number"
+                        android:maxLength="20"
+                        android:singleLine="true"
+                        android:textColor="@color/public_color_333333"
+                        android:textSize="@dimen/public_font_16sp"
+                        android:textStyle="normal" />
 
-                        <me.jessyan.armscomponent.commonres.other.ClearEditText
-                            android:id="@+id/et_user_phone"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@color/transparent"
-                            android:ellipsize="end"
-                            android:gravity="center_vertical"
-                            android:hint="@string/login_hint_input_phone_number"
-                            android:maxLength="20"
-                            android:singleLine="true"
-                            android:textColor="@color/public_color_333333"
-                            android:textSize="@dimen/public_font_16sp"
-                            android:textStyle="normal" />
-
-                    </LinearLayout>
-
-                    <include layout="@layout/public_line_horizontal_gray" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/lv_input_checkNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/public_height_72dp"
-                    android:orientation="vertical"
-                    android:visibility="visible"
-                    tools:visibility="visible">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/login_lab_input_sms_number"
-                        android:textColor="@color/public_color_333333"
-                        android:textSize="@dimen/public_font_20sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <me.jessyan.armscomponent.commonres.other.ClearEditText
-                            android:id="@+id/et_checkNumebr"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@color/transparent"
-                            android:ellipsize="end"
-                            android:gravity="center_vertical"
-                            android:hint="@string/login_hint_input_sms_number"
-                            android:inputType="number"
-                            android:maxLength="6"
-                            android:singleLine="true"
-                            android:textColor="@color/public_color_333333"
-                            android:textSize="@dimen/public_font_16sp"
-                            android:textStyle="normal" />
-
-                        <TextView
-                            android:id="@+id/tv_send_number"
-                            android:layout_width="@dimen/public_width_90dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="@string/login_hint_get_sms_number"
-                            android:textColor="@color/public_color_FACA0C"
-                            android:textSize="@dimen/public_font_17sp"
-                            android:visibility="visible"
-                            tools:visibility="visible" />
-                    </LinearLayout>
-
-                    <include layout="@layout/public_line_horizontal_gray" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lv_input_pwd"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/public_height_72dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/login_lab_input_pwd"
-                        android:textColor="@color/public_color_333333"
-                        android:textSize="@dimen/public_font_20sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-
-                        <me.jessyan.armscomponent.commonres.other.ClearEditText
-                            android:id="@+id/et_userPwd"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/transparent"
-                            android:ellipsize="end"
-                            android:gravity="center_vertical"
-                            android:hint="@string/login_hint_input_pwd"
-                            android:inputType="textPassword"
-                            android:maxLength="20"
-                            android:singleLine="true"
-                            android:textColor="@color/public_color_333333"
-                            android:textSize="@dimen/public_font_16sp"
-                            android:textStyle="normal" />
-                    </LinearLayout>
-
-                    <include layout="@layout/public_line_horizontal_gray" />
-                </LinearLayout>
+                <include layout="@layout/public_line_horizontal_gray" />
             </LinearLayout>
 
-            <include layout="@layout/layout_btn_submit" />
-
-            <TextView
-                android:id="@+id/tv_go_login"
+            <LinearLayout
+                android:id="@+id/lv_input_checkNumber"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/public_height_40dp"
-                android:layout_marginTop="@dimen/public_mar_top_100dp"
-                android:layout_marginBottom="@dimen/public_mar_bottom_32dp"
-                android:gravity="center"
-                android:text="已有账号,去登录"
-                android:textColor="#fffaca0c"
-                android:textSize="@dimen/public_font_20sp" />
+                android:layout_height="@dimen/public_height_72dp"
+                android:orientation="vertical"
+                android:visibility="visible"
+                tools:visibility="visible">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/login_lab_input_sms_number"
+                    android:textColor="@color/public_color_333333"
+                    android:textSize="@dimen/public_font_20sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <me.jessyan.armscomponent.commonres.other.ClearEditText
+                        android:id="@+id/et_checkNumebr"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:hint="@string/login_hint_input_sms_number"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:singleLine="true"
+                        android:textColor="@color/public_color_333333"
+                        android:textSize="@dimen/public_font_16sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/tv_send_number"
+                        android:layout_width="@dimen/public_width_90dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/login_hint_get_sms_number"
+                        android:textColor="@color/public_color_FACA0C"
+                        android:textSize="@dimen/public_font_17sp"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+                <include layout="@layout/public_line_horizontal_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lv_input_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/public_height_72dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/login_lab_input_pwd"
+                    android:textColor="@color/public_color_333333"
+                    android:textSize="@dimen/public_font_20sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+
+                    <me.jessyan.armscomponent.commonres.other.ClearEditText
+                        android:id="@+id/et_userPwd"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:hint="@string/login_hint_input_pwd"
+                        android:inputType="textPassword"
+                        android:maxLength="20"
+                        android:singleLine="true"
+                        android:textColor="@color/public_color_333333"
+                        android:textSize="@dimen/public_font_16sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <include layout="@layout/public_line_horizontal_gray" />
+            </LinearLayout>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+
+        <include layout="@layout/layout_btn_submit" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_go_login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/public_height_40dp"
+            android:layout_marginBottom="@dimen/public_mar_bottom_10dp"
+            android:gravity="center"
+            android:text="已有账号,去登录"
+            android:textColor="#fffaca0c"
+            android:textSize="@dimen/public_font_20sp" />
+
+    </LinearLayout>
+    <!--    </android.support.v4.widget.NestedScrollView>-->
 
 
 </LinearLayout>

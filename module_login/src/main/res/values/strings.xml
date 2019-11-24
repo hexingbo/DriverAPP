@@ -20,8 +20,8 @@
     <string name="login_lab_forget_pwd">忘记密码</string>
     <string name="login_lab_other_login_type">其他登录方式</string>
     <string name="login_lab_login_type_wx">微信登录</string>
-    <string name="login_lab_login_type_phone">账号登录</string>
-    <string name="login_lab_login_type_sms">验证码登录</string>
+    <string name="login_lab_login_type_phone">密码登录</string>
+    <string name="login_lab_login_type_sms">手机验证码登录</string>
     <string name="tv_find_pwd">找回密码</string>
     <string name="tv_find_pwd_to_login">找回成功,请重新登录</string>
     <string name="module_login_name_update_pwd">修改密码</string>
