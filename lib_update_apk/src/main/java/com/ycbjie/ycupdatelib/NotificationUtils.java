@@ -19,13 +19,11 @@ import static android.support.v4.app.NotificationCompat.PRIORITY_DEFAULT;
 import static android.support.v4.app.NotificationCompat.VISIBILITY_SECRET;
 
 /**
- * <pre>
- *     @author yangchong
- *     blog  : https://www.jianshu.com/p/514eb6193a06
- *     time  : 2018/2/10
- *     desc  : 通知栏工具类
- *     revise:
- * </pre>
+ * =============================================
+ * 作    者：贺兴波
+ * 时    间：2019/11/24
+ * 描    述：通知栏工具类
+ * =============================================
  */
 public class NotificationUtils extends ContextWrapper {
 

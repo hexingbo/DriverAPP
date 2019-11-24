@@ -22,13 +22,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * <pre>
- *     @author yangchong
- *     blog  : https://github.com/yangchong211/YCBlogs
- *     time  : 2017/05/29
- *     desc  : 权限相关工具类
- *     revise:
- * </pre>
+ * =============================================
+ * 作    者：贺兴波
+ * 时    间：2019/11/24
+ * 描    述：权限相关工具类
+ * =============================================
  */
 public final class PermissionUtils {
 

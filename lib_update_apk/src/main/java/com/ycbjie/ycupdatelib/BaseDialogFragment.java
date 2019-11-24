@@ -17,13 +17,11 @@ import android.view.WindowManager;
 
 
 /**
- * <pre>
- *     @author yangchong
- *     blog  : https://www.jianshu.com/p/514eb6193a06
- *     time  : 2017/8/9
- *     desc  : 自定义布局弹窗
- *     revise:
- * </pre>
+ * =============================================
+ * 作    者：贺兴波
+ * 时    间：2019/11/24
+ * 描    述：自定义布局弹窗
+ * =============================================
  */
 public abstract class BaseDialogFragment extends DialogFragment {
 
@@ -136,7 +134,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     /**
      * 一定要销毁dialog，设置为null，防止内存泄漏
-     * GitHub地址：https://github.com/yangchong211
      * 如果可以，欢迎star
      */
     public void dismissDialog(){
