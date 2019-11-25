@@ -146,8 +146,9 @@ public class RegisterUserPresenter extends BasePresenter<RegisterUserContract.Mo
 
                     @Override
                     public void onResult(HttpResult<LoginResultBean> result) {
+                        //注册成功 保存用户数据，通知界面刷新，跳转物流公司加盟推荐页面
                         SaveOrClearUserInfo.saveUserInfo(result.getData().getToken(), result.getData().getUserId(), result.getData().getVerifyStatus(), phone, deviceId);
-                        EventBusManager.getInstance().post(EventBusHub.TAG_LOGIN_SUCCESS);
+                        Utils.navigation(mApplication,RouterHub.Me_CompanyRecommendActivity);
                         mRootView.getActivity().finish();
                     }
                 });

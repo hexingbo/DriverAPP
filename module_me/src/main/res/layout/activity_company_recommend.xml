@@ -3,6 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
+
+    <include layout="@layout/layout_stausview" />
+
+    <include layout="@layout/public_include_title" />
+
+    <com.zhouyou.recyclerview.XRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:overScrollMode="never" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/public_pad_left_30dp"
+        android:paddingTop="@dimen/public_pad_top_10dp"
+        android:paddingRight="@dimen/public_pad_right_30dp"
+        android:paddingBottom="@dimen/public_pad_bottom_10dp">
+
+        <include layout="@layout/layout_btn_submit" />
+    </LinearLayout>
 
 </LinearLayout>

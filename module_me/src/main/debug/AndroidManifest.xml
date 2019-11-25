@@ -24,13 +24,14 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory">
 
+        <activity android:name=".mvp.ui.activity.AboutUsActivity"></activity>
         <activity android:name=".mvp.ui.activity.MeMainActivity"></activity>
         <activity android:name=".mvp.ui.activity.UserAuthenticationActivity"></activity>
         <activity android:name=".mvp.ui.activity.CompanyJoinDetailInfoActivity"></activity>
         <activity android:name=".mvp.ui.activity.CompanyJoinManageActivity"></activity>
         <activity android:name=".mvp.ui.activity.UserInfoActivity"></activity>
         <activity
-            android:name=".mvp.ui.activity.AboutUsActivity"
+            android:name=".mvp.ui.activity.CompanyRecommendActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>

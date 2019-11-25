@@ -16,6 +16,16 @@ public class CompanyJoinBean {
     private String contactMobile;//联系人电话
     private String address;//地址
 
+    private boolean selected;//加盟推荐需要的字段
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
     public String getCompanyId() {
         return companyId;
     }

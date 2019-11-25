@@ -78,6 +78,7 @@ public interface RouterHub {
     String Me_MainMyFragment = Me + "/MainMyActivity";
     String Me_UserAuthenticationActivity = Me + "/UserAuthenticationActivity";
     String Me_CompanyJoinedManageActivity = Me + "/CompanyJoinedManageActivity";
+    String Me_CompanyRecommendActivity = Me + "/Me_CompanyRecommendActivity";
 
     //消息
     String Message_Service_MessageViewService = Message + SERVICE + "/MessageViewService";

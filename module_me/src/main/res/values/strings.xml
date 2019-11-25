@@ -4,7 +4,7 @@
     <string name="me_name_company_manager">加盟管理</string>
     <string name="me_name_user_info">个人资料</string>
     <string name="me_name_update_pwd">修改密码</string>
-    <string name="me_name_about_us">关于</string>
+    <string name="me_name_about_us">关于我们</string>
     <string name="me_name_send_order_number">发车数量</string>
     <string name="me_name_login_not">未登录</string>
     <string name="me_login_out">退出登录</string>
@@ -27,5 +27,8 @@
     <string name="version_update">版本更新</string>
     <string name="use_help">使用帮助</string>
     <string name="privacy_policy">隐私政策</string>
+    <string name="module_me_compa_recommend">加盟推荐</string>
+    <string name="module_me_skip_view">跳过</string>
+    <string name="module_me_name_hint_selected_company">请选择加盟公司</string>
 
 </resources>

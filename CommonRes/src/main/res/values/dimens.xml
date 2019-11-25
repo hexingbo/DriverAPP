@@ -107,6 +107,7 @@
     <dimen name="public_pad_left_5dp">5dp</dimen>
     <dimen name="public_pad_left_8dp">8dp</dimen>
     <dimen name="public_pad_left_10dp">10dp</dimen>
+    <dimen name="public_pad_left_12dp">12dp</dimen>
     <dimen name="public_pad_left_15dp">15dp</dimen>
     <dimen name="public_pad_left_20dp">20dp</dimen>
     <dimen name="public_pad_left_30dp">30dp</dimen>
@@ -117,6 +118,7 @@
     <dimen name="public_pad_right_5dp">5dp</dimen>
     <dimen name="public_pad_right_8dp">8dp</dimen>
     <dimen name="public_pad_right_10dp">10dp</dimen>
+    <dimen name="public_pad_right_12dp">12dp</dimen>
     <dimen name="public_pad_right_15dp">15dp</dimen>
     <dimen name="public_pad_right_20dp">20dp</dimen>
     <dimen name="public_pad_right_25dp">25dp</dimen>

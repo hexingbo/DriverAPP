@@ -74,7 +74,6 @@ public class CompanyJoinManageActivity extends BaseActivity<CompanyJoinManagePre
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         setTitle(R.string.me_name_company_join);
         initRecyclerView();
         mRecyclerView.setAdapter(mAdapter);

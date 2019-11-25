@@ -1,0 +1,106 @@
+/*
+ * Copyright 2017 JessYan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.lesso.module.me.mvp.ui.adapter;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.http.imageloader.ImageLoader;
+import com.jess.arms.utils.ArmsUtils;
+import com.lesso.module.me.R;
+import com.lesso.module.me.mvp.model.entity.CompanyJoinBean;
+import com.zhouyou.recyclerview.adapter.HelperRecyclerViewHolder;
+import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
+
+import java.util.List;
+
+import me.jessyan.armscomponent.commonsdk.imgaEngine.config.CommonImageConfigImpl;
+
+/**
+ * =============================================
+ * 作    者：贺兴波
+ * 时    间：2019/11/15
+ * 描    述：
+ * =============================================
+ */
+public class ChoseCompanyRecommendListAdapter extends HelperStateRecyclerViewAdapter<CompanyJoinBean> {
+
+    private AppComponent mAppComponent;
+    private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用 Glide,使用策略模式,可替换框架
+    private ImageView imgHead;
+
+    public ChoseCompanyRecommendListAdapter(List<CompanyJoinBean> list, Context context) {
+        super(list, context, R.layout.item_layout_chose_company_recom_list);
+        //可以在任何可以拿到 Context 的地方,拿到 AppComponent,从而得到用 Dagger 管理的单例对象
+        mAppComponent = ArmsUtils.obtainAppComponentFromContext(context);
+        mImageLoader = mAppComponent.imageLoader();
+    }
+
+    @Override
+    protected void HelperBindData(HelperRecyclerViewHolder viewHolder, int position, CompanyJoinBean item) {
+        viewHolder.setText(R.id.tv_company_name, item.getCompanyName());
+        imgHead = viewHolder.getView(R.id.img_company_head);
+        if (!ArmsUtils.isEmpty(item.getHeadUrl()))
+            mImageLoader.loadImage(viewHolder.itemView.getContext(), CommonImageConfigImpl
+                    .builder()
+                    .url(item.getHeadUrl())
+                    .errorPic(R.mipmap.ic_head_default)
+                    .placeholder(R.mipmap.ic_head_default)
+                    .transformation(new CircleCrop())
+                    .imageView(imgHead)
+                    .build());
+
+        ((CheckBox) viewHolder.getView(R.id.cb_selected)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                item.setSelected(isChecked);
+            }
+        });
+    }
+
+    /**
+     * 在 Activity 的 onDestroy 中使用 {@link this #releaseAllHolder(RecyclerView)} 方法 (super.onDestroy() 之前)
+     * {@link this #onRelease()} 才会被调用, 可以在此方法中释放一些资源
+     */
+    public void onRelease() {
+        if (imgHead != null)
+            mImageLoader.clear(mAppComponent.application(), CommonImageConfigImpl.builder()
+                    .imageViews(imgHead)
+                    .build());
+    }
+
+
+    @Override
+    public View getEmptyView(ViewGroup parent) {
+        return mLInflater.inflate(R.layout.view_custom_empty_data, parent, false);
+    }
+
+    @Override
+    public View getErrorView(ViewGroup parent) {
+        return mLInflater.inflate(R.layout.view_custom_data_error, parent, false);
+    }
+
+    @Override
+    public View getLoadingView(ViewGroup parent) {
+        return mLInflater.inflate(R.layout.view_custom_loading_data, parent, false);
+    }
+}
