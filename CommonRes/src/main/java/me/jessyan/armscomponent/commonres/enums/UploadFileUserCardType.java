@@ -32,5 +32,33 @@ public enum UploadFileUserCardType {
     /**
      * 用户头像
      */
-    HeadPhoto
+    HeadPhoto,
+    /**
+     * 车辆保险
+     */
+    CarInsurance,//,
+    /**
+     * 用户头像
+     */
+    Personal,//
+    /**
+     * 行驶证正面照
+     */
+    DrivingCard,//
+    /**
+     * 行驶证反面照
+     */
+    DrivingCardBack,//
+    /**
+     * 车头照
+     */
+    CarAPhoto,//
+    /**
+     * 车身照
+     */
+    CarBPhoto,//
+    /**
+     * 车尾照
+     */
+    CarCPhoto,//
 }

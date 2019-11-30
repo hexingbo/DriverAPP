@@ -21,6 +21,7 @@
     <string name="module_me_name_send_order_account">发起对账</string>
     <string name="module_me_name_save">保存</string>
     <string name="module_me_user_authentication">实名认证</string>
+    <string name="module_me_user_submit_succeed">提交成功</string>
     <string name="module_me_name_submit">提交</string>
 
     <string name="qr_code">二维码</string>
@@ -30,5 +31,28 @@
     <string name="module_me_compa_recommend">加盟推荐</string>
     <string name="module_me_skip_view">跳过</string>
     <string name="module_me_name_hint_selected_company">请选择加盟公司</string>
+    <string name="module_me_joined_success">加盟成功</string>
+    <string name="module_me_name_my_cars">我的车辆</string>
+    <string name="module_me_name_add_car_info">添加车辆</string>
+    <string name="module_me_name_car_detail_info">车辆详情</string>
+    <string name="module_me_ask_confirm_login">确认退出？</string>
+    <string name="module_me_meter">米</string>
+    <string name="module_me_cublic_meter">方</string>
+    <string name="module_me_ton">吨</string>
+    <string name="module_me_goto_join_car">去加盟车辆</string>
+    <string name="module_me_select_join_cars">选择加盟车辆</string>
+    <string name="module_me_please_select_join_car">请选择加盟车辆</string>
+    <string name="module_me_quit">退出</string>
+    <string name="module_me_cancel">取消</string>
+    <string name="module_me_resubmit">重新提交</string>
+    <string name="module_me_quit_succeed">退出成功</string>
+    <string name="module_me_cancel_succeed">取消成功</string>
+    <string name="module_me_think_again">再考虑一下</string>
+    <string name="module_me_confirm_cancel_join_car">%s 是否取消加盟该物流公司？</string>
+    <string name="module_me_confirm_quit_join_car">%s 是否退出加盟该物流公司？</string>
+    <string name="module_me_confirm_resubmit_join_car">%s 是否重新申请加盟该物流公司？</string>
+    <string name="module_me_i_want_cancel">我要取消</string>
+    <string name="module_me_i_want_quit">我要退出</string>
+    <string name="module_me_i_want_join">我要加入</string>
 
 </resources>

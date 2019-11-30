@@ -1,6 +1,7 @@
 package com.lesso.module.login.mvp.ui.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,8 +18,9 @@ import com.lesso.module.login.di.component.DaggerUpdatePwdActivityComponent;
 import com.lesso.module.login.mvp.contract.UpdatePwdActivityContract;
 import com.lesso.module.login.mvp.presenter.UpdatePwdActivityPresenter;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.armscomponent.commonres.other.ClearEditText;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
@@ -40,8 +42,13 @@ public class UpdatePwdActivityActivity extends BaseActivity<UpdatePwdActivityPre
     ClearEditText etPwdOld;
     @BindView(R2.id.et_pwd_new)
     ClearEditText etPwdNew;
+    @BindView(R2.id.et_pwd_confirm)
+    ClearEditText etPwdConfirm;
     @BindView(R2.id.btn_submit)
     TextView btnSubmit;
+
+    @Inject
+    Dialog dialog;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -66,12 +73,12 @@ public class UpdatePwdActivityActivity extends BaseActivity<UpdatePwdActivityPre
 
     @Override
     public void showLoading() {
-
+        dialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        dialog.dismiss();
     }
 
     @Override
@@ -94,7 +101,7 @@ public class UpdatePwdActivityActivity extends BaseActivity<UpdatePwdActivityPre
 
     @OnClick(R2.id.btn_submit)
     public void onViewClicked() {
-        mPresenter.postUpdatePassword(etPwdOld.getText().toString().trim(),etPwdNew.getText().toString().trim());
+        mPresenter.postUpdatePassword(etPwdOld.getText().toString().trim(),etPwdNew.getText().toString().trim(), etPwdConfirm.getText().toString().trim());
     }
 
     @Override

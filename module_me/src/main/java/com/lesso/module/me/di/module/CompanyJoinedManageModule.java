@@ -15,6 +15,7 @@ import java.util.List;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
 import me.jessyan.armscomponent.commonres.dialog.ProgresDialog;
 import me.jessyan.armscomponent.commonsdk.utils.LayoutManagerUtil;
 
@@ -58,4 +59,9 @@ public abstract class CompanyJoinedManageModule {
         return adapter;
     }
 
+    @ActivityScope
+    @Provides
+    static MyHintDialog provideMyHintDialog(CompanyJoinedManageContract.View view) {
+        return new MyHintDialog(view.getActivity());
+    }
 }

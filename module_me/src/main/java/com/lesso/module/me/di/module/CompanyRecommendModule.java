@@ -2,14 +2,12 @@ package com.lesso.module.me.di.module;
 
 import android.app.Dialog;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.jess.arms.di.scope.ActivityScope;
 import com.lesso.module.me.mvp.contract.CompanyRecommendContract;
 import com.lesso.module.me.mvp.model.CompanyRecommendModel;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinBean;
 import com.lesso.module.me.mvp.ui.adapter.ChoseCompanyRecommendListAdapter;
-import com.zhouyou.recyclerview.adapter.BaseRecyclerViewAdapter;
 import com.zhouyou.recyclerview.manager.StateGridLayoutManager;
 
 import java.util.ArrayList;
@@ -57,12 +55,6 @@ public abstract class CompanyRecommendModule {
     static ChoseCompanyRecommendListAdapter provideChoseCompanyRecommendListAdapter(List<CompanyJoinBean> list, CompanyRecommendContract.View view) {
 
         ChoseCompanyRecommendListAdapter adapter = new ChoseCompanyRecommendListAdapter(list, view.getActivity());
-        adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<CompanyJoinBean>() {
-            @Override
-            public void onItemClick(View view, CompanyJoinBean item, int position) {
-
-            }
-        });
         return adapter;
     }
 }

@@ -19,7 +19,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -59,6 +58,9 @@ public class ChoseCompanyRecommendListAdapter extends HelperStateRecyclerViewAda
     protected void HelperBindData(HelperRecyclerViewHolder viewHolder, int position, CompanyJoinBean item) {
         viewHolder.setText(R.id.tv_company_name, item.getCompanyName());
         imgHead = viewHolder.getView(R.id.img_company_head);
+        CheckBox cb = viewHolder.getView(R.id.cb_selected);
+        cb.setChecked(item.isSelected());
+
         if (!ArmsUtils.isEmpty(item.getHeadUrl()))
             mImageLoader.loadImage(viewHolder.itemView.getContext(), CommonImageConfigImpl
                     .builder()
@@ -69,10 +71,17 @@ public class ChoseCompanyRecommendListAdapter extends HelperStateRecyclerViewAda
                     .imageView(imgHead)
                     .build());
 
-        ((CheckBox) viewHolder.getView(R.id.cb_selected)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//        ((CheckBox) viewHolder.getView(R.id.cb_selected)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                item.setSelected(isChecked);
+//            }
+//        });
+        viewHolder.getView(R.id.ll_root).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                item.setSelected(isChecked);
+            public void onClick(View v) {
+                item.setSelected(!item.isSelected());
+                cb.setChecked(item.isSelected());
             }
         });
     }

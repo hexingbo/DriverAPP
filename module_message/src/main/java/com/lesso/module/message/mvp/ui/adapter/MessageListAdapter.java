@@ -16,11 +16,13 @@
 package com.lesso.module.message.mvp.ui.adapter;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.lesso.module.message.R;
 import com.lesso.module.message.mvp.model.entity.MessageBean;
-import com.zhouyou.recyclerview.adapter.HelperRecyclerViewAdapter;
 import com.zhouyou.recyclerview.adapter.HelperRecyclerViewHolder;
+import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -31,7 +33,7 @@ import java.util.List;
  * 描    述：消息列表适配器
  * =============================================
  */
-public class MessageListAdapter extends HelperRecyclerViewAdapter<MessageBean> {
+public class MessageListAdapter extends HelperStateRecyclerViewAdapter<MessageBean> {
 
     public MessageListAdapter(List<MessageBean> list, Context context) {
         super(list, context, R.layout.item_layout_message_list);
@@ -42,5 +44,20 @@ public class MessageListAdapter extends HelperRecyclerViewAdapter<MessageBean> {
         viewHolder.setText(R.id.tv_title, item.getTitle());
         viewHolder.setText(R.id.tv_content, item.getContent());
         viewHolder.setVisible(R.id.img_haveRead, item.getHaveRead() == 0 ? true : false);
+    }
+
+    @Override
+    public View getEmptyView(ViewGroup parent) {
+        return mLInflater.inflate(R.layout.view_custom_empty_data, parent, false);
+    }
+
+    @Override
+    public View getErrorView(ViewGroup parent) {
+        return mLInflater.inflate(R.layout.view_custom_data_error, parent, false);
+    }
+
+    @Override
+    public View getLoadingView(ViewGroup parent) {
+        return mLInflater.inflate(R.layout.view_custom_loading_data, parent, false);
     }
 }

@@ -66,6 +66,7 @@
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:hint="@string/login_hint_input_phone_number"
+                        android:inputType="phone"
                         android:maxLength="20"
                         android:singleLine="true"
                         android:textColor="@color/public_color_333333"
@@ -154,7 +155,7 @@
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:hint="@string/login_hint_input_sms_number"
-                        android:inputType="number"
+                        android:inputType="phone"
                         android:maxLength="6"
                         android:singleLine="true"
                         android:textColor="@color/public_color_333333"
@@ -221,6 +222,7 @@
                             android:textColor="#FACA0C"
                             android:textSize="@dimen/public_font_20sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/lv_login_type_wx"
                         android:layout_width="wrap_content"
@@ -284,7 +286,7 @@
                 android:gravity="center"
                 android:padding="@dimen/public_pad_left_10dp"
                 android:text="@string/login_lab_register_user"
-                android:textColor="#F79A3F"
+                android:textColor="#FACA0C"
                 android:textSize="@dimen/public_font_20sp" />
         </LinearLayout>
 

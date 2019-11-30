@@ -10,6 +10,7 @@ import com.lesso.module.waybill.mvp.model.entity.SubmitSaveFreightNoBean;
 import com.lesso.module.waybill.mvp.model.entity.SubmitWayBillListBean;
 import com.lesso.module.waybill.mvp.model.entity.SubmitWayBillReceiptBean;
 import com.lesso.module.waybill.mvp.model.entity.SubmitWayBillSendBean;
+import com.lesso.module.waybill.mvp.model.entity.UpdateDetailBean;
 import com.lesso.module.waybill.mvp.model.entity.WayBillDetailBean;
 import com.lesso.module.waybill.mvp.model.entity.WayBillListBean;
 
@@ -89,4 +90,7 @@ public interface ModuleWayBillService {
     @POST(CommonHttpUrl.API_postOrderAccounts)
     Observable<HttpResult<List<OrderAccountBean>>> getOrderAccounts(@Body SubmitGetOrderAccountsBean bean);
 
+    @Headers({DOMAIN_NAME_HEADER + Api.Module_Waybill_Doman_Name})
+    @GET(CommonHttpUrl.API_getNewAppVersion)
+    Observable<HttpResult<UpdateDetailBean>> getUpdateDetail(@Query("appSource")String appSource);
 }

@@ -2,15 +2,18 @@ package com.lesso.module.me.mvp.presenter;
 
 import android.app.Application;
 
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
+import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.lesso.module.me.BuildConfig;
+import com.lesso.module.me.R;
 import com.lesso.module.me.mvp.contract.CompanyJoinDetailInfoContract;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinBean;
 
@@ -20,6 +23,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
@@ -95,6 +99,9 @@ public class CompanyJoinDetailInfoPresenter extends BasePresenter<CompanyJoinDet
                 });
     }
 
+    /**
+     * 司机加盟物流公司提交数据
+     */
     public void postCompanyJoin() {
         if (ArmsUtils.isEmpty(companyId)) {
             mRootView.showMessage(AppManagerUtil.appContext().getResources().getString(me.jessyan.armscomponent.commonres.R.string.public_name_data_error));
@@ -117,6 +124,8 @@ public class CompanyJoinDetailInfoPresenter extends BasePresenter<CompanyJoinDet
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
+                        mRootView.showMessage(mApplication.getString(R.string.module_me_joined_success));
+                        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateCompanyJoinManageList));
                     }
 
                 });

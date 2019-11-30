@@ -16,6 +16,15 @@ public class CompanyJoinedBean {
     private String auditStatus;//审核状态
     private String guid;//加盟主键ID
     private String auditStatusCode;//B:审核中、待确认；F:审核不通过、拒绝；D：审核通过、同意
+    private String auditReason;//审核不通过原因
+
+    public String getAuditReason() {
+        return auditReason;
+    }
+
+    public void setAuditReason(String auditReason) {
+        this.auditReason = auditReason;
+    }
 
     public String getCompanyId() {
         return companyId;
@@ -92,6 +101,7 @@ public class CompanyJoinedBean {
                 ", auditStatus='" + auditStatus + '\'' +
                 ", guid='" + guid + '\'' +
                 ", auditStatusCode='" + auditStatusCode + '\'' +
+                ", auditReason='" + auditReason + '\'' +
                 '}';
     }
 }

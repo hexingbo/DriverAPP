@@ -6,8 +6,12 @@ import android.support.v4.app.FragmentManager;
 import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
+import com.lesso.module.waybill.mvp.model.entity.UpdateDetailBean;
 
 import java.util.ArrayList;
+
+import io.reactivex.Observable;
+import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 
 
 /**
@@ -24,6 +28,8 @@ public interface WayBillManagerContract {
         Activity getActivity();
 
         FragmentManager getFragmentManager();
+
+        void onCheckVersion(boolean isNewVersion, UpdateDetailBean.AndroidBean android);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -33,5 +39,6 @@ public interface WayBillManagerContract {
 
         ArrayList<BaseLazyLoadFragment> getFragments();
 
+        Observable<HttpResult<UpdateDetailBean>> checkVersionDetail(String appSource);
     }
 }

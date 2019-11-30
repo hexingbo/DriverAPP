@@ -40,6 +40,7 @@ android {
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             buildConfigField "boolean", "USE_CANARY", "true"
+            buildConfigField "String", "GD_MAP_KEY", DEBUG_GD_MAP_KEY
             buildConfigField "boolean", "IS_BUILD_MODULE", "${isBuildModule}"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -49,9 +50,10 @@ android {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             buildConfigField "boolean", "USE_CANARY", "false"
+            buildConfigField "String", "GD_MAP_KEY", RELEASE_GD_MAP_KEY
             buildConfigField "boolean", "IS_BUILD_MODULE", "${isBuildModule}"
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config// signingConfig signingConfigs.config//使用上面配置的签名进行打包
@@ -73,11 +75,11 @@ android {
         }
     }
 
-    lintOptions {
-        disable 'InvalidPackage'
-        disable "ResourceType"
-        abortOnError false
-    }
+//    lintOptions {
+//        disable 'InvalidPackage'
+//        disable 'ResourceType'
+//        abortOnError false
+//    }
 }
 
 dependencies {

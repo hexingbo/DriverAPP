@@ -26,7 +26,6 @@ import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.utils.ArmsUtils;
 import com.lesso.module.waybill.R;
 import com.lesso.module.waybill.mvp.model.entity.WayBillListBean;
-import com.zhouyou.recyclerview.adapter.HelperRecyclerViewAdapter;
 import com.zhouyou.recyclerview.adapter.HelperRecyclerViewHolder;
 import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
 
@@ -65,6 +64,7 @@ public class WayBillListAdapter extends HelperStateRecyclerViewAdapter<WayBillLi
         viewHolder.setText(R.id.tv_name, item.getGoodsName());
         viewHolder.setText(R.id.tv_order_number, item.getOrderNo());
         viewHolder.setText(R.id.tv_car_number, item.getCarNo());
+        viewHolder.setText(R.id.tv_send_time, item.getPlanDeliverDate());
         viewHolder.setText(R.id.tv_carrier, item.getLogisticsCompany());
         viewHolder.setText(R.id.tv_send_address, item.getShipperAddress());
         viewHolder.setText(R.id.tv_send_company, item.getShipper());

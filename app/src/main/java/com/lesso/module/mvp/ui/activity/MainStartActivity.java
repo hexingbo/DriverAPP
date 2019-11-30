@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -27,6 +28,7 @@ import com.lesso.module.di.component.DaggerMainStartComponent;
 import com.lesso.module.mvp.contract.MainStartContract;
 import com.lesso.module.mvp.presenter.MainStartPresenter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.yanzhenjie.sofia.StatusView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +59,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * =============================================
  */
 @Route(path = RouterHub.APP_MainStartActivity)
-public class MainStartActivity extends BaseActivity<MainStartPresenter> implements MainStartContract.View {
+public class MainStartActivity extends BaseActivity<MainStartPresenter> implements MainStartContract.View, OnTabSelectListener {
 
     @Inject
     RxPermissions mRxPermissions;
@@ -77,6 +79,8 @@ public class MainStartActivity extends BaseActivity<MainStartPresenter> implemen
     @Autowired(name = RouterHub.Waybill_Service_WayBillViewService)
     WayBillViewService mWayBillViewService;
 
+    @BindView(R.id.status_views)
+    StatusView statusViews;
     @BindView(R.id.fl_main_app)
     FrameLayout flMainApp;
     @BindView(R.id.main_table)
@@ -112,37 +116,38 @@ public class MainStartActivity extends BaseActivity<MainStartPresenter> implemen
         loadFragmentView();
         ArrayList<CustomTabEntity> mTabEntities = mPresenter.getTabEntity();
         mainTable.setTabData(mTabEntities);
-        mainTable.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelect(int position) {
-                if (position == selectIndex) {
-                    return;
-                }
-                selectIndex = position;
-                switch (position) {
-                    case 0:
-                        selectedWayBillManagerFragment();
-                        break;
-                    case 1:
-                        selectedMessageFragment();
-                        break;
-                    case 2:
-                        selectedMyFragment();
-                        break;
-                    case 3:
-                        mainTable.showMsg(2, 10);//设置红点
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabReselect(int position) {
-            }
-        });
-
+        mainTable.setOnTabSelectListener(this);
         mPresenter.checkPermission();
+    }
+
+    @Override
+    public void onTabSelect(int position) {
+        if (position == selectIndex) {
+            return;
+        }
+        statusViews.setVisibility(View.VISIBLE);
+        selectIndex = position;
+        switch (position) {
+            case 0:
+                selectedWayBillManagerFragment();
+                break;
+            case 1:
+                selectedMessageFragment();
+                break;
+            case 2:
+                statusViews.setVisibility(View.GONE);
+                selectedMyFragment();
+                break;
+            case 3:
+                mainTable.showMsg(2, 10);//设置红点
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onTabReselect(int position) {
     }
 
 
@@ -330,9 +335,12 @@ public class MainStartActivity extends BaseActivity<MainStartPresenter> implemen
 
     @Override
     protected void getEventBusHub_Activity(MessageEvent message) {
+        super.getEventBusHub_Activity(message);
         if (message.getType().equals(EventBusHub.Message_SelectedWayBillManagerFragment)) {
-            mainTable.setCurrentTab(0);
+            if (mainTable.getCurrentTab() != 0) {
+                mainTable.setCurrentTab(0);
+                onTabSelect(0);
+            }
         }
     }
-
 }

@@ -5,9 +5,11 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
+import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.PermissionUtil;
@@ -25,7 +27,7 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
-import me.jessyan.armscomponent.commonsdk.core.RouterHub;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
@@ -83,7 +85,6 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
     private void getWayBillDetail(String orderId) {
         if (ArmsUtils.isEmpty(orderId)) {
             mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_order_number_have_not));
-            mRootView.setLayoutState_FAILED();
             return;
         }
         mModel.getWayBillDetail(orderId)
@@ -104,24 +105,18 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
                     @Override
                     public void onResult(HttpResult<WayBillDetailBean> result) {
                         if (!ArmsUtils.isEmpty(result.getData())) {
-                            mRootView.setLayoutState_SUCCESS();
                             mRootView.setWayBillDetailBean(result.getData());
                             List<WayBillDetailBean.TransportTrackBean> transportTrack = result.getData().getTransportTrack();
                             if (!ArmsUtils.isEmpty(transportTrack)) {
                                 mDatas.clear();
                                 mDatas.addAll(transportTrack);
+                                mAdapter.setOrderStatus(result.getData().getOrderStatus());
                                 mAdapter.setListAll(transportTrack);
                             }
-                        } else {
-                            mRootView.setLayoutState_NO_DATA();
                         }
                     }
 
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                        mRootView.setLayoutState_FAILED();
-                    }
+
                 });
     }
 
@@ -131,8 +126,8 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
      * @param orderId
      */
 
-    public void postSaveFreightNo(@Nullable String orderId, @Nullable String freightNo) {
-        if (ArmsUtils.isEmpty(orderId)||ArmsUtils.isEmpty(freightNo)) {
+    public void postSaveFreightNo(String orderId, String freightNo) {
+        if (ArmsUtils.isEmpty(freightNo)) {
             mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_order_number_have_not));
             return;
         }
@@ -153,7 +148,8 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
-
+                        mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_save_order_success));
+                        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateWayBillManagerList));
                     }
 
                 });
@@ -203,6 +199,7 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
                     @Override
                     public void onResult(HttpResult result) {
                         mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_daka_success));
+                        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateWayBillManagerList));
                     }
 
                 });
@@ -239,7 +236,7 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
                     @Override
                     public void onResult(HttpResult result) {
                         mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_shouhuo_success));
-                        getWayBillDetail(orderId);
+                        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateWayBillManagerList));
                     }
 
                 });
@@ -275,7 +272,7 @@ public class WayBillDetailPresenter extends BasePresenter<WayBillDetailContract.
                     @Override
                     public void onResult(HttpResult result) {
                         mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_send_success));
-                        getWayBillDetail(orderId);
+                        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateWayBillManagerList));
                     }
 
                 });

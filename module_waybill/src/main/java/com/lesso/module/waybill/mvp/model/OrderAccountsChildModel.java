@@ -2,6 +2,7 @@ package com.lesso.module.waybill.mvp.model;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.jess.arms.di.scope.FragmentScope;
@@ -11,6 +12,7 @@ import com.lesso.module.waybill.mvp.contract.OrderAccountsChildContract;
 import com.lesso.module.waybill.mvp.model.api.service.ModuleWayBillService;
 import com.lesso.module.waybill.mvp.model.entity.OrderAccountBean;
 import com.lesso.module.waybill.mvp.model.entity.SubmitGetOrderAccountsBean;
+import com.lesso.module.waybill.mvp.model.entity.SubmitOrderSaveAccountsBean;
 
 import java.util.List;
 
@@ -56,5 +58,12 @@ public class OrderAccountsChildModel extends BaseModel implements OrderAccountsC
         return mRepositoryManager.obtainRetrofitService(ModuleWayBillService.class)
                 .getOrderAccounts(new SubmitGetOrderAccountsBean(current, size,
                         new SubmitGetOrderAccountsBean.EntityBean(stateType.name(), driverId, condition, driverDateStart, driverDateEnd)));
+    }
+
+    @Override
+    public Observable<HttpResult> postOrderSaveAccounts(@Nullable String orderId, @Nullable String driverId,
+                                                        @Nullable String driverDateStart, @Nullable String driverDateEnd) {
+        return mRepositoryManager.obtainRetrofitService(ModuleWayBillService.class)
+                .postOrderSaveAccounts(new SubmitOrderSaveAccountsBean(orderId, driverId, driverDateStart, driverDateEnd));
     }
 }

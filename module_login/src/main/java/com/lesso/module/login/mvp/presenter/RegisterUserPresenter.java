@@ -3,10 +3,10 @@ package com.lesso.module.login.mvp.presenter;
 import android.app.Application;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
-import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
@@ -26,7 +26,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.jessyan.armscomponent.commonres.enums.SmsCodeType;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
-import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
 import me.jessyan.armscomponent.commonsdk.utils.CountDownTimerUtils;
@@ -146,9 +145,10 @@ public class RegisterUserPresenter extends BasePresenter<RegisterUserContract.Mo
 
                     @Override
                     public void onResult(HttpResult<LoginResultBean> result) {
-                        //注册成功 保存用户数据，通知界面刷新，跳转物流公司加盟推荐页面
+                        //注册成功 保存用户数据，通知界面刷新，跳转实名认证页面
                         SaveOrClearUserInfo.saveUserInfo(result.getData().getToken(), result.getData().getUserId(), result.getData().getVerifyStatus(), phone, deviceId);
-                        Utils.navigation(mApplication,RouterHub.Me_CompanyRecommendActivity);
+                        Utils.navigation(mApplication,RouterHub.APP_MainStartActivity);
+                        Utils.navigation(mApplication,RouterHub.Me_UserAuthenticationActivity);
                         mRootView.getActivity().finish();
                     }
                 });

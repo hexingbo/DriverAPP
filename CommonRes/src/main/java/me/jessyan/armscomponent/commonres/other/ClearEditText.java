@@ -97,7 +97,7 @@ public class ClearEditText extends AppCompatEditText implements
      *
      * @param visible
      */
-    protected void setClearIconVisible(boolean visible) {
+    public void setClearIconVisible(boolean visible) {
         Drawable right = visible ? mClearDrawable : null;
         setCompoundDrawables(getCompoundDrawables()[0],
                 getCompoundDrawables()[1], right, getCompoundDrawables()[3]);

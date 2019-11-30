@@ -4,7 +4,7 @@
     android:id="@+id/rl_no_data"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff2f2f2"
+    android:background="@color/white"
     android:clickable="true">
 
     <LinearLayout
@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/view_icon_data_emtry"
+            android:src="@drawable/ic_empty"
             android:layout_gravity="center_horizontal"/>
 
         <TextView
@@ -26,8 +26,9 @@
             android:layout_centerInParent="true"
             android:textColor="#999999"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="暂时没有您的数据"/>
+            android:layout_marginTop="40dp"
+            android:textSize="@dimen/public_font_14sp"
+            android:text="@string/hint_no_data"/>
     </LinearLayout>
 
 </RelativeLayout>

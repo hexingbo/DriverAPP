@@ -59,8 +59,7 @@ public class WelcomeActivity extends BaseActivity<WelcomePresenter> implements W
                     finish();
                 } else {
                     if (ArmsUtils.isEmpty(DataHelper.getStringSF(AppManagerUtil.appContext(), Constants.SP_TOKEN))){
-                        ARouter.getInstance().build(RouterHub.Loging_MainLoginActivity)
-                                .withBoolean("isFirst",true).navigation(AppManagerUtil.getCurrentActivity());
+                        ARouter.getInstance().build(RouterHub.Loging_MainLoginActivity) .navigation(AppManagerUtil.getCurrentActivity());
                     }
                     else
                         Utils.navigation(AppManagerUtil.appContext(), RouterHub.APP_MainStartActivity);

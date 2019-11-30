@@ -65,9 +65,10 @@ public abstract class HelperStateRecyclerViewAdapter<T> extends HelperRecyclerVi
         if (mRecyclerView != null) {
             switch (state) {
                 case STATE_LOADING:
+                    mRecyclerView.setEnabledScroll(false);
                 case STATE_EMPTY:
                 case STATE_ERROR:
-                    mRecyclerView.setEnabledScroll(false);
+                    mRecyclerView.setEnabledScroll(true);
                     break;
                 case STATE_NORMAL://恢复之前的状态
                     mRecyclerView.setEnabledScroll(true);

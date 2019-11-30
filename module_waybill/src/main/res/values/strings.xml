@@ -18,6 +18,12 @@
     <string name="module_waybill_name_send_success">发货成功</string>
     <string name="module_waybill_name_shouhuo_success">收货成功</string>
     <string name="module_waybill_name_daka_success">打卡成功</string>
-    <string name="module_waybill_name_order_number_have_not">运单号不存在</string>
+    <string name="module_waybill_name_order_number_have_not">请输入运单号</string>
+    <string name="module_waybill_name_order_transport_costs">运费：¥</string>
+    <string name="module_waybill_name_search_accounts">付款公司/订单号</string>
+    <string name="module_waybill_name_start_time">开始时间</string>
+    <string name="module_waybill_name_end_time">结束时间</string>
+    <string name="module_waybill_name_save_order">保存</string>
+    <string name="module_waybill_name_save_order_success">保存成功</string>
 
 </resources>

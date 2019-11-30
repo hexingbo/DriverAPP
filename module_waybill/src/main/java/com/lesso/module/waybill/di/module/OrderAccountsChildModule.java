@@ -63,14 +63,7 @@ public abstract class OrderAccountsChildModule {
     static OrderAccountListAdapter provideOrderAccountListAdapter(List<OrderAccountBean> list, OrderAccountsChildContract.View view) {
 
         OrderAccountListAdapter adapter = new OrderAccountListAdapter(list, view.getOrderAccountStateType(),view.getActivity());
-        adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<OrderAccountBean>() {
-            @Override
-            public void onItemClick(View view, OrderAccountBean item, int position) {
-                ARouter.getInstance().build(RouterHub.Waybill_WayBillDetailActivity)
-                        .withString(CommonConstant.IntentWayBillDetailKey_OrderId, item.getOrderId())
-                        .navigation(AppManagerUtil.getCurrentActivity());
-            }
-        });
+        adapter.setOnAdapterViewClickListener(view.getOnAdapterViewClickListener());
         return adapter;
     }
 

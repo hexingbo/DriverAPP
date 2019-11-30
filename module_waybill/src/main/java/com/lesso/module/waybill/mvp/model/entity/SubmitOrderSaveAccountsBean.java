@@ -1,5 +1,7 @@
 package com.lesso.module.waybill.mvp.model.entity;
 
+import android.support.annotation.Nullable;
+
 /**
  * @Author :hexingbo
  * @Date :2019/11/19
@@ -13,7 +15,7 @@ public class SubmitOrderSaveAccountsBean {
     private String driverDateStart;//发货开始时间,格式：2019-01-01
     private String driverDateEnd;//发货结束时间,格式：2019-01-01
 
-    public SubmitOrderSaveAccountsBean(String orderId, String driverId, String driverDateStart, String driverDateEnd) {
+    public SubmitOrderSaveAccountsBean(@Nullable String orderId,@Nullable String driverId, @Nullable String driverDateStart,@Nullable String driverDateEnd) {
         this.orderId = orderId;
         this.driverId = driverId;
         this.driverDateStart = driverDateStart;

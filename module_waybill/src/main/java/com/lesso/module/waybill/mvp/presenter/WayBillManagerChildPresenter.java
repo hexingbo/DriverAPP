@@ -4,9 +4,11 @@ import android.Manifest;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
+import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
@@ -28,6 +30,7 @@ import io.reactivex.schedulers.Schedulers;
 import me.jessyan.armscomponent.commonres.enums.WayBillStateType;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
@@ -114,11 +117,19 @@ public class WayBillManagerChildPresenter extends BasePresenter<WayBillManagerCh
                             }
 
                         } else {
-                            if (pullToRefresh)
-                                mAdapter.clear();//不需要设置任何东西setListAll有数据了会自动到内容页面
+                            if (pullToRefresh){
+                                mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_EMPTY);
+                            }
                         }
                     }
 
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        if (pullToRefresh){
+                            mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_EMPTY);
+                        }
+                    }
                 });
     }
 
@@ -166,6 +177,7 @@ public class WayBillManagerChildPresenter extends BasePresenter<WayBillManagerCh
                     @Override
                     public void onResult(HttpResult result) {
                         mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_daka_success));
+                        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateWayBillManagerList));
                     }
 
                 });
@@ -202,7 +214,7 @@ public class WayBillManagerChildPresenter extends BasePresenter<WayBillManagerCh
                     @Override
                     public void onResult(HttpResult result) {
                         mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_shouhuo_success));
-                        getWayBillList(true);
+                        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateWayBillManagerList));
                     }
 
                 });
@@ -238,7 +250,7 @@ public class WayBillManagerChildPresenter extends BasePresenter<WayBillManagerCh
                     @Override
                     public void onResult(HttpResult result) {
                         mRootView.showMessage(mApplication.getString(R.string.module_waybill_name_send_success));
-                        getWayBillList(true);
+                        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateWayBillManagerList));
                     }
 
                 });

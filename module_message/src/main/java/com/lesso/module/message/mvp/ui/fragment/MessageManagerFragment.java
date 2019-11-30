@@ -11,19 +11,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.hxb.app.loadlayoutlibrary.LoadLayout;
-import com.hxb.app.loadlayoutlibrary.OnLoadListener;
-import com.hxb.app.loadlayoutlibrary.State;
-import com.jess.arms.base.BaseEventBusHub;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
+import com.jess.arms.utils.LogUtils;
 import com.lesso.module.message.R;
 import com.lesso.module.message.R2;
 import com.lesso.module.message.di.component.DaggerMessageManagerComponent;
@@ -33,6 +29,7 @@ import com.lesso.module.message.mvp.presenter.MessageManagerPresenter;
 import com.lesso.module.message.mvp.ui.adapter.MessageListAdapter;
 import com.zhouyou.recyclerview.XRecyclerView;
 import com.zhouyou.recyclerview.adapter.BaseRecyclerViewAdapter;
+import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
 import com.zhouyou.recyclerview.custom.CustomMoreFooter;
 import com.zhouyou.recyclerview.custom.CustomRefreshHeader2;
 
@@ -54,7 +51,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * 描    述：MessageManagerFragment
  * =============================================
  */
-public class MessageManagerFragment extends BaseFragment<MessageManagerPresenter> implements MessageManagerContract.View, OnLoadListener {
+public class MessageManagerFragment extends BaseFragment<MessageManagerPresenter> implements MessageManagerContract.View {
 
     @Inject
     RecyclerView.LayoutManager mLayoutManager;
@@ -65,9 +62,6 @@ public class MessageManagerFragment extends BaseFragment<MessageManagerPresenter
 
     @BindView(R2.id.recyclerview)
     XRecyclerView mRecyclerView;
-
-    protected FrameLayout frameLayout;
-    protected LoadLayout mLoadLayout;
 
     public static MessageManagerFragment newInstance() {
         MessageManagerFragment fragment = new MessageManagerFragment();
@@ -86,24 +80,21 @@ public class MessageManagerFragment extends BaseFragment<MessageManagerPresenter
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(com.jess.arms.R.layout.public_base_loadlayout_fragment, container, false);
-        frameLayout = rootView.findViewById(com.jess.arms.R.id.fl_content);
-        mLoadLayout = rootView.findViewById(com.jess.arms.R.id.base_load_layout);
-
-        View contentView = inflater.inflate(R.layout.fragment_message_manager, container, false);
-        if (contentView != null) {
-            frameLayout.addView(contentView);
-        }
-        mLoadLayout.setOnLoadListener(this);
-        mLoadLayout.setLoadingViewId(R.layout.view_custom_loading_data);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_message_manager, container, false);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         initRecyclerView();
         mRecyclerView.setAdapter(mAdapter);
-        onLoad();
+        getDataForNet();
+    }
+
+    private void getDataForNet() {
+        mAdapter.clear();
+        mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_LOADING);
+        mPresenter.getMessageList(true);
+
     }
 
     private void initRecyclerView() {
@@ -197,11 +188,6 @@ public class MessageManagerFragment extends BaseFragment<MessageManagerPresenter
     }
 
     @Override
-    public void onLoad() {
-        mPresenter.getMessageList(true);
-    }
-
-    @Override
     public void endLoadMore() {
         if (mRecyclerView.isLoadingMore())
             mRecyclerView.loadMoreComplete();
@@ -214,10 +200,11 @@ public class MessageManagerFragment extends BaseFragment<MessageManagerPresenter
             @Override
             public void onItemClick(View view, MessageBean item, int position) {
                 //item 点击事件
-//                currentMessageBean = item;
-//                currentPosition = position;
+                currentMessageBean = item;
+                currentPosition = position;
+                //之前的业务是跳转详情去查看，
 //                AppManagerUtil.jump(MessageDetailActivity.class, MessageDetailActivity.IntentValue, item);
-
+                //现在是根据url后缀判断跳转不同的界面
                 if (item.getLinkUrl().contains(MessagePushType.DriverBalance.name())) {
                     //对账列表
                     Utils.navigation(mContext, RouterHub.Waybill_OrderAccountsManagerActivity);
@@ -231,7 +218,8 @@ public class MessageManagerFragment extends BaseFragment<MessageManagerPresenter
                 } else if (item.getLinkUrl().contains(MessagePushType.OrderDetail.name())) {
                     //订单详情
                     if (item.getLinkUrl().contains("=")) {
-                        String id = item.getLinkUrl().substring(item.getLinkUrl().lastIndexOf("="), item.getLinkUrl().length());
+                        String id = item.getLinkUrl().substring(item.getLinkUrl().lastIndexOf("=") + 1, item.getLinkUrl().length());
+                        LogUtils.debugInfo("hxb-->", "订单id：" + id);
                         ARouter.getInstance().build(RouterHub.Waybill_WayBillDetailActivity)
                                 .withString(CommonConstant.IntentWayBillDetailKey_OrderId, id)
                                 .navigation(AppManagerUtil.getCurrentActivity());
@@ -242,28 +230,6 @@ public class MessageManagerFragment extends BaseFragment<MessageManagerPresenter
         };
     }
 
-    @Override
-    public void setLayoutState_LOADING() {
-        mLoadLayout.setLayoutState(State.LOADING);
-    }
-
-    @Override
-    public void setLayoutState_SUCCESS() {
-        mLoadLayout.setLayoutState(State.SUCCESS);
-    }
-
-    @Override
-    public void setLayoutState_FAILED() {
-        if (mLoadLayout.getLayerType() != State.SUCCESS)
-            mLoadLayout.setLayoutState(State.FAILED);
-    }
-
-    @Override
-    public void setLayoutState_NO_DATA() {
-        if (mLoadLayout.getLayerType() != State.SUCCESS)
-            mLoadLayout.setLayoutState(State.NO_DATA);
-    }
-
 
     private MessageBean currentMessageBean;
     private int currentPosition;
@@ -271,9 +237,11 @@ public class MessageManagerFragment extends BaseFragment<MessageManagerPresenter
     @Override
     protected void getEventBusHub_Fragment(MessageEvent message) {
         super.getEventBusHub_Fragment(message);
-        if (message.getType().equals(BaseEventBusHub.TAG_LOGIN_SUCCESS) && message.getType().equals(EventBusHub.Message_MessageManagerList_UpdateData)) {
-            currentMessageBean.setHaveRead(1);
-            mAdapter.notifyItemChanged(currentPosition);
+        if (message.getType().equals(EventBusHub.Message_MessageManagerList_UpdateData)) {
+            if (currentMessageBean != null) {
+                currentMessageBean.setHaveRead(1);
+                mAdapter.notifyItemChanged(currentPosition);
+            }
         }
     }
 }

@@ -16,10 +16,13 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.jess.arms.base.BaseLazyLoadFragment;
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
+import com.jess.arms.utils.DeviceUtils;
+import com.jess.arms.utils.LogUtils;
 import com.jess.arms.utils.PermissionUtil;
 import com.lesso.module.waybill.R;
 import com.lesso.module.waybill.R2;
@@ -47,8 +50,10 @@ import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
 import me.jessyan.armscomponent.commonres.enums.AuthenticationStatusType;
 import me.jessyan.armscomponent.commonres.enums.WayBillStateType;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.utils.MapManagerUtils;
+import me.jessyan.armscomponent.commonsdk.utils.MapUtils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -244,7 +249,14 @@ public class WayBillManagerChildFragment extends BaseLazyLoadFragment<WayBillMan
                         if (null != loc) {
                             //解析定位结果
 //                            String result = MapUtils.getLocationStr(loc);
-                            checkPermissionSuccess(itemView, currentBean, loc.getLatitude() + "", loc.getLongitude() + "", loc.getAddress());
+                            String result = MapUtils.getLocationStr(loc);
+                            LogUtils.warnInfo("hxb--->SHA1：" + DeviceUtils.getSHA1(getActivity()));
+                            LogUtils.warnInfo("hxb--->定位地址：" + result);
+                            if (!ArmsUtils.isEmpty(result)) {
+                                checkPermissionSuccess(itemView, currentBean, loc.getLatitude() + "", loc.getLongitude() + "", loc.getAddress());
+                            } else {
+                                showMessage("定位失败，loc is null");
+                            }
                         } else {
                             showMessage("定位失败，loc is null");
                         }
@@ -282,6 +294,7 @@ public class WayBillManagerChildFragment extends BaseLazyLoadFragment<WayBillMan
 
     @Override
     protected void lazyLoadData() {
+        mAdapter.clear();
         if (!DataHelper.getStringSF(getContext(), Constants.SP_VERIFY_STATUS).equals(AuthenticationStatusType.D.name())) {
             mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_ERROR);
         } else {
@@ -341,6 +354,16 @@ public class WayBillManagerChildFragment extends BaseLazyLoadFragment<WayBillMan
             ARouter.getInstance().build(RouterHub.Waybill_WayBillDetailActivity)
                     .withString(CommonConstant.IntentWayBillDetailKey_OrderId, currentBean.getOrderId())
                     .navigation(AppManagerUtil.getCurrentActivity());
+        }
+    }
+
+    @Override
+    protected void getEventBusHub_Fragment(MessageEvent message) {
+        super.getEventBusHub_Fragment(message);
+        if (message.getType().equals(EventBusHub.Message_UpdateWayBillManagerList)) {
+            lazyLoadData();
+        } else if(EventBusHub.Message_UpdateUserInfo.equals(message.getType())) {
+            lazyLoadData();
         }
     }
 }

@@ -1,37 +1,31 @@
 package com.lesso.module.me.mvp.model;
 
-import android.Manifest;
 import android.app.Application;
 import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
-
-import com.jess.arms.di.scope.ActivityScope;
-
-import javax.inject.Inject;
-
-import com.jess.arms.utils.PermissionUtil;
 import com.lesso.module.me.mvp.contract.UserInfoContract;
 import com.lesso.module.me.mvp.model.api.service.ModuleMeService;
 import com.lesso.module.me.mvp.model.entity.DriverVerifyDetailBean;
 import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyDetailBean;
 import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
 import com.lesso.module.me.mvp.model.entity.UploadHeadFileResultBean;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 import me.jessyan.armscomponent.commonsdk.base.bean.RequestBodyBean;
 import me.jessyan.armscomponent.commonsdk.utils.RequestBodyUtil;
-import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
 
 /**
@@ -60,15 +54,6 @@ public class UserInfoModel extends BaseModel implements UserInfoContract.Model {
         this.mApplication = null;
     }
 
-
-    @Override
-    public void checkPermission(RxPermissions rxPermissions, PermissionUtil.RequestPermission requestPermission, RxErrorHandler mErrorHandler) {
-        //请求外部存储权限用于适配android6.0的权限管理机制
-        PermissionUtil.requestPermission(requestPermission, rxPermissions, mErrorHandler,
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-    }
 
     @Override
     public Observable<HttpResult<UploadCardFileResultBean>> postUploadDriverInfoFile(@Nullable String currentUserId, @Nullable UploadFileUserCardType fileTypes, @Nullable List<File> fileArr) {

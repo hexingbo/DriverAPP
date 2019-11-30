@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jess.arms.base.BaseActivity;
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
@@ -27,6 +28,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.jessyan.armscomponent.commonres.base.BaseIntentBean;
 import me.jessyan.armscomponent.commonres.other.CircleImageView;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -152,5 +154,14 @@ public class CompanyJoinDetailInfoActivity extends BaseActivity<CompanyJoinDetai
     @OnClick(R2.id.btn_submit)
     public void onViewClicked() {
         mPresenter.postCompanyJoin();
+    }
+
+    @Override
+    protected void getEventBusHub_Activity(MessageEvent message) {
+        super.getEventBusHub_Activity(message);
+        if (message.getType().equals(EventBusHub.Message_UpdateCompanyJoinManageList)) {
+            //加盟成功
+            finish();
+        }
     }
 }

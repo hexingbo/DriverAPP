@@ -1,6 +1,9 @@
 package com.lesso.module.waybill.mvp.ui.fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -10,22 +13,32 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.utils.AppUtils;
 import com.jess.arms.utils.ArmsUtils;
+import com.jess.arms.utils.DataHelper;
 import com.lesso.module.waybill.R;
 import com.lesso.module.waybill.R2;
 import com.lesso.module.waybill.di.component.DaggerWayBillManagerComponent;
 import com.lesso.module.waybill.mvp.contract.WayBillManagerContract;
+import com.lesso.module.waybill.mvp.model.entity.UpdateDetailBean;
 import com.lesso.module.waybill.mvp.presenter.WayBillManagerPresenter;
 import com.lesso.module.waybill.mvp.ui.adapter.MyPagerAdapter;
+import com.ycbjie.ycupdatelib.PermissionUtils;
+import com.ycbjie.ycupdatelib.UpdateFragment;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import me.jessyan.armscomponent.commonsdk.core.Constants;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -37,7 +50,8 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * Description:
  * ================================================
  */
-public class WayBillManagerFragment extends BaseFragment<WayBillManagerPresenter> implements WayBillManagerContract.View {
+public class WayBillManagerFragment extends BaseFragment<WayBillManagerPresenter>
+        implements WayBillManagerContract.View {
 
     @BindView(R2.id.tab_menu)
     SlidingTabLayout tabMenu;
@@ -46,6 +60,13 @@ public class WayBillManagerFragment extends BaseFragment<WayBillManagerPresenter
 
     @Inject
     MyPagerAdapter mAdapter;
+
+    private int versionCode;
+    private String versionName;
+    private UpdateFragment updateFragment;
+
+    private static final String[] mPermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE};
 
     public static WayBillManagerFragment newInstance() {
         WayBillManagerFragment fragment = new WayBillManagerFragment();
@@ -89,6 +110,21 @@ public class WayBillManagerFragment extends BaseFragment<WayBillManagerPresenter
         });
         vpContent.setCurrentItem(0);
         tabMenu.setViewPager(vpContent);
+
+        getVersionInfo();
+        mPresenter.checkVersionDetail(versionCode);
+    }
+
+    private void getVersionInfo() {
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = getContext().getPackageManager()
+                    .getPackageInfo(getContext().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        versionCode = packageInfo.versionCode;
+        versionName = packageInfo.versionName;
     }
 
     /**
@@ -163,4 +199,24 @@ public class WayBillManagerFragment extends BaseFragment<WayBillManagerPresenter
     protected void getEventBusHub_Fragment(MessageEvent message) {
 
     }
+
+
+    @Override
+    public void onCheckVersion(boolean isNewVersion, UpdateDetailBean.AndroidBean android) {
+        DataHelper.setStringSF(getContext(), Constants.SP_Update_APK_URL, android.getUpdateUrl());
+        if (isNewVersion) {
+            /*
+             * @param isForceUpdate             是否强制更新
+             * @param desc                      更新文案
+             * @param url                       下载链接
+             * @param apkFileName               apk下载文件路径名称
+             * @param packName                  包名
+             */
+            //测试链接
+            updateFragment = UpdateFragment.showFragment(getActivity(),
+                    true, android.getUpdateUrl(), "lessodriver_apk", android.getUpdateContent(),
+                    AppUtils.getPackageName(getActivity()));
+        }
+    }
+
 }

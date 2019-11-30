@@ -108,28 +108,26 @@ public class MainMyPresenter extends BasePresenter<MainMyContract.Model, MainMyC
      * 退出登录
      */
     public void postLoginOut() {
-        SaveOrClearUserInfo.clearUserInfo();
-        ARouter.getInstance().build(RouterHub.Loging_MainLoginActivity)
-                .withBoolean("isFirst", false).navigation(AppManagerUtil.getCurrentActivity());
-        mModel.postLoginOut(DataHelper.getStringSF(mRootView.getActivity(), Constants.SP_USER_ID),
-                DataHelper.getStringSF(mRootView.getActivity(), Constants.SP_DEVICE_ID))
+        mModel.postLoginOut(DataHelper.getStringSF(mApplication, Constants.SP_ACCOUNT),
+                DataHelper.getStringSF(mApplication, Constants.SP_DEVICE_ID))
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(
                         //遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                         BuildConfig.HTTP_MaxRetries, BuildConfig.HTTP_RetryDelaySecond))
                 .doOnSubscribe(disposable -> {
-//                    mRootView.showLoading();//显示下拉刷新的进度条
+                    mRootView.showLoading();//显示下拉刷新的进度条
                 }).subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(() -> {
-//                    mRootView.hideLoading();//隐藏下拉刷新的进度条
+                    mRootView.hideLoading();//隐藏下拉刷新的进度条
                 })
                 //使用 Rxlifecycle,使 Disposable 和 Activity 一起销毁
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
-
+                        SaveOrClearUserInfo.clearUserInfo();
+                        ARouter.getInstance().build(RouterHub.Loging_MainLoginActivity).navigation(mApplication);
                     }
                 });
     }

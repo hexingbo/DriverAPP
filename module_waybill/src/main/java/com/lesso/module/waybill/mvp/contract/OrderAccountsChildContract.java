@@ -2,16 +2,20 @@ package com.lesso.module.waybill.mvp.contract;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 import com.lesso.module.waybill.mvp.model.entity.OrderAccountBean;
+import com.lesso.module.waybill.mvp.model.entity.SubmitOrderSaveAccountsBean;
+import com.lesso.module.waybill.mvp.ui.adapter.OrderAccountListAdapter;
 
 import java.util.List;
 
 import io.reactivex.Observable;
 import me.jessyan.armscomponent.commonres.enums.OrderAccountStateType;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
+import retrofit2.http.Body;
 
 
 /**
@@ -31,6 +35,11 @@ public interface OrderAccountsChildContract {
 
         Activity getActivity();
 
+        OrderAccountListAdapter.OnAdapterViewClickListener getOnAdapterViewClickListener();
+
+        void setStartTimeValue(String time);
+
+        void setEndTimeValue(String time);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -47,5 +56,7 @@ public interface OrderAccountsChildContract {
         Observable<HttpResult<List<OrderAccountBean>>> getOrderAccounts(int current, int size, @NonNull OrderAccountStateType stateType,
                                                                         @NonNull String driverId, String condition,
                                                                         String driverDateStart, String driverDateEnd);
+
+        Observable<HttpResult> postOrderSaveAccounts(@Nullable String orderId, @Nullable String driverId, @Nullable String driverDateStart, @Nullable String driverDateEnd);
     }
 }

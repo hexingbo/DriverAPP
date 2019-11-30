@@ -23,15 +23,25 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory">
-
-        <activity android:name=".mvp.ui.activity.AboutUsActivity"></activity>
-        <activity android:name=".mvp.ui.activity.MeMainActivity"></activity>
-        <activity android:name=".mvp.ui.activity.UserAuthenticationActivity"></activity>
-        <activity android:name=".mvp.ui.activity.CompanyJoinDetailInfoActivity"></activity>
-        <activity android:name=".mvp.ui.activity.CompanyJoinManageActivity"></activity>
-        <activity android:name=".mvp.ui.activity.UserInfoActivity"></activity>
+        <activity android:name=".mvp.ui.activity.CarJoinListActivity"
+            android:exported="true"></activity>
+        <activity android:name=".mvp.ui.activity.CompanyJoinedCarsManagerActivity" />
+        <activity android:name=".mvp.ui.activity.ChoiceJoinCompanyCarsActivity" />
+        <activity android:name=".mvp.ui.activity.CompanyRecommendActivity" />
+        <activity android:name=".mvp.ui.activity.AddCarsInfoActivity" />
+        <activity android:name=".mvp.ui.activity.AboutUsActivity" />
+        <activity android:name=".mvp.ui.activity.MeMainActivity" />
+        <activity android:name=".mvp.ui.activity.AddCarsDetailInfoActivity" />
+        <activity android:name=".mvp.ui.activity.CompanyJoinDetailInfoActivity" />
+        <activity android:name=".mvp.ui.activity.CompanyJoinManageActivity" />
+        <activity android:name=".mvp.ui.activity.UserAuthenticationActivity" />
         <activity
-            android:name=".mvp.ui.activity.CompanyRecommendActivity"
+            android:name=".mvp.ui.activity.MyCarsListManagerActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".mvp.ui.activity.UserInfoActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -73,7 +83,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

@@ -21,7 +21,8 @@ public class DriverVerifyDetailBean {
     private String updatedDate;//修改时间
     private String status;//记录状态（A：可用；E不可用）
     private String verifyStatus;//认证状态
-    private String headUrl;//个人头像url
+    private String headlUrl;//个人头像url
+    private String headSrc;//用户头像附件路径地址
 
     private String idCardUrl;//身份证正面附件url
     private String idCardBackUrl;//身份证反面附件url
@@ -33,7 +34,6 @@ public class DriverVerifyDetailBean {
     private String idCardBackPath;//身份证反面附件路径地址
     private String driverCardPath;//驾驶证正面附件路径地址
     private String driverCardBackPath;//驾驶证反面附件路径地址
-    private String headSrc;//用户头像附件路径地址
     private String lifePhotoPath;
     private String lifePhotoUrl;
 
@@ -180,12 +180,12 @@ public class DriverVerifyDetailBean {
         return headSrc;
     }
 
-    public void setHeadUrl(String headUrl) {
-        this.headUrl = headUrl;
+    public void setHeadlUrl(String headlUrl) {
+        this.headlUrl = headlUrl;
     }
 
-    public String getHeadUrl() {
-        return headUrl;
+    public String getHeadlUrl() {
+        return headlUrl;
     }
 
     public String getIdCardUrl() {
@@ -283,7 +283,7 @@ public class DriverVerifyDetailBean {
                 ", updatedDate='" + updatedDate + '\'' +
                 ", status='" + status + '\'' +
                 ", verifyStatus='" + verifyStatus + '\'' +
-                ", headUrl='" + headUrl + '\'' +
+                ", headUrl='" + headlUrl + '\'' +
                 ", idCardUrl='" + idCardUrl + '\'' +
                 ", idCardBackUrl='" + idCardBackUrl + '\'' +
                 ", driverCardUrl='" + driverCardUrl + '\'' +

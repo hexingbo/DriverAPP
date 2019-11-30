@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
-import com.jess.arms.utils.PermissionUtil;
 import com.lesso.module.me.mvp.model.entity.DriverVerifyDetailBean;
 import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
 import com.lesso.module.me.mvp.model.entity.UploadHeadFileResultBean;
@@ -17,7 +16,6 @@ import java.util.List;
 import io.reactivex.Observable;
 import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
-import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
 
 /**
@@ -34,8 +32,6 @@ public interface UserInfoContract {
 
         RxPermissions getRxPermissions();
 
-        PermissionUtil.RequestPermission getRequestPermission();
-
         void setDriverVerifyDetailBean(DriverVerifyDetailBean bean);
 
         void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes,DriverVerifyDetailBean bean);
@@ -47,15 +43,6 @@ public interface UserInfoContract {
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model extends IModel {
-
-        /**
-         * 请求权限
-         *
-         * @param rxPermissions
-         * @param requestPermission
-         * @param mErrorHandler
-         */
-        void checkPermission(RxPermissions rxPermissions, PermissionUtil.RequestPermission requestPermission, RxErrorHandler mErrorHandler);
 
         /**
          * 上传文件

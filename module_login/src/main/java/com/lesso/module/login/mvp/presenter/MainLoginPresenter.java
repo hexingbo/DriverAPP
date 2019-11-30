@@ -3,13 +3,16 @@ package com.lesso.module.login.mvp.presenter;
 import android.app.Application;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
+import com.jess.arms.utils.DataHelper;
 import com.jess.arms.utils.DeviceUtils;
 import com.jess.arms.utils.LogUtils;
 import com.jess.arms.utils.PermissionUtil;
@@ -28,6 +31,7 @@ import io.reactivex.schedulers.Schedulers;
 import me.jessyan.armscomponent.commonres.enums.LoginType;
 import me.jessyan.armscomponent.commonres.enums.SmsCodeType;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
+import me.jessyan.armscomponent.commonsdk.core.Constants;
 import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
@@ -57,12 +61,6 @@ public class MainLoginPresenter extends BasePresenter<MainLoginContract.Model, M
     AppManager mAppManager;
 
     private CountDownTimerUtils countDownTimer;
-    private boolean isFirst;
-
-    public void setFirst(boolean first) {
-        isFirst = first;
-        LogUtils.debugInfo("hxb---->", "isFirst：" + isFirst);
-    }
 
     @Inject
     public MainLoginPresenter(MainLoginContract.Model model, MainLoginContract.View rootView) {
@@ -181,7 +179,6 @@ public class MainLoginPresenter extends BasePresenter<MainLoginContract.Model, M
 
                     @Override
                     public void onResult(HttpResult<LoginResultBean> result) {
-                        LogUtils.debugInfo("hxb---->","isFirst："+isFirst);
                         //登录成功
                         SaveOrClearUserInfo.saveUserInfo(result.getData().getToken(), result.getData().getUserId(), result.getData().getVerifyStatus(), phone, deviceId);
                         EventBusManager.getInstance().post(new MessageEvent(EventBusHub.TAG_LOGIN_SUCCESS));
@@ -248,7 +245,7 @@ public class MainLoginPresenter extends BasePresenter<MainLoginContract.Model, M
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
-
+                        ArmsUtils.makeText(mApplication, "获取验证码成功");
                     }
                 });
     }
@@ -268,11 +265,17 @@ public class MainLoginPresenter extends BasePresenter<MainLoginContract.Model, M
     }
 
 
-    public void goMainOrFinsh(){
-        if (isFirst) {
-            Utils.navigation(mRootView.getActivity(),RouterHub.APP_MainStartActivity);
-        } else
+    public void goMainOrFinsh() {
+        if (ArmsUtils.isEmpty(DataHelper.getStringSF(mApplication,
+                Constants.SP_VERIFY_STATUS))) {
+            ARouter.getInstance().build(RouterHub.Me_UserAuthenticationActivity)
+                    .withBoolean("isComeInFromTheMainStart", false)
+                    .navigation(mApplication);
             mRootView.getActivity().finish();
+        } else {
+            Utils.navigation(mApplication, RouterHub.APP_MainStartActivity);
+            mRootView.getActivity().finish();
+        }
     }
 
 }

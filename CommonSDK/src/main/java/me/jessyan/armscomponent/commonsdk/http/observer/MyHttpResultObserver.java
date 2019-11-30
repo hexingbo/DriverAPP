@@ -9,11 +9,14 @@ package me.jessyan.armscomponent.commonsdk.http.observer;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.base.MyHttpResult;
 import com.jess.arms.http.observer.HttpResultObserver;
+import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.LogUtils;
 
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.utils.SaveOrClearUserInfo;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
@@ -40,8 +43,7 @@ public abstract class MyHttpResultObserver<T extends MyHttpResult> extends HttpR
             case Login_Error_Code://登录失效
                 onError(new Throwable("登录失效，请重新登录"));
                 SaveOrClearUserInfo.clearUserInfo();
-                ARouter.getInstance().build(RouterHub.Loging_MainLoginActivity)
-                        .withBoolean("isFirst", false).navigation(AppManagerUtil.getCurrentActivity());
+                ARouter.getInstance().build(RouterHub.Loging_MainLoginActivity).navigation(AppManagerUtil.getCurrentActivity());
                 break;
             case Other_Code://其他
                 onError(new Throwable(httpResult.getMsg()));

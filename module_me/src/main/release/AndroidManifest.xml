@@ -7,7 +7,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application>
-        <activity android:name=".mvp.ui.activity.CompanyRecommendActivity"></activity>
+        <activity android:name=".mvp.ui.activity.MyCarListSelectActivity"></activity>
+        <activity android:name=".mvp.ui.activity.CarJoinListActivity" />
+        <activity android:name=".mvp.ui.activity.ChoiceJoinCompanyCarsActivity" />
+        <activity android:name=".mvp.ui.activity.AddCarsDetailInfoActivity" />
+        <activity android:name=".mvp.ui.activity.MyCarsListManagerActivity" />
+        <activity android:name=".mvp.ui.activity.CompanyRecommendActivity" />
         <activity android:name=".mvp.ui.activity.UserAuthenticationActivity" />
         <activity android:name=".mvp.ui.activity.CompanyJoinedManageActivity" />
         <activity android:name=".mvp.ui.activity.MeMainActivity" />

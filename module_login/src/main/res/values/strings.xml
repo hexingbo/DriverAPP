@@ -29,5 +29,9 @@
     <string name="module_login_name_update_success">修改成功</string>
     <string name="login_hint_input_pwd_old">请输入旧密码</string>
     <string name="login_hint_input_pwd_new">请输入新密码</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="please_confirm_password">请输入确认密码</string>
+    <string name="password_not_equals">输入密码不一致</string>
+    <string name="set_password">设置密码</string>
 
 </resources>

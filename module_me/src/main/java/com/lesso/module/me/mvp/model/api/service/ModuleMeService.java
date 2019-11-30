@@ -1,15 +1,21 @@
 package com.lesso.module.me.mvp.model.api.service;
 
 import com.lesso.module.me.mvp.model.api.Api;
+import com.lesso.module.me.mvp.model.entity.CarJoinBean;
+import com.lesso.module.me.mvp.model.entity.CarJoinReq;
+import com.lesso.module.me.mvp.model.entity.CarTeamDetailBean;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinBean;
 import com.lesso.module.me.mvp.model.entity.CompanyJoinedBean;
 import com.lesso.module.me.mvp.model.entity.DriverVerifyDetailBean;
+import com.lesso.module.me.mvp.model.entity.QueryCarJoinReq;
 import com.lesso.module.me.mvp.model.entity.SubmitCompanyJoinedActionBean;
 import com.lesso.module.me.mvp.model.entity.SubmitCompanyJoinedListBean;
 import com.lesso.module.me.mvp.model.entity.SubmitCompanyJoiningBean;
+import com.lesso.module.me.mvp.model.entity.SubmitDeleteCarBean;
 import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyBean;
 import com.lesso.module.me.mvp.model.entity.SubmitDriverVerifyDetailBean;
 import com.lesso.module.me.mvp.model.entity.SubmitLoginOutBean;
+import com.lesso.module.me.mvp.model.entity.UpdateDetailBean;
 import com.lesso.module.me.mvp.model.entity.UploadCardFileResultBean;
 import com.lesso.module.me.mvp.model.entity.UploadHeadFileResultBean;
 import com.lesso.module.me.mvp.model.entity.UserInfoBean;
@@ -128,5 +134,54 @@ public interface ModuleMeService {
     @POST(CommonHttpUrl.API_postUploadDriverHeadFile)
     Observable<HttpResult<UploadHeadFileResultBean>> postUploadDriverHeadFile(@Body RequestBody body);
 
+    /**
+     * 18,版本更新详情
+     */
+    @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
+    @GET(CommonHttpUrl.API_getNewAppVersion)
+    Observable<HttpResult<UpdateDetailBean>> getUpdateDetail(@Query("appSource") String appSource);
 
+    /**
+     * 35、查询车辆详情
+     */
+    @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
+    @GET(CommonHttpUrl.API_getCarTeamDetail)
+    Observable<HttpResult<CarTeamDetailBean>> getCarTeamDetail(@Query("carId") String carId);
+
+    /**
+     * 36、附件上传和识别附件信息
+     */
+    @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
+    @POST(CommonHttpUrl.API_postUploadWlCarTeamFile)
+    Observable<HttpResult<UploadCardFileResultBean>> postUploadWlCarTeamFile(@Body RequestBody body);
+
+    /**
+     * 37、车辆保存
+     */
+    @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
+    @POST(CommonHttpUrl.API_postAddWlCarTeam)
+    Observable<HttpResult> postAddWlCarTeam(@Body CarTeamDetailBean bean);
+
+    /**
+     * 38、车辆删除
+     */
+    @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
+    @POST(CommonHttpUrl.API_postDeleteWlCarTeam)
+    Observable<HttpResult> postDeleteWlCarTeam(@Body SubmitDeleteCarBean bean);
+
+    /**
+     * 查询已加入公司车辆列表
+     * @param body
+     * @return
+     */
+    @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
+    @POST(CommonHttpUrl.API_postFindCarTeamPage)
+    Observable<HttpResult<List<CarJoinBean>>> getCarJoinList(@Body QueryCarJoinReq body);
+
+    /**
+     * 车辆加盟
+     */
+    @Headers({DOMAIN_NAME_HEADER + Api.Module_Me_Doman_Name})
+    @POST(CommonHttpUrl.API_postcarJoinOperate)
+    Observable<HttpResult> joinCar(@Body CarJoinReq body);
 }

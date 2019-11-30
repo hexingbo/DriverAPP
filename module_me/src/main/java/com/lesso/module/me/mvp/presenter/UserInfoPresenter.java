@@ -17,6 +17,7 @@ import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
 import com.jess.arms.utils.LogUtils;
+import com.jess.arms.utils.PermissionUtil;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.lesso.module.me.BuildConfig;
 import com.lesso.module.me.R;
@@ -80,6 +81,7 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
     @Inject
     public UserInfoPresenter(UserInfoContract.Model model, UserInfoContract.View rootView) {
         super(model, rootView);
+        fileArr.clear();
     }
 
     @Override
@@ -97,8 +99,24 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
     public void checkPermission(UploadFileUserCardType fileTypes) {
         this.fileTypes = fileTypes;
         fileArr.clear();
-        if (mRootView.getRequestPermission() != null && mRootView.getRxPermissions() != null)
-            mModel.checkPermission(mRootView.getRxPermissions(), mRootView.getRequestPermission(), mErrorHandler);
+        if (mRootView.getRxPermissions() != null)
+            PermissionUtil.launchCameraAndExternalStorage(new PermissionUtil.RequestPermission() {
+                @Override
+                public void onRequestPermissionSuccess() {
+                    //request permission success, do something.
+                    getPictureSelector();
+                }
+
+                @Override
+                public void onRequestPermissionFailure(List<String> permissions) {
+                    mRootView.showMessage("Request permissions failure");
+                }
+
+                @Override
+                public void onRequestPermissionFailureWithAskNeverAgain(List<String> permissions) {
+                    mRootView.showMessage("Need to go to the settings");
+                }
+            }, mRootView.getRxPermissions(), mErrorHandler);
 
     }
 
@@ -106,15 +124,17 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
      * 上传文件
      */
     public void postUploadFile(File file) {
+        fileArr.clear();
         if (file == null) {
             mRootView.showMessage("请选择你要上传的文件");
             return;
         }
-        mRootView.setImageViewPicture(file.getPath(), fileTypes, mDriverVerifyDetailBean);
+        mRootView.setImageViewPicture(file.getPath(), fileTypes, getDriverVerifyDetailBean());
         if (fileTypes == UploadFileUserCardType.HeadPhoto) {
             postUploadDriverHeadFile(file);
         } else {
             fileArr.add(file);
+            LogUtils.warnInfo("hxb--->", "上传文件个数：" + fileArr.size());
             postUploadDriverInfoFile(fileArr, fileTypes);
         }
 
@@ -126,7 +146,6 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
      * @param personFile
      */
     private void postUploadDriverHeadFile(File personFile) {
-
         mModel.postUploadDriverHeadFile(DataHelper.getStringSF(AppManagerUtil.getCurrentActivity(), Constants.SP_USER_ID), personFile)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(
@@ -152,7 +171,7 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
                     @Override
                     public void onResult(HttpResult<UploadHeadFileResultBean> result) {
                         mRootView.showMessage("上传成功");
-                        mDriverVerifyDetailBean.setHeadSrc(result.getData().getHeadPath());
+                        getDriverVerifyDetailBean().setHeadSrc(result.getData().getHeadPath());
                     }
 
                     @Override
@@ -198,26 +217,39 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
                     @Override
                     public void onResult(HttpResult<UploadCardFileResultBean> result) {
                         mRootView.showMessage("上传成功");
-                        if (result.getData() != null)
+                        if (!ArmsUtils.isEmpty(result.getData()))
                             switch (fileTypes) {
                                 case IdCard:
-                                    mDriverVerifyDetailBean.setIdCardPath(result.getData().getFilePathInfo().getIdCard());
-                                    if (result.getData().getFilePathInfo().getIdCardBack().isSuccess())
-                                        mRootView.setUserCardNumber(result.getData().getFilePathInfo().getIdCardBack().getData().getIdNum());
+                                    //设置身份证号码
+                                    if (!ArmsUtils.isEmpty(result.getData().getFileTextInfo())
+                                            && !ArmsUtils.isEmpty(result.getData().getFileTextInfo().getIdCard())
+                                            && result.getData().getFileTextInfo().getIdCard().isSuccess())
+                                        mRootView.setUserCardNumber(result.getData().getFileTextInfo().getIdCard().getData());
+
+                                    if (!ArmsUtils.isEmpty(result.getData().getFilePathInfo()))
+                                        getDriverVerifyDetailBean().setIdCardPath(result.getData().getFilePathInfo().getIdCard());
                                     break;
                                 case IdCardBack:
-                                    mDriverVerifyDetailBean.setIdCardBackPath(result.getData().getFilePathInfo().getIdCard());
+                                    if (!ArmsUtils.isEmpty(result.getData().getFilePathInfo()))
+                                        getDriverVerifyDetailBean().setIdCardBackPath(result.getData().getFilePathInfo().getIdCardBack());
                                     break;
                                 case LifePhoto:
-                                    mDriverVerifyDetailBean.setLifePhotoPath(result.getData().getFilePathInfo().getIdCard());
+                                    if (!ArmsUtils.isEmpty(result.getData().getFilePathInfo()))
+                                        getDriverVerifyDetailBean().setLifePhotoPath(result.getData().getFilePathInfo().getLifePhoto());
                                     break;
                                 case DriverCard:
-                                    mDriverVerifyDetailBean.setDriverCardPath(result.getData().getFilePathInfo().getIdCard());
-                                    if (result.getData().getFilePathInfo().getIdCardBack().isSuccess())
-                                        mRootView.setDriverCardNumber(result.getData().getFilePathInfo().getIdCardBack().getData().getIdNum());
+                                    //设置驾驶证号码
+                                    if (!ArmsUtils.isEmpty(result.getData().getFileTextInfo()) &&
+                                            !ArmsUtils.isEmpty(result.getData().getFileTextInfo().getDriverCardBack()) &&
+                                            result.getData().getFileTextInfo().getDriverCardBack().isSuccess())
+                                        mRootView.setDriverCardNumber(result.getData().getFileTextInfo().getDriverCardBack().getData());
+
+                                    if (!ArmsUtils.isEmpty(result.getData().getFilePathInfo()))
+                                        getDriverVerifyDetailBean().setDriverCardPath(result.getData().getFilePathInfo().getDriverCard());
                                     break;
                                 case DriverCardBack:
-                                    mDriverVerifyDetailBean.setDriverCardBackPath(result.getData().getFilePathInfo().getIdCard());
+                                    if (!ArmsUtils.isEmpty(result.getData().getFilePathInfo()))
+                                        getDriverVerifyDetailBean().setDriverCardBackPath(result.getData().getFilePathInfo().getDriverCardBack());
                                     break;
                             }
 
@@ -267,9 +299,6 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
      * 保存用户信息
      */
     public void postSaveDriverVerifyInfo(String userName, String userCard, String driverCard) {
-        if (mDriverVerifyDetailBean == null) {
-            return;
-        }
         if (ArmsUtils.isEmpty(userName)) {
             mRootView.showMessage("请输入姓名");
             return;
@@ -282,26 +311,35 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
             mRootView.showMessage("请输入驾驶证号");
             return;
         }
-        if (ArmsUtils.isEmpty(mDriverVerifyDetailBean.getIdCardPath())) {
+
+        if (ArmsUtils.isEmpty(getDriverVerifyDetailBean().getHeadSrc())) {
+            mRootView.showMessage("请上传头像");
+            return;
+        }
+        if (ArmsUtils.isEmpty(getDriverVerifyDetailBean().getIdCardPath())) {
             mRootView.showMessage("请上传身份证正面照");
             return;
         }
-        if (ArmsUtils.isEmpty(mDriverVerifyDetailBean.getIdCardBackPath())) {
+        if (ArmsUtils.isEmpty(getDriverVerifyDetailBean().getIdCardBackPath())) {
             mRootView.showMessage("请上传身份证背面照");
             return;
         }
-        if (ArmsUtils.isEmpty(mDriverVerifyDetailBean.getDriverCardPath())) {
-            mRootView.showMessage("请上传驾驶证正面照");
+        if (ArmsUtils.isEmpty(getDriverVerifyDetailBean().getLifePhotoPath())) {
+            mRootView.showMessage("请上传手持身份证照");
             return;
         }
-        if (ArmsUtils.isEmpty(mDriverVerifyDetailBean.getDriverCardBackPath())) {
-            mRootView.showMessage("请上传驾驶证背面照");
+        if (ArmsUtils.isEmpty(getDriverVerifyDetailBean().getDriverCardPath())) {
+            mRootView.showMessage("请上传驾驶证主页照");
             return;
         }
-        mDriverVerifyDetailBean.setDriverBy(userName);
-        mDriverVerifyDetailBean.setIdno(userCard);
-        mDriverVerifyDetailBean.setDriverno(driverCard);
-        mModel.postSaveDriverVerifyInfo(mDriverVerifyDetailBean)
+        if (ArmsUtils.isEmpty(getDriverVerifyDetailBean().getDriverCardBackPath())) {
+            mRootView.showMessage("请上传驾驶证副页照");
+            return;
+        }
+        getDriverVerifyDetailBean().setDriverBy(userName);
+        getDriverVerifyDetailBean().setIdno(userCard);
+        getDriverVerifyDetailBean().setDriverno(driverCard);
+        mModel.postSaveDriverVerifyInfo(getDriverVerifyDetailBean())
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(
                         //遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -318,7 +356,7 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
-                        mRootView.showMessage("保存成功");
+                        ArmsUtils.makeText(mApplication, mApplication.getResources().getString(R.string.module_me_user_submit_succeed));
                         EventBusManager.getInstance().post(new MessageEvent(EventBusHub.Message_UpdateUserInfo));
                         AppManagerUtil.getCurrentActivity().finish();
                     }
@@ -341,11 +379,13 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
             mImageLoader.loadImage(mApplication, CommonImageConfigImpl
                     .builder()
                     .url(url)
-                    .errorPic(R.mipmap.ic_defaul_head_img)
-                    .placeholder(R.mipmap.ic_defaul_head_img)
+                    .errorPic(R.mipmap.ic_head_default)
+                    .placeholder(R.mipmap.ic_head_default)
                     .transformation(new CircleCrop())
                     .imageView(view)
                     .build());
+        else
+            view.setImageResource(R.mipmap.ic_head_default);
     }
 
     public void setImageViewPicture(String url, ImageView view, int errorPic) {
@@ -369,6 +409,9 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.Model, Use
      * @param url
      */
     public void openExternalPreview(String url) {
+        if (ArmsUtils.isEmpty(url)) {
+            ArmsUtils.makeText(mApplication, "没有可预览的图片");
+        } else
         ImageViewLookImgsUtils.init().lookImgs(AppManagerUtil.getCurrentActivity(), url);
     }
 

@@ -3,7 +3,10 @@
 
     <string name="update_title_info">我们升级呢！</string>
     <string name="update_content_info">1.更新内容；\n2.更新内容啦；\n3.更新内容，赶紧查看；\n1.更新内容；\n2.更新内容啦；\n3.更新内容，赶紧查看；1.更新内容；\n2.更新内容啦；\n3.更新内容，赶紧查看；1.更新内容；\n2.更新内容啦；\n3.更新内容，赶紧查看；</string>
+    <string name="update_anzhuang">安装</string>
     <string name="update_info">更新</string>
     <string name="update_next">取消</string>
+    <string name="updating_format">正在更新 %d%%</string>
+    <string name="is_newest_version">已是最新版本</string>
 
 </resources>

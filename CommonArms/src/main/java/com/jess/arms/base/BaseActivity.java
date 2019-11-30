@@ -17,6 +17,9 @@ package com.jess.arms.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,10 +27,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.InflateException;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
-import com.jess.arms.R;
 import com.jess.arms.base.delegate.IActivity;
 import com.jess.arms.integration.cache.Cache;
 import com.jess.arms.integration.cache.CacheType;
@@ -88,9 +95,11 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStatusBar();//设置状态栏颜色为黑色
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         this.savedInstanceState = savedInstanceState;
+//        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
+        setStatusBar();//设置状态栏颜色为黑色
+        //全部禁止横屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         try {
             int layoutResID = initView(savedInstanceState);
             //如果initView返回0,框架则不会调用setContentView(),当然也不会 Bind ButterKnife
@@ -103,6 +112,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
             if (e instanceof InflateException) throw e;
             e.printStackTrace();
         }
+
         initData(savedInstanceState);
     }
 
@@ -111,8 +121,59 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
      */
     protected void setStatusBar() {
         //根据状态栏颜色来决定状态栏文字用黑色  背景白色 字体黑色 & 背景白色，字体黑色
-        StatusBarUtil.setStatusBarMode(this, true, R.color.white);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        StatusBarUtil.setStatusBarMode(this, true, R.color.white);
+//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        setTranspStatusBar(null);
+    }
+
+    /**
+     * 设置沉浸式
+     */
+    public int setTranspStatusBar(View titleBar) {
+        int statusBarHeight = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //修改状态栏颜色和文字图标颜色
+                getWindow().setStatusBarColor(Color.TRANSPARENT);
+            }
+            if (titleBar != null) {
+                ViewGroup.LayoutParams params = titleBar.getLayoutParams();
+                params.height += statusBarHeight;
+                titleBar.setLayoutParams(params);
+                titleBar.setPadding(0, statusBarHeight, 0, 0);
+            }
+            initStatusBar();
+        }
+        return statusBarHeight;
+    }
+
+    /**
+     * 初始化状态栏相关，
+     * PS: 设置全屏需要在调用super.onCreate(arg0);之前设置setIsFullScreen(true);否则在Android 6.0下非全屏的activity会出错;
+     * SDK19：可以设置状态栏透明，但是半透明的SYSTEM_BAR_BACKGROUNDS会不好看；
+     * SDK21：可以设置状态栏颜色，并且可以清除SYSTEM_BAR_BACKGROUNDS，但是不能设置状态栏字体颜色（默认的白色字体在浅色背景下看不清楚）；
+     * SDK23：可以设置状态栏为浅色（SYSTEM_UI_FLAG_LIGHT_STATUS_BAR），字体就回反转为黑色。
+     * 为兼容目前效果，仅在SDK23才显示沉浸式。
+     */
+    private void initStatusBar() {
+        Window win = getWindow();
+
+        //KITKAT也能满足，只是SYSTEM_UI_FLAG_LIGHT_STATUS_BAR（状态栏字体颜色反转）只有在6.0才有效
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            win.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//透明状态栏
+            // 状态栏字体设置为深色，SYSTEM_UI_FLAG_LIGHT_STATUS_BAR 为SDK23增加
+            win.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+            // 部分机型的statusbar会有半透明的黑色背景
+            win.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            win.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            win.setStatusBarColor(Color.TRANSPARENT);// SDK21
+
+            StatusBarUtil.setStatusTextColor(true, this);
+
+        }
     }
 
     @Override
@@ -160,8 +221,53 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     // 含有my_tag,当用户post事件时,只有指定了"my_tag"的事件才会触发该函数,执行在一个独立的线程
     @Subscriber
     protected void getEventBusHub_Activity(MessageEvent message) {
-        if (message.getType().equals(BaseEventBusHub.TAG_LOGIN_SUCCESS))
+        if (message.getType().equals(BaseEventBusHub.TAG_LOGIN_EST)) {
+            finish();
+        } else if (message.getType().equals(BaseEventBusHub.TAG_LOGIN_SUCCESS)) {
             initData(savedInstanceState);
+        }
+    }
+
+    //点击EditText文本框之外任何地方隐藏键盘的解决办法
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (isShouldHideInput(v, ev)) {
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+            return super.dispatchTouchEvent(ev);
+        }
+        // 必不可少，否则所有的组件都不会有TouchEvent了
+        if (getWindow().superDispatchTouchEvent(ev)) {
+            return true;
+        }
+        return onTouchEvent(ev);
+    }
+
+    public boolean isShouldHideInput(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] leftTop = {0, 0};
+            //获取输入框当前的location位置
+            v.getLocationInWindow(leftTop);
+            int left = leftTop[0];
+            int top = leftTop[1];
+            int bottom = top + v.getHeight();
+            int right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 点击的是输入框区域，保留点击EditText的事件
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
+

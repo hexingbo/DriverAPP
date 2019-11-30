@@ -1,25 +1,13 @@
 package com.lesso.module.login.mvp.presenter;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
-import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
-import me.jessyan.armscomponent.commonsdk.core.Constants;
-import me.jessyan.armscomponent.commonsdk.core.RouterHub;
-import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
-import me.jessyan.armscomponent.commonsdk.utils.Utils;
-import me.jessyan.rxerrorhandler.core.RxErrorHandler;
-import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
-
-import javax.inject.Inject;
-
+import com.jess.arms.integration.AppManager;
+import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
@@ -28,6 +16,17 @@ import com.lesso.module.login.BuildConfig;
 import com.lesso.module.login.R;
 import com.lesso.module.login.mvp.contract.UpdatePwdActivityContract;
 import com.lesso.module.login.mvp.model.entity.SubmitUpdatePwdBean;
+
+import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
+import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.core.RouterHub;
+import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 
 
 /**
@@ -64,17 +63,22 @@ public class UpdatePwdActivityPresenter extends BasePresenter<UpdatePwdActivityC
 
     /**
      * 修改密码提交参数
-     *
-     * @param pwdOld
+     *  @param pwdOld
      * @param pwdNew
+     * @param pwdConfirm
      */
-    public void postUpdatePassword(String pwdOld, String pwdNew) {
+    public void postUpdatePassword(String pwdOld, String pwdNew, String pwdConfirm) {
         if (ArmsUtils.isEmpty(pwdOld)) {
-            ArmsUtils.snackbarText(mRootView.getActivity().getResources().getString(R.string.login_hint_input_pwd_old));
+            ArmsUtils.makeText(mApplication, mRootView.getActivity().getResources().getString(R.string.login_hint_input_pwd_old));
             return;
         }
         if (ArmsUtils.isEmpty(pwdNew)) {
-            ArmsUtils.snackbarText(mRootView.getActivity().getResources().getString(R.string.login_hint_input_pwd_new));
+            ArmsUtils.makeText(mApplication, mRootView.getActivity().getResources().getString(R.string.login_hint_input_pwd_new));
+            return;
+        }
+
+        if(!TextUtils.equals(pwdNew, pwdConfirm)) {
+            ArmsUtils.makeText(mApplication, mApplication.getResources().getString(R.string.password_not_equals));
             return;
         }
 

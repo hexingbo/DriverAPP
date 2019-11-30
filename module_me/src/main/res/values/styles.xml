@@ -33,4 +33,39 @@
         <item name="android:src">@mipmap/ic_next</item>
         <item name="android:layout_marginRight">@dimen/public_mar_left_15dp</item>
     </style>
+
+    <style name="CarJoinListItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/public_height_15dp</item>
+        <item name="android:paddingLeft">@dimen/public_pad_left_5dp</item>
+        <item name="android:paddingRight">@dimen/public_pad_right_5dp</item>
+    </style>
+
+    <style name="CarJoinListItemLeftImage">
+        <item name="android:layout_width">@dimen/public_height_16dp</item>
+        <item name="android:layout_height">@dimen/public_height_16dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="CarJoinListItemLeftText">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/public_mar_left_10dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/public_color_999999</item>
+        <item name="android:textSize">@dimen/public_font_14sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="CarJoinListItemRightText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/public_color_333333</item>
+        <item name="android:textSize">@dimen/public_font_16sp</item>
+    </style>
+
 </resources>

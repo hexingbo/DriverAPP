@@ -8,14 +8,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.hxb.app.loadlayoutlibrary.LoadLayout;
-import com.hxb.app.loadlayoutlibrary.OnLoadListener;
-import com.hxb.app.loadlayoutlibrary.State;
 import com.jess.arms.base.BaseEventBusHub;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.base.MessageEvent;
@@ -30,14 +26,17 @@ import com.lesso.module.me.mvp.contract.MainMyContract;
 import com.lesso.module.me.mvp.model.entity.UserInfoBean;
 import com.lesso.module.me.mvp.presenter.MainMyPresenter;
 import com.lesso.module.me.mvp.ui.activity.AboutUsActivity;
+import com.lesso.module.me.mvp.ui.activity.CarJoinListActivity;
 import com.lesso.module.me.mvp.ui.activity.CompanyJoinManageActivity;
 import com.lesso.module.me.mvp.ui.activity.CompanyJoinedManageActivity;
+import com.lesso.module.me.mvp.ui.activity.MyCarsListManagerActivity;
 import com.lesso.module.me.mvp.ui.activity.UserInfoActivity;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
 import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
@@ -53,7 +52,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * =============================================
  */
 @Route(path = RouterHub.Me_MainMyFragment)
-public class MainMyFragment extends BaseFragment<MainMyPresenter> implements MainMyContract.View, OnLoadListener {
+public class MainMyFragment extends BaseFragment<MainMyPresenter> implements MainMyContract.View {
 
     @BindView(R2.id.img_user_head)
     ImageView imgUserHead;
@@ -64,11 +63,10 @@ public class MainMyFragment extends BaseFragment<MainMyPresenter> implements Mai
     @BindView(R2.id.btn_submit)
     TextView btnSubmit;
 
-    protected FrameLayout frameLayout;
-    protected LoadLayout mLoadLayout;
-
     @Inject
     Dialog mDialog;
+    @Inject
+    MyHintDialog myHintDialog;
 
     public static MainMyFragment newInstance() {
         MainMyFragment fragment = new MainMyFragment();
@@ -87,23 +85,13 @@ public class MainMyFragment extends BaseFragment<MainMyPresenter> implements Mai
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(com.jess.arms.R.layout.public_base_loadlayout_fragment, container, false);
-        frameLayout = rootView.findViewById(com.jess.arms.R.id.fl_content);
-        mLoadLayout = rootView.findViewById(com.jess.arms.R.id.base_load_layout);
-
-        View contentView = inflater.inflate(R.layout.fragment_main_my, container, false);
-        if (contentView != null) {
-            frameLayout.addView(contentView);
-        }
-        mLoadLayout.setOnLoadListener(this);
-        mLoadLayout.setLoadingViewId(R.layout.view_custom_loading_data);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_main_my, container, false);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         btnSubmit.setText(R.string.me_login_out);
-        onLoad();
+        mPresenter.getUserInfo();
     }
 
     @Override
@@ -145,24 +133,20 @@ public class MainMyFragment extends BaseFragment<MainMyPresenter> implements Mai
         mPresenter.setUserHeadImager(imgUserHead, bean.getHeadUrl());
     }
 
-    @Override
-    public void onLoad() {
-        mPresenter.getUserInfo();
-    }
 
     @Override
     protected void getEventBusHub_Fragment(MessageEvent message) {
-        if (message.getType().equals(BaseEventBusHub.TAG_LOGIN_SUCCESS) && message.getType().equals(EventBusHub.Message_UpdateUserInfo)) {
-            onLoad();
+        if (message.getType().equals(BaseEventBusHub.TAG_LOGIN_SUCCESS) || message.getType().equals(EventBusHub.Message_UpdateUserInfo)) {
+            mPresenter.getUserInfo();
         }
     }
 
     @OnClick({R2.id.img_user_head, R2.id.ll_company_join, R2.id.ll_company_manager, R2.id.ll_order_account,
-            R2.id.ll_user_info, R2.id.ll_update_pwd, R2.id.ll_about_us, R2.id.btn_submit})
+            R2.id.ll_user_info, R2.id.ll_update_pwd, R2.id.ll_about_us, R2.id.btn_submit, R2.id.ll_my_cars})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.ll_company_join) {
             //加盟物流公司
-            AppManagerUtil.jump(CompanyJoinManageActivity.class);
+            AppManagerUtil.jump(CompanyJoinManageActivity.class, CompanyJoinManageActivity.IntentValue, false);
         } else if (view.getId() == R.id.ll_company_manager) {
             //加盟管理
             if (ArmsUtils.isEmpty(DataHelper.getStringSF(getContext(), Constants.SP_VERIFY_STATUS))) {
@@ -182,34 +166,22 @@ public class MainMyFragment extends BaseFragment<MainMyPresenter> implements Mai
             //关于我们
             AppManagerUtil.jump(AboutUsActivity.class);
         } else if (view.getId() == R.id.btn_submit) {
+            myHintDialog.setTextContent(getString(R.string.module_me_ask_confirm_login));
+            myHintDialog.setOnDialogListener(new MyHintDialog.OnDialogListener() {
+                @Override
+                public void onItemViewRightListener() {
+                    mPresenter.postLoginOut();
+                }
+            });
+            myHintDialog.show();
             //退出登录
-            mPresenter.postLoginOut();
         } else if (view.getId() == R.id.img_user_head) {
             mPresenter.openExternalPreview();
+        } else if (view.getId() == R.id.ll_my_cars) {
+            //我的车辆
+//            showMessage("开发中...");
+            AppManagerUtil.jump(MyCarsListManagerActivity.class);
         }
     }
-
-    @Override
-    public void setLayoutState_LOADING() {
-        mLoadLayout.setLayoutState(State.LOADING);
-    }
-
-    @Override
-    public void setLayoutState_SUCCESS() {
-        mLoadLayout.setLayoutState(State.SUCCESS);
-    }
-
-    @Override
-    public void setLayoutState_FAILED() {
-        if (mLoadLayout.getLayerType() != State.SUCCESS)
-            mLoadLayout.setLayoutState(State.FAILED);
-    }
-
-    @Override
-    public void setLayoutState_NO_DATA() {
-        if (mLoadLayout.getLayerType() != State.SUCCESS)
-            mLoadLayout.setLayoutState(State.NO_DATA);
-    }
-
 
 }

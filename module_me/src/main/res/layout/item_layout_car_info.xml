@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/public_mar_bottom_3dp">
+
+        <TextView
+            android:id="@+id/tv_car_no"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/public_height_28dp"
+            android:background="@drawable/ic_f0f0f0_bg"
+            android:gravity="center"
+            android:minWidth="@dimen/public_width_77dp"
+            android:textColor="@color/public_color_333333"
+            android:textSize="@dimen/public_font_14sp"
+            tools:text="车牌号" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_more" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/CarJoinListItem">
+
+        <ImageView
+            style="@style/CarJoinListItemLeftImage"
+            android:src="@drawable/car_type" />
+
+        <TextView
+            style="@style/CarJoinListItemLeftText"
+            android:text="@string/car_type" />
+
+        <TextView
+            android:id="@+id/tv_car_type"
+            tools:text="测试文本"
+            style="@style/CarJoinListItemRightText" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/CarJoinListItem">
+
+        <ImageView
+            style="@style/CarJoinListItemLeftImage"
+            android:src="@drawable/car_length" />
+
+        <TextView
+            style="@style/CarJoinListItemLeftText"
+            android:text="@string/car_length" />
+
+        <TextView
+            android:id="@+id/tv_car_length"
+            style="@style/CarJoinListItemRightText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_car_volume"
+        style="@style/CarJoinListItem">
+
+        <ImageView
+            style="@style/CarJoinListItemLeftImage"
+            android:src="@drawable/car_volume" />
+
+        <TextView
+            style="@style/CarJoinListItemLeftText"
+            android:text="@string/car_volume" />
+
+        <TextView
+            android:id="@+id/tv_car_volume"
+            style="@style/CarJoinListItemRightText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_car_load"
+        style="@style/CarJoinListItem">
+
+        <ImageView
+            style="@style/CarJoinListItemLeftImage"
+            android:src="@drawable/car_load" />
+
+        <TextView
+            style="@style/CarJoinListItemLeftText"
+            android:text="@string/car_load" />
+
+        <TextView
+            android:id="@+id/tv_car_load"
+            style="@style/CarJoinListItemRightText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_insurance_deadline"
+        style="@style/CarJoinListItem">
+
+        <ImageView
+            style="@style/CarJoinListItemLeftImage"
+            android:src="@drawable/car_insurance_deadline" />
+
+        <TextView
+            style="@style/CarJoinListItemLeftText"
+            android:text="@string/car_insurance_deadline" />
+
+        <TextView
+            android:id="@+id/tv_car_insurance_deadline"
+            style="@style/CarJoinListItemRightText" />
+    </LinearLayout>
+</LinearLayout>

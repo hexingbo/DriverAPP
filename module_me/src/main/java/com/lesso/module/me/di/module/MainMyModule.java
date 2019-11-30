@@ -3,14 +3,14 @@ package com.lesso.module.me.di.module;
 import android.app.Dialog;
 
 import com.jess.arms.di.scope.FragmentScope;
+import com.lesso.module.me.mvp.contract.MainMyContract;
+import com.lesso.module.me.mvp.model.MainMyModel;
 
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
 import me.jessyan.armscomponent.commonres.dialog.ProgresDialog;
-
-import com.lesso.module.me.mvp.contract.MainMyContract;
-import com.lesso.module.me.mvp.model.MainMyModel;
 
 
 /**
@@ -30,5 +30,11 @@ public abstract class MainMyModule {
     @Provides
     static Dialog provideDialog(MainMyContract.View view){
         return new ProgresDialog(view.getActivity());
+    }
+
+    @FragmentScope
+    @Provides
+    static MyHintDialog provideMyHintDialog(MainMyContract.View view) {
+        return new MyHintDialog(view.getActivity());
     }
 }

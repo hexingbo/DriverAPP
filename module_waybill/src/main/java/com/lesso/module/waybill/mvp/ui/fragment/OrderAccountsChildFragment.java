@@ -8,18 +8,31 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.jess.arms.base.BaseLazyLoadFragment;
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
+import com.jess.arms.utils.DeviceUtils;
 import com.lesso.module.waybill.R;
 import com.lesso.module.waybill.R2;
 import com.lesso.module.waybill.di.component.DaggerOrderAccountsChildComponent;
 import com.lesso.module.waybill.mvp.contract.OrderAccountsChildContract;
+import com.lesso.module.waybill.mvp.model.entity.OrderAccountBean;
 import com.lesso.module.waybill.mvp.presenter.OrderAccountsChildPresenter;
 import com.lesso.module.waybill.mvp.ui.adapter.OrderAccountListAdapter;
 import com.zhouyou.recyclerview.XRecyclerView;
@@ -27,12 +40,18 @@ import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
 import com.zhouyou.recyclerview.custom.CustomMoreFooter;
 import com.zhouyou.recyclerview.custom.CustomRefreshHeader2;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import me.jessyan.armscomponent.commonres.constant.CommonConstant;
 import me.jessyan.armscomponent.commonres.enums.AuthenticationStatusType;
 import me.jessyan.armscomponent.commonres.enums.OrderAccountStateType;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
+import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -41,10 +60,11 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  * user：贺兴波
  * 2019/11/19 14:34
- * Description:
+ * Description:对账列表
  * ================================================
  */
-public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccountsChildPresenter> implements OrderAccountsChildContract.View {
+public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccountsChildPresenter>
+        implements OrderAccountsChildContract.View, OrderAccountListAdapter.OnAdapterViewClickListener, TextView.OnEditorActionListener {
 
     OrderAccountStateType stateType = OrderAccountStateType.B;
 
@@ -57,6 +77,20 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
 
     @BindView(R2.id.recyclerview)
     XRecyclerView mRecyclerView;
+    @BindView(R2.id.ll_create_accounts)
+    LinearLayout llCreateAccounts;
+    @BindView(R2.id.cb_all)
+    CheckBox cbAll;
+    @BindView(R2.id.tv_create_accounts_total_money)
+    TextView tvCreateAccountsTotalMoney;
+    @BindView(R2.id.tv_create_accounts)
+    TextView tvCreateAccounts;
+    @BindView(R2.id.et_search)
+    EditText etSearch;
+    @BindView(R2.id.tv_start_time)
+    TextView tvStartTime;
+    @BindView(R2.id.tv_end_time)
+    TextView tvEndTime;
 
     public static OrderAccountsChildFragment newInstance() {
         OrderAccountsChildFragment fragment = new OrderAccountsChildFragment();
@@ -82,6 +116,7 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
     public void initData(@Nullable Bundle savedInstanceState) {
         initRecyclerView();
         mRecyclerView.setAdapter(mAdapter);
+        llCreateAccounts.setVisibility(stateType == OrderAccountStateType.Z ? View.VISIBLE : View.GONE);
     }
 
     private void initRecyclerView() {
@@ -92,7 +127,7 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                lazyLoadData();
+                mPresenter.getOrderAccounts(stateType, true);
             }
 
             @Override
@@ -100,6 +135,29 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
                 mPresenter.getOrderAccounts(stateType, false);
             }
         });
+
+        //添加搜索按钮监听
+        etSearch.setOnEditorActionListener(this);
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mPresenter.setSearchValue(s.toString());
+            }
+        });
+
+        setStartTimeValue(mPresenter.getDriverDateStart());
+        setEndTimeValue(mPresenter.getDriverDateEnd());
+        mRecyclerView.setFocusable(true);
     }
 
     /**
@@ -201,8 +259,43 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
     }
 
     @Override
+    public OrderAccountListAdapter.OnAdapterViewClickListener getOnAdapterViewClickListener() {
+        return this;
+    }
+
+    @Override
+    public void setStartTimeValue(String time) {
+        tvStartTime.setText(time);
+    }
+
+    @Override
+    public void setEndTimeValue(String time) {
+        tvEndTime.setText(time);
+    }
+
+    @Override
+    public void onCheckedItemChanged(boolean isSelectedAll, ArrayList<OrderAccountBean> selectedList) {
+        cbAll.setChecked(isSelectedAll);
+        if (selectedList != null) {
+            double totalMoney = 0.00;
+            for (OrderAccountBean bean : selectedList) {
+                totalMoney += (bean.getTransportCosts().contains(".") ? Double.valueOf(bean.getTransportCosts()) : Integer.valueOf(bean.getTransportCosts()));
+            }
+            tvCreateAccountsTotalMoney.setText(totalMoney + "");
+        }
+    }
+
+    @Override
+    public void onCheckedItem(int position, OrderAccountBean item) {
+        ARouter.getInstance().build(RouterHub.Waybill_WayBillDetailActivity)
+                .withString(CommonConstant.IntentWayBillDetailKey_OrderId, item.getOrderId())
+                .navigation(AppManagerUtil.getCurrentActivity());
+    }
+
+    @Override
     protected void lazyLoadData() {
-        if (!DataHelper.getStringSF(getContext(), Constants.SP_VERIFY_STATUS).equals(AuthenticationStatusType.D.name())) {
+        mAdapter.clear();
+        if (ArmsUtils.isEmpty(DataHelper.getStringSF(getContext(), Constants.SP_VERIFY_STATUS)) || !DataHelper.getStringSF(getContext(), Constants.SP_VERIFY_STATUS).equals(AuthenticationStatusType.D.name())) {
             mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_ERROR);
         } else {
             mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_LOADING);
@@ -214,6 +307,73 @@ public class OrderAccountsChildFragment extends BaseLazyLoadFragment<OrderAccoun
     public void onDestroy() {
         mAdapter.clear();//清除掉适配器中数据
         super.onDestroy();
+    }
+
+    @OnClick({R2.id.cb_all, R2.id.tv_create_accounts, R2.id.tv_start_time, R2.id.tv_end_time, R2.id.img_search})
+    public void onViewClicked(View view) {
+        //让EditText失去焦点
+        etSearch.setFocusable(false);
+        etSearch.setFocusableInTouchMode(true);
+        view.setFocusable(true);
+        // 隐藏键盘
+        DeviceUtils.hideSoftKeyboard(getContext(), view);
+
+        if (view.getId() == R.id.cb_all) {
+            //全选
+            mAdapter.setSelectedAll(cbAll.isChecked());
+            onCheckedItemChanged(cbAll.isChecked(), mAdapter.getSelectedList());
+        } else if (view.getId() == R.id.tv_create_accounts) {
+            //创建对账单
+            String orderId = "";
+            if (!ArmsUtils.isEmpty(mAdapter.getSelectedList())) {
+                for (OrderAccountBean bean : mAdapter.getSelectedList()) {
+                    orderId += bean.getOrderId() + ",";
+                }
+            }
+            mPresenter.postOrderSaveAccounts(orderId);
+        } else if (view.getId() == R.id.tv_start_time) {
+            mPresenter.showTimePickerView(getContext(), true);
+        } else if (view.getId() == R.id.tv_end_time) {
+            mPresenter.showTimePickerView(getContext(), false);
+        } else if (view.getId() == R.id.img_search) {
+            lazyLoadData();
+        }
+    }
+
+    @Override
+    protected void getEventBusHub_Fragment(MessageEvent message) {
+        super.getEventBusHub_Fragment(message);
+        if (message.getType().equals(EventBusHub.Message_UpdateOrderAccountsList)) {
+            lazyLoadData();
+        }
+    }
+
+    /**
+     * 输入框搜索监听
+     *
+     * @param v
+     * @param actionId
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        /*判断是否是“搜索”键*/
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//           String searcKeyValue = etSearch.getText().toString().trim();
+//            if (TextUtils.isEmpty(etSearch)) {
+//                RingToast.show("请输入需要搜索的关键字");
+//                return true;
+//            }
+            // 隐藏键盘
+            DeviceUtils.hideSoftKeyboard(getContext(), v);
+            //让EditText失去焦点
+            etSearch.setFocusable(false);
+            etSearch.setFocusableInTouchMode(true);
+            lazyLoadData();
+            return true;
+        }
+        return false;
     }
 
 }

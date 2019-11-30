@@ -17,6 +17,16 @@ public class OrderAccountBean {
     private String transportCosts;//运费
     private String receivingParty;//收货方
 
+    private boolean selected;//待确认订单，提交生成对账单需要的判断
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
     public String getOrderId() {
         return orderId;
     }

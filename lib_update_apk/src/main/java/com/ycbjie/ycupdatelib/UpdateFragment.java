@@ -15,11 +15,9 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
@@ -48,39 +46,40 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
     private String desc;
     private String packageName;
 
-    private static final String[] mPermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
-    Manifest.permission.READ_EXTERNAL_STORAGE};
+    private static final String[] mPermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
     private int downloadStatus = UpdateUtils.DownloadStatus.START;
 
     private FragmentActivity mActivity;
     private BaseDownloadTask downloadTask;
 
-    private ProgressBar mProgress;
+    private ProgressButton mProgress;
     private TextView mTvCancel;
     private TextView mTvOk;
 
 
     /**
      * 版本更新
-     * @param isForceUpdate                     是否强制更新
-     * @param apkUrl                            下载链接
-     * @param apkName                           下载apk名称
-     * @param desc                              更新文案
-     * @param packageName                       包名
+     *
+     * @param isForceUpdate 是否强制更新
+     * @param apkUrl        下载链接
+     * @param apkName       下载apk名称
+     * @param desc          更新文案
+     * @param packageName   包名
      */
-    public static void showFragment(FragmentActivity activity, boolean isForceUpdate ,
-                                    String apkUrl , String apkName , String desc,
-                                    String packageName) {
+    public static UpdateFragment showFragment(FragmentActivity activity, boolean isForceUpdate,
+                                              String apkUrl, String apkName, String desc,
+                                              String packageName) {
         UpdateFragment updateFragment = new UpdateFragment();
         Bundle bundle = new Bundle();
         bundle.putString("apk_url", apkUrl);
         bundle.putString("desc", desc);
         bundle.putString("apkName", apkName);
         bundle.putBoolean("isUpdate", isForceUpdate);
-        bundle.putString("packageName",packageName);
+        bundle.putString("packageName", packageName);
         updateFragment.setArguments(bundle);
         updateFragment.show(activity.getSupportFragmentManager());
         FileDownloader.setup(activity);
+        return updateFragment;
     }
 
 
@@ -97,20 +96,6 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
             packageName = arguments.getString("packageName");
         }
     }
-
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (outState != null) {
-            apkUrl = outState.getString("apk_url");
-            desc = outState.getString("desc");
-            apkName = outState.getString("apkName");
-            isForceUpdate = outState.getBoolean("isUpdate");
-            packageName = outState.getString("packageName");
-        }
-    }
-
 
     @Override
     public void onAttach(Context context) {
@@ -150,13 +135,17 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
     private void initView(View view) {
         //ImageView mIvTop = view.findViewById(R.id.iv_top);
         TextView mTvDesc = view.findViewById(R.id.tv_desc);
-        mProgress = view.findViewById(R.id.progress);
+//        mProgress = view.findViewById(R.id.progress);
+        mProgress = view.findViewById(R.id.progress_button);
+
         mTvCancel = view.findViewById(R.id.tv_cancel);
         mTvOk = view.findViewById(R.id.tv_ok);
 
-        mProgress.setMax(100);
+//        mProgress.setMax(100);
         mProgress.setProgress(0);
-        mTvDesc.setText(desc==null?"":desc);
+        mProgress.setText(getString(R.string.updating_format, 0));
+
+        mTvDesc.setText(desc == null ? "" : desc);
         if (isForceUpdate) {
             mTvOk.setVisibility(View.VISIBLE);
             mTvCancel.setVisibility(View.GONE);
@@ -166,13 +155,15 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
         }
         mTvOk.setOnClickListener(this);
         mTvCancel.setOnClickListener(this);
+
+        setCancelable(isForceUpdate);
     }
 
     /**
      * 这里主要是处理返回键逻辑
      */
     private void onKeyListener() {
-        if(getDialog()!=null){
+        if (getDialog() != null) {
             getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
                 @Override
                 public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
@@ -195,13 +186,13 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
     private void createFilePath() {
         //获取下载保存path
         saveApkPath = UpdateUtils.getLocalApkDownSavePath(apkName);
-        if (new File(saveApkPath).exists()) {
-            changeUploadStatus(UpdateUtils.DownloadStatus.FINISH);
-        } else {
-            changeUploadStatus(UpdateUtils.DownloadStatus.START);
+        File file = new File(saveApkPath);
+        if (file.exists()) {
+//            changeUploadStatus(UpdateUtils.DownloadStatus.FINISH);
+            file.delete();
         }
+        changeUploadStatus(UpdateUtils.DownloadStatus.START);
     }
-
 
 
     @Override
@@ -219,16 +210,22 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
                     } else {
                         checkPermissionAndDownApk();
                     }
+                    mTvCancel.setVisibility(View.GONE);
+                    mTvOk.setVisibility(View.GONE);
+                    mProgress.setVisibility(View.VISIBLE);
                     break;
                 case UpdateUtils.DownloadStatus.FINISH:
                     File file = new File(saveApkPath);
                     if (file.exists()) {
                         //检测是否有apk文件，如果有直接普通安装
-                        UpdateUtils.installNormal(mActivity,saveApkPath,packageName);
-                        dismissDialog();
+                        UpdateUtils.installNormal(mActivity, saveApkPath, packageName);
+//                        dismissDialog();
                     } else {
                         checkPermissionAndDownApk();
                     }
+                    mTvCancel.setVisibility(View.GONE);
+                    mTvOk.setVisibility(View.VISIBLE);
+//                    mProgress.setVisibility(View.VISIBLE);
                     break;
                 case UpdateUtils.DownloadStatus.PAUSED:
                 case UpdateUtils.DownloadStatus.ERROR:
@@ -236,23 +233,27 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
                     break;
             }
         } else if (i == R.id.tv_cancel) {
-            //如果正在下载，那么就先暂停，然后finish
-            if (downloadStatus == UpdateUtils.DownloadStatus.UPLOADING) {
-                if (downloadTask != null && downloadTask.isRunning()) {
-                    downloadTask.pause();
-                }
-            }
-            dismissDialog();
+            canceldDownloadFile();
         }
     }
 
+    public void canceldDownloadFile() {
+        //如果正在下载，那么就先暂停，然后finish
+        listener = null;
+        if (downloadStatus == UpdateUtils.DownloadStatus.UPLOADING) {
+            if (downloadTask != null && downloadTask.isRunning()) {
+                downloadTask.pause();
+            }
+        }
+        dismissDialog();
+    }
 
 
     private void changeUploadStatus(int upload_status) {
         this.downloadStatus = upload_status;
         switch (upload_status) {
             case UpdateUtils.DownloadStatus.START:
-                mTvOk.setText("开始下载");
+                mTvOk.setText(R.string.update_info);
                 mProgress.setVisibility(View.GONE);
                 break;
             case UpdateUtils.DownloadStatus.UPLOADING:
@@ -260,7 +261,11 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
                 mProgress.setVisibility(View.VISIBLE);
                 break;
             case UpdateUtils.DownloadStatus.FINISH:
-                mTvOk.setText("开始安装");
+                if (!isForceUpdate) {
+                    mTvCancel.setVisibility(View.VISIBLE);
+                }
+                mTvOk.setVisibility(View.VISIBLE);
+                mTvOk.setText(R.string.update_anzhuang);
                 mProgress.setVisibility(View.INVISIBLE);
                 break;
             case UpdateUtils.DownloadStatus.PAUSED:
@@ -268,7 +273,11 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
                 mTvOk.setText("暂停下载");
                 break;
             case UpdateUtils.DownloadStatus.ERROR:
-                mProgress.setVisibility(View.VISIBLE);
+                if (!isForceUpdate) {
+                    mTvCancel.setVisibility(View.VISIBLE);
+                }
+                mTvOk.setVisibility(View.VISIBLE);
+                mProgress.setVisibility(View.INVISIBLE);
                 mTvOk.setText("错误，点击继续");
                 break;
         }
@@ -278,30 +287,31 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @SuppressLint("WrongConstant")
     private void checkPermissionAndDownApk() {
-        if(mActivity==null){
+        if (mActivity == null) {
             return;
         }
         PermissionUtils.init(mActivity);
         boolean granted = PermissionUtils.isGranted(mPermission);
-        if(granted){
+        if (granted) {
             setNotification(0);
             downloadTask = downApk(apkUrl, saveApkPath, getListener());
-        }else {
-            /*PermissionUtils permission = PermissionUtils.permission(mPermission);
+        } else {
+            PermissionUtils permission = PermissionUtils.permission(mPermission);
             permission.callback(new PermissionUtils.SimpleCallback() {
                 @Override
                 public void onGranted() {
                     setNotification(0);
-                    downloadTask = downApk(mActivity, apkUrl, saveApkPath, getListener());
+                    downloadTask = downApk(apkUrl, saveApkPath, getListener());
                 }
+
                 @Override
                 public void onDenied() {
                     PermissionUtils.openAppSettings();
-                    Toast.makeText(mActivity,"请允许权限",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, "请允许权限", Toast.LENGTH_SHORT).show();
                 }
             });
-            permission.request();*/
-            Toast.makeText(mActivity,"请先申请读写权限",Toast.LENGTH_SHORT).show();
+            permission.request();
+            Toast.makeText(mActivity, "请先申请读写权限", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -317,10 +327,10 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
     }
 
 
+    private FileDownloadListener listener;
 
-    private FileDownloadListener listener ;
-    public FileDownloadListener getListener(){
-        if (listener==null){
+    public FileDownloadListener getListener() {
+        if (listener == null) {
             listener = new FileDownloadListener() {
                 @Override
                 protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
@@ -333,8 +343,10 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
                     float downsize = task.getSmallFileSoFarBytes();
                     int progress = (int) ((downsize / total) * 100);
                     mProgress.setProgress(progress);
+                    mProgress.setText(getString(R.string.updating_format, progress));
                     setNotification(progress);
                 }
+
                 @Override
                 protected void completed(BaseDownloadTask task) {
                     setNotification(100);
@@ -342,7 +354,7 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
                         mProgress.setProgress(100);
                     }
                     changeUploadStatus(UpdateUtils.DownloadStatus.FINISH);
-                    UpdateUtils.installNormal(mActivity,saveApkPath,packageName);
+                    UpdateUtils.installNormal(mActivity, saveApkPath, packageName);
                 }
 
                 @Override
@@ -354,7 +366,7 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
                 protected void error(BaseDownloadTask task, Throwable e) {
                     setNotification(-1);
                     changeUploadStatus(UpdateUtils.DownloadStatus.ERROR);
-                    Log.e("UpdateFragment",e.getLocalizedMessage());
+                    Log.e("UpdateFragment", e.getLocalizedMessage());
                 }
 
                 @Override
@@ -367,9 +379,8 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
     }
 
 
-
     protected void setNotification(int progress) {
-        if (mActivity==null){
+        if (mActivity == null) {
             return;
         }
         Intent intent = new Intent();
@@ -391,8 +402,6 @@ public class UpdateFragment extends BaseDialogFragment implements View.OnClickLi
             manager.notify(1, notification);
         }
     }
-
-
 
 
 }

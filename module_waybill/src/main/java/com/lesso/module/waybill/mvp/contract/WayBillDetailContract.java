@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.jess.arms.base.ILoadlayoutView;
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.utils.PermissionUtil;
@@ -24,7 +23,7 @@ import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
  */
 public interface WayBillDetailContract {
     //对于经常使用的关于UI的方法可以定义到IView中,如显示隐藏进度条,和显示文字消息
-    interface ViewI extends IView, ILoadlayoutView {
+    interface ViewI extends IView {
 
         Activity getActivity();
 

@@ -57,6 +57,7 @@ android {
             buildConfigField "String", "WX_Heather_Value", WX_Heather_Value
             buildConfigField "int", "HTTP_MaxRetries", HTTP_MaxRetries
             buildConfigField "int", "HTTP_RetryDelaySecond", HTTP_RetryDelaySecond
+            buildConfigField "String", "GD_MAP_KEY", DEBUG_GD_MAP_KEY
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config// signingConfig signingConfigs.config//使用上面配置的签名进行打包
@@ -75,6 +76,7 @@ android {
             buildConfigField "String", "WX_Heather_Value", WX_Heather_Value
             buildConfigField "int", "HTTP_MaxRetries", HTTP_MaxRetries
             buildConfigField "int", "HTTP_RetryDelaySecond", HTTP_RetryDelaySecond
+            buildConfigField "String", "GD_MAP_KEY", RELEASE_GD_MAP_KEY
             minifyEnabled true
             if (isBuildModule.toBoolean()) {
                 shrinkResources true

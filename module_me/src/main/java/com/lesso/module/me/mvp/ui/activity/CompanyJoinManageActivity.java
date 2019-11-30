@@ -15,7 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jess.arms.base.BaseActivity;
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DeviceUtils;
 import com.lesso.module.me.R;
@@ -32,6 +34,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -45,6 +48,8 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class CompanyJoinManageActivity extends BaseActivity<CompanyJoinManagePresenter> implements CompanyJoinManageContract.View, TextView.OnEditorActionListener {
 
+    public static final String IntentValue = "isForManager";
+
     @Inject
     RecyclerView.LayoutManager mLayoutManager;
     @Inject
@@ -56,6 +61,8 @@ public class CompanyJoinManageActivity extends BaseActivity<CompanyJoinManagePre
     XRecyclerView mRecyclerView;
     @BindView(R2.id.et_search)
     EditText etSearch;
+
+    private boolean isForManager;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -74,6 +81,7 @@ public class CompanyJoinManageActivity extends BaseActivity<CompanyJoinManagePre
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        isForManager = getIntent().getBooleanExtra(IntentValue, false);
         setTitle(R.string.me_name_company_join);
         initRecyclerView();
         mRecyclerView.setAdapter(mAdapter);
@@ -189,5 +197,18 @@ public class CompanyJoinManageActivity extends BaseActivity<CompanyJoinManagePre
     public void onCodeTwoViewClicked() {
         // TODO: 2019/11/18 二维码扫描
         showMessage(getResources().getString(R.string.module_me_develop_not));
+    }
+
+    @Override
+    protected void getEventBusHub_Activity(MessageEvent message) {
+        super.getEventBusHub_Activity(message);
+        if (message.getType().equals(EventBusHub.Message_UpdateCompanyJoinManageList)) {
+            //加盟成功
+            if (isForManager){
+                finish();
+            }else {
+                AppManagerUtil.jumpAndFinish(CompanyJoinedManageActivity.class);
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
@@ -34,7 +35,6 @@ import me.jessyan.armscomponent.commonsdk.core.Constants;
 import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.utils.CountDownTimerUtils;
-import me.jessyan.armscomponent.commonsdk.utils.Utils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -75,6 +75,8 @@ public class MainLoginActivity extends BaseActivity<MainLoginPresenter> implemen
     LinearLayout lvLoginTypeSms;
     @BindView(R2.id.btn_submit)
     TextView btnSubmit;
+    @BindView(R2.id.tv_forget_pwd)
+    TextView tvForgetPwd;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -93,10 +95,9 @@ public class MainLoginActivity extends BaseActivity<MainLoginPresenter> implemen
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        boolean isFirst = getIntent().getBooleanExtra("isFirst", true);
-        mPresenter.setFirst(isFirst);
+        EventBusManager.getInstance().post(new MessageEvent(EventBusHub.TAG_LOGIN_EST));
         btnSubmit.setText(R.string.login_lab_login);
-        etUserPhone.setText(DataHelper.getStringSF(this, Constants.SP_LOGIN_USER));
+        etUserPhone.setText(DataHelper.getStringSF(this, Constants.SP_ACCOUNT));
         changeLoginTypeView(mPresenter.getLoginType());
     }
 
@@ -138,12 +139,14 @@ public class MainLoginActivity extends BaseActivity<MainLoginPresenter> implemen
             case LoginType_Pwd:
                 lvLoginTypeSms.setVisibility(View.VISIBLE);
                 lvInputPwd.setVisibility(View.VISIBLE);
+                tvForgetPwd.setVisibility(View.VISIBLE);
                 break;
             case LoginType_SmsCode:
 
                 lvLoginTypePwd.setVisibility(View.VISIBLE);
                 lvInputCheckNumber.setVisibility(View.VISIBLE);
                 tvSendNumber.setVisibility(View.VISIBLE);
+                tvForgetPwd.setVisibility(View.INVISIBLE);
                 break;
         }
     }
@@ -226,7 +229,7 @@ public class MainLoginActivity extends BaseActivity<MainLoginPresenter> implemen
     @Override
     protected void getEventBusHub_Activity(MessageEvent message) {
         if (message.getType().equals(EventBusHub.TAG_LOGIN_SUCCESS))
-          mPresenter.goMainOrFinsh();
+            mPresenter.goMainOrFinsh();
     }
 
 }

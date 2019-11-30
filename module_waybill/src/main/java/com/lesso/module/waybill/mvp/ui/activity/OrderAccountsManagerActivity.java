@@ -116,6 +116,5 @@ public class OrderAccountsManagerActivity extends BaseActivity<OrderAccountsMana
     @Override
     protected void getEventBusHub_Activity(MessageEvent message) {
 
-
     }
 }

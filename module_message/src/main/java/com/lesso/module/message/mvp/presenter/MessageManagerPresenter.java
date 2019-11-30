@@ -2,22 +2,10 @@ package com.lesso.module.message.mvp.presenter;
 
 import android.app.Application;
 
-import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.FragmentScope;
-import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
-import me.jessyan.armscomponent.commonsdk.core.Constants;
-import me.jessyan.armscomponent.commonsdk.core.RouterHub;
-import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
-import me.jessyan.rxerrorhandler.core.RxErrorHandler;
-import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
-
-import javax.inject.Inject;
-
+import com.jess.arms.integration.AppManager;
+import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
 import com.jess.arms.utils.RxLifecycleUtils;
@@ -25,8 +13,19 @@ import com.lesso.module.message.BuildConfig;
 import com.lesso.module.message.mvp.contract.MessageManagerContract;
 import com.lesso.module.message.mvp.model.entity.MessageBean;
 import com.lesso.module.message.mvp.ui.adapter.MessageListAdapter;
+import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
+import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 
 
 @FragmentScope
@@ -89,7 +88,6 @@ public class MessageManagerPresenter extends BasePresenter<MessageManagerContrac
 
                         if (!ArmsUtils.isEmpty(result.getData())) {
                             current += 1;
-                            mRootView.setLayoutState_SUCCESS();
                             //1.使用setListAll（覆盖数据）后就不需要再调用notifyDataSetChanged（）
                             //2.如果是addAll()追加
                             if (pullToRefresh) {
@@ -98,8 +96,8 @@ public class MessageManagerPresenter extends BasePresenter<MessageManagerContrac
                                 mAdapter.addItemsToLast(result.getData());
                             }
                         } else {
-                            if (pullToRefresh) {
-                                mRootView.setLayoutState_NO_DATA();
+                            if (pullToRefresh){
+                                mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_EMPTY);
                             }
                         }
                     }
@@ -107,8 +105,8 @@ public class MessageManagerPresenter extends BasePresenter<MessageManagerContrac
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
-                        if (pullToRefresh) {
-                            mRootView.setLayoutState_FAILED();
+                        if (pullToRefresh){
+                            mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_ERROR);
                         }
 
                     }

@@ -14,15 +14,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
-import com.hxb.app.loadlayoutlibrary.State;
-import com.jess.arms.base.BaseLoadLayoutActivity;
+import com.jess.arms.base.BaseActivity;
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.DataHelper;
+import com.jess.arms.utils.DeviceUtils;
+import com.jess.arms.utils.LogUtils;
 import com.jess.arms.utils.PermissionUtil;
 import com.lesso.module.waybill.R;
 import com.lesso.module.waybill.R2;
@@ -44,8 +45,10 @@ import me.jessyan.armscomponent.commonres.constant.CommonConstant;
 import me.jessyan.armscomponent.commonres.dialog.MaterialDialog;
 import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.utils.MapManagerUtils;
+import me.jessyan.armscomponent.commonsdk.utils.MapUtils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -58,7 +61,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 @Route(path = RouterHub.Waybill_WayBillDetailActivity)
-public class WayBillDetailActivity extends BaseLoadLayoutActivity<WayBillDetailPresenter> implements WayBillDetailContract.ViewI {
+public class WayBillDetailActivity extends BaseActivity<WayBillDetailPresenter> implements WayBillDetailContract.ViewI {
 
     @Inject
     RxPermissions mRxPermissions;
@@ -130,8 +133,11 @@ public class WayBillDetailActivity extends BaseLoadLayoutActivity<WayBillDetailP
     TextView tvShouhuo;
     @BindView(R2.id.ll_order_state_shouhuo)
     LinearLayout llOrderStateShouhuo;
+    @BindView(R2.id.ll_order_state_save)
+    LinearLayout llOrderStateSave;
 
     private WayBillDetailBean currentBean;
+    private String orderId;
 
 
     @Override
@@ -154,19 +160,20 @@ public class WayBillDetailActivity extends BaseLoadLayoutActivity<WayBillDetailP
         setTitle(R.string.module_waybill_name_waybill_detail);
         flv.setLayoutManager(mLayoutManager);
         flv.setAdapter(mAdapter);
-        mPresenter.setOrderId(getIntent().getStringExtra(CommonConstant.IntentWayBillDetailKey_OrderId));
+        llTrack.setVisibility(View.GONE);
+        setBootomVIewGONE();
+        orderId = getIntent().getStringExtra(CommonConstant.IntentWayBillDetailKey_OrderId);
+        mPresenter.setOrderId(orderId);
     }
 
     @Override
     public void showLoading() {
-        if (State.SUCCESS == mLoadLayout.getLayerType())
-            mDialog.show();
+        mDialog.show();
     }
 
     @Override
     public void hideLoading() {
-        if (State.SUCCESS == mLoadLayout.getLayerType())
-            mDialog.dismiss();
+        mDialog.dismiss();
     }
 
     @Override
@@ -209,8 +216,14 @@ public class WayBillDetailActivity extends BaseLoadLayoutActivity<WayBillDetailP
                     public void onLocationChanged(AMapLocation loc) {
                         if (null != loc) {
                             //解析定位结果
-//                            String result = MapUtils.getLocationStr(loc);
-                            checkPermissionSuccess(itemView, currentBean, loc.getLatitude() + "", loc.getLongitude() + "", loc.getAddress());
+                            String result = MapUtils.getLocationStr(loc);
+                            LogUtils.warnInfo("hxb--->SHA1：" + DeviceUtils.getSHA1(getApplicationContext()));
+                            LogUtils.warnInfo("hxb--->定位地址：" + result);
+                            if (!ArmsUtils.isEmpty(result)) {
+                                checkPermissionSuccess(itemView, currentBean, loc.getLatitude() + "", loc.getLongitude() + "", loc.getAddress());
+                            } else {
+                                showMessage("定位失败，loc is null");
+                            }
                         } else {
                             showMessage("定位失败，loc is null");
                         }
@@ -265,10 +278,6 @@ public class WayBillDetailActivity extends BaseLoadLayoutActivity<WayBillDetailP
             //打卡
             mPresenter.postDriverTransportPunch(currentBean.getOrderId(), currentBean.getOrderNo(), currentBean.getCarNo(),
                     DataHelper.getStringSF(AppManagerUtil.getCurrentActivity(), Constants.SP_USER_ID), latitude, longitude, addressInfo);
-        } else {
-            ARouter.getInstance().build(RouterHub.Waybill_WayBillDetailActivity)
-                    .withString(CommonConstant.IntentWayBillDetailKey_OrderId, currentBean.getOrderId())
-                    .navigation(AppManagerUtil.getCurrentActivity());
         }
     }
 
@@ -300,9 +309,10 @@ public class WayBillDetailActivity extends BaseLoadLayoutActivity<WayBillDetailP
 
         tvBillNumbers.setText("货运单号：" + bean.getFreightNo());
         //货运单单号只有收货完成，有货运单字段才显示 
-//        tvBillNumbers.setVisibility(TextUtils.isEmpty(bean.getFreightNo()) ? View.GONE : View.VISIBLE);
-        cvOrderNumber.setVisibility(TextUtils.isEmpty(bean.getFreightNo()) ? View.GONE : View.VISIBLE);
-
+        tvBillNumbers.setVisibility(TextUtils.isEmpty(bean.getFreightNo()) ? View.GONE : View.VISIBLE);
+        //有货运站，并且货运单号为空则让用户输入货运单号
+        cvOrderNumber.setVisibility(!ArmsUtils.isEmpty(bean.getFreightStation()) && ArmsUtils.isEmpty(bean.getFreightNo()) ? View.VISIBLE : View.GONE);
+        llOrderStateSave.setVisibility(!ArmsUtils.isEmpty(bean.getFreightStation()) && ArmsUtils.isEmpty(bean.getFreightNo()) ? View.VISIBLE : View.GONE);
         changeOrderStatusView(bean.getOrderStatus());
     }
 
@@ -329,12 +339,32 @@ public class WayBillDetailActivity extends BaseLoadLayoutActivity<WayBillDetailP
         }
     }
 
+    private void setBootomVIewGONE() {
+        llOrderStateFahuo.setVisibility(View.GONE);
+        llOrderStateShouhuo.setVisibility(View.GONE);
+        llOrderStateSave.setVisibility(View.GONE);
+        tvBillNumbers.setVisibility(View.GONE);
+        cvOrderNumber.setVisibility(View.GONE);
+    }
+
     @OnClick({R2.id.tv_fahuo, R2.id.tv_daka, R2.id.tv_shouhuo})
     public void onViewClicked(View view) {
-        //发货
+        //发货 、打卡、收货
         itemView = view;
         mPresenter.checkPermission();
     }
+    @OnClick({R2.id.tv_save})
+    public void onViewSaveClicked(View view) {
+        //保存货运单号
+        mPresenter.postSaveFreightNo(orderId,etGoodsNumber.getText().toString().trim());
+    }
 
-
+    @Override
+    protected void getEventBusHub_Activity(MessageEvent message) {
+        super.getEventBusHub_Activity(message);
+        if (message.getType().equals(EventBusHub.Message_UpdateWayBillManagerList)) {
+            setBootomVIewGONE();
+            mPresenter.setOrderId(orderId);
+        }
+    }
 }

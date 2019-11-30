@@ -40,7 +40,11 @@ public interface EventBusHub extends BaseEventBusHub {
     String GANK = "gank";//干货集中营组件
     String GOLD = "gold";//稀土掘金组件
 
-    String Message_MessageManagerList_UpdateData = "Message/MessageManagerListUpdateData";
-    String Message_UpdateUserInfo = "Me/UpdateUserInfo";
-    String Message_SelectedWayBillManagerFragment = "MayBill/SelectedWayBillManagerFragment";
+    String Message_MessageManagerList_UpdateData = "Message/MessageManagerListUpdateData";//更新消息列表数据
+    String Message_UpdateUserInfo = "Me/UpdateUserInfo";//更新用户信息
+    String Message_SelectedWayBillManagerFragment = "MayBill/SelectedWayBillManagerFragment";//选中首页的运单列表按钮
+    String Message_UpdateOrderAccountsList = "MayBill/UpdateOrderAccountsList";//更新对账订单数据列表
+    String Message_UpdateWayBillManagerList = "MayBill/UpdateWayBillManagerList";//更新运单列表数据
+    String Message_UpdateCompanyJoinManageList = "Me/UpdateCompanyJoinManageList";//更新物流公司加盟管理
+    String Message_UpdateMyCarsListManagerActivit = "Me/UpdateMyCarsListManagerActivit";//更新我的车辆管理列表数据
 }

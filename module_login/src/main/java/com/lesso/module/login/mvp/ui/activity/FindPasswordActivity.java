@@ -72,7 +72,7 @@ public class FindPasswordActivity extends BaseActivity<FindPasswordPresenter> im
     public void initData(@Nullable Bundle savedInstanceState) {
         ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         setTitle(R.string.login_lab_forget_pwd);
-        btnSubmit.setText(R.string.login_lab_forget_pwd);
+        btnSubmit.setText(R.string.tv_find_pwd);
     }
 
     @Override

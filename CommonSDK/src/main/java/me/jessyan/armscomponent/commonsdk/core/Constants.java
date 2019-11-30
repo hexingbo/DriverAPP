@@ -26,12 +26,15 @@ package me.jessyan.armscomponent.commonsdk.core;
  */
 public interface Constants {
 
-    String SP_LOGIN_USER = "sp_login_user";//登录时保存的账号
     String SP_TOKEN = "token";
     String SP_USER_ID = "user_id";//用户id
     String SP_VERIFY_STATUS = "verifyStatus";
-    String SP_ACCOUNT = "account";
+    String SP_ACCOUNT = "account";//登录时保存的账号
     String SP_DEVICE_ID = "device_id";//设备号
     String SP_VERIFY_COUNT = "verify_count";
+    String SP_Update_APK_URL = "SP_Update_APK_URL";//版本更新地址
 
+    int REQUEST_JOIN_CAR = 10002;
+
+    String KEY_COMPANY_ID = "key_company_id";
 }

@@ -7,22 +7,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
-import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.ArmsUtils;
 import com.lesso.module.me.R;
 import com.lesso.module.me.R2;
 import com.lesso.module.me.di.component.DaggerCompanyRecommendComponent;
 import com.lesso.module.me.mvp.contract.CompanyRecommendContract;
 import com.lesso.module.me.mvp.presenter.CompanyRecommendPresenter;
-import com.lesso.module.me.mvp.ui.adapter.ChoseCompanyJoinListAdapter;
 import com.lesso.module.me.mvp.ui.adapter.ChoseCompanyRecommendListAdapter;
 import com.zhouyou.recyclerview.XRecyclerView;
 import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
@@ -33,8 +30,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
+import me.jessyan.armscomponent.commonsdk.utils.Utils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -49,6 +46,9 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 @Route(path = RouterHub.Me_CompanyRecommendActivity)
 public class CompanyRecommendActivity extends BaseActivity<CompanyRecommendPresenter> implements CompanyRecommendContract.View {
 
+
+    @BindView(R2.id.public_toolbar_back)
+    RelativeLayout mRlBack;
     @BindView(R2.id.public_toolbar_text_rigth)
     TextView mPpublicToolbarTextRigth;
     @BindView(R2.id.recyclerview)
@@ -83,10 +83,13 @@ public class CompanyRecommendActivity extends BaseActivity<CompanyRecommendPrese
         setTitle(R.string.module_me_compa_recommend);
         mBtnSubmit.setText(R.string.module_me_apply_join);
         mPpublicToolbarTextRigth.setText(getString(R.string.module_me_skip_view));
+        mRlBack.setVisibility(View.GONE);
 
         initRecyclerView();
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_LOADING);
+        mPresenter.setComeInFromTheMainStart(getIntent().getBooleanExtra("isComeInFromTheMainStart", false));
+        mPresenter.getChoseCompanyJoinList(true);
     }
 
     private void initRecyclerView() {
@@ -105,6 +108,14 @@ public class CompanyRecommendActivity extends BaseActivity<CompanyRecommendPrese
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!mPresenter.getComeInFromTheMainStart()) {
+            Utils.navigation(this, RouterHub.APP_MainStartActivity);
+        }
+        super.onBackPressed();
     }
 
     @Override
@@ -153,7 +164,7 @@ public class CompanyRecommendActivity extends BaseActivity<CompanyRecommendPrese
     public void onViewClicked(View view) {
         if (view.getId() == R.id.public_toolbar_text_rigth) {
             //跳过，去到首页mainActivity
-            EventBusManager.getInstance().post(EventBusHub.TAG_LOGIN_SUCCESS);
+//            EventBusManager.getInstance().post(EventBusHub.TAG_LOGIN_SUCCESS);
             finish();
         } else if (view.getId() == R.id.btn_submit) {
             //批量加盟物流公司

@@ -4,9 +4,8 @@ import android.content.Context;
 
 import com.amap.api.location.AMapLocationClient;
 import com.jess.arms.base.BaseApplication;
-import com.previewlibrary.ZoomMediaLoader;
 
-import me.jessyan.armscomponent.commonsdk.imgaEngine.GroupPhotoImageLoader;
+import me.jessyan.armscomponent.commonsdk.BuildConfig;
 
 /**
  * @Author :hexingbo
@@ -22,5 +21,6 @@ public class MyBaseApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+        AMapLocationClient.setApiKey(BuildConfig.GD_MAP_KEY);
     }
 }

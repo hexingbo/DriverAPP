@@ -15,14 +15,124 @@ public class UploadCardFileResultBean {
 
     public static class FilePathInfoBean {
         private String IdCard;
-
-        private IdCardBackBean IdCardBack;
+        private String IdCardBack;
+        private String LifePhoto;
+        private String DriverCard;
+        private String DriverCardBack;
+        private String CarInsurance;
+        private String CarAPhoto;
+        private String CarBPhoto;
+        private String CarCPhoto;
+        private String DrivingCard;
+        private String DrivingCardBack;
 
         public String getIdCard() {
             return IdCard;
         }
 
         public void setIdCard(String idCard) {
+            IdCard = idCard;
+        }
+
+        public String getIdCardBack() {
+            return IdCardBack;
+        }
+
+        public void setIdCardBack(String idCardBack) {
+            IdCardBack = idCardBack;
+        }
+
+        public String getLifePhoto() {
+            return LifePhoto;
+        }
+
+        public void setLifePhoto(String lifePhoto) {
+            LifePhoto = lifePhoto;
+        }
+
+        public String getDriverCard() {
+            return DriverCard;
+        }
+
+        public void setDriverCard(String driverCard) {
+            DriverCard = driverCard;
+        }
+
+        public String getDriverCardBack() {
+            return DriverCardBack;
+        }
+
+        public void setDriverCardBack(String driverCardBack) {
+            DriverCardBack = driverCardBack;
+        }
+
+        public String getCarInsurance() {
+            return CarInsurance;
+        }
+
+        public void setCarInsurance(String carInsurance) {
+            CarInsurance = carInsurance;
+        }
+
+        public String getCarAPhoto() {
+            return CarAPhoto;
+        }
+
+        public void setCarAPhoto(String carAPhoto) {
+            CarAPhoto = carAPhoto;
+        }
+
+        public String getCarBPhoto() {
+            return CarBPhoto;
+        }
+
+        public void setCarBPhoto(String carBPhoto) {
+            CarBPhoto = carBPhoto;
+        }
+
+        public String getCarCPhoto() {
+            return CarCPhoto;
+        }
+
+        public void setCarCPhoto(String CarCPhoto) {
+            CarCPhoto = CarCPhoto;
+        }
+
+        public String getDrivingCard() {
+            return DrivingCard;
+        }
+
+        public void setDrivingCard(String drivingCard) {
+            DrivingCard = drivingCard;
+        }
+
+        public String getDrivingCardBack() {
+            return DrivingCardBack;
+        }
+
+        public void setDrivingCardBack(String drivingCardBack) {
+            DrivingCardBack = drivingCardBack;
+        }
+    }
+
+    public static class FileTextInfoBean {
+        private IdCardBean IdCard;
+        private IdCardBackBean IdCardBack;
+        private LifePhotoBean LifePhoto;
+        private DriverCardBean DriverCard;
+        private DriverCardBackBean DriverCardBack;
+        private CarInsuranceBean CarInsurance;
+        private CarAPhotoBean CarAPhoto;
+        private CarBPhotoBean CarBPhoto;
+        private CarCPhotoBean CarCPhoto;
+        private DrivingCardBean DrivingCard;
+        private DrivingCardBackBean DrivingCardBack;
+
+        public IdCardBean getIdCard() {
+            return IdCard;
+        }
+
+        public void setIdCard(IdCardBean idCard) {
             IdCard = idCard;
         }
 
@@ -34,142 +144,71 @@ public class UploadCardFileResultBean {
             IdCardBack = idCardBack;
         }
 
-        @Override
-        public String toString() {
-            return "FilePathInfoBean{" +
-                    "IdCard='" + IdCard + '\'' +
-                    ", IdCardBack=" + IdCardBack +
-                    '}';
+        public LifePhotoBean getLifePhoto() {
+            return LifePhoto;
         }
 
-        public static class IdCardBackBean{
-            private Data data;
-            private boolean isSuccess;
-
-            public static class Data{
-                private String Nation;
-                private String Address;
-                private String RequestId;
-                private String Sex;
-                private String IdNum;
-                private String Birth;
-                private String Name;
-
-                public String getNation() {
-                    return Nation;
-                }
-
-                public void setNation(String nation) {
-                    Nation = nation;
-                }
-
-                public String getAddress() {
-                    return Address;
-                }
-
-                public void setAddress(String address) {
-                    Address = address;
-                }
-
-                public String getRequestId() {
-                    return RequestId;
-                }
-
-                public void setRequestId(String requestId) {
-                    RequestId = requestId;
-                }
-
-                public String getSex() {
-                    return Sex;
-                }
-
-                public void setSex(String sex) {
-                    Sex = sex;
-                }
-
-                public String getIdNum() {
-                    return IdNum;
-                }
-
-                public void setIdNum(String idNum) {
-                    IdNum = idNum;
-                }
-
-                public String getBirth() {
-                    return Birth;
-                }
-
-                public void setBirth(String birth) {
-                    Birth = birth;
-                }
-
-                public String getName() {
-                    return Name;
-                }
-
-                public void setName(String name) {
-                    Name = name;
-                }
-
-                @Override
-                public String toString() {
-                    return "Data{" +
-                            "Nation='" + Nation + '\'' +
-                            ", Address='" + Address + '\'' +
-                            ", RequestId='" + RequestId + '\'' +
-                            ", Sex='" + Sex + '\'' +
-                            ", IdNum='" + IdNum + '\'' +
-                            ", Birth='" + Birth + '\'' +
-                            ", Name='" + Name + '\'' +
-                            '}';
-                }
-            }
-
-            public Data getData() {
-                return data;
-            }
-
-            public void setData(Data data) {
-                this.data = data;
-            }
-
-            public boolean isSuccess() {
-                return isSuccess;
-            }
-
-            public void setSuccess(boolean success) {
-                isSuccess = success;
-            }
-
-            @Override
-            public String toString() {
-                return "IdCardBackBean{" +
-                        "data='" + data + '\'' +
-                        ", isSuccess=" + isSuccess +
-                        '}';
-            }
+        public void setLifePhoto(LifePhotoBean lifePhoto) {
+            LifePhoto = lifePhoto;
         }
 
-
-    }
-
-    public static class FileTextInfoBean {
-        private IdCardBean IdCard;
-
-        public IdCardBean getIdCard() {
-            return IdCard;
+        public DriverCardBean getDriverCard() {
+            return DriverCard;
         }
 
-        public void setIdCard(IdCardBean idCard) {
-            IdCard = idCard;
+        public void setDriverCard(DriverCardBean driverCard) {
+            DriverCard = driverCard;
         }
 
+        public DriverCardBackBean getDriverCardBack() {
+            return DriverCardBack;
+        }
+
+        public void setDriverCardBack(DriverCardBackBean driverCardBack) {
+            DriverCardBack = driverCardBack;
+        }
+
+        public CarInsuranceBean getCarInsurance() {
+            return CarInsurance;
+        }
+
+        public void setCarInsurance(
+                CarInsuranceBean carInsurance) {
+            CarInsurance = carInsurance;
+        }
+
+        public CarAPhotoBean getCarAPhoto() {
+            return CarAPhoto;
+        }
+
+        public void setCarAPhoto(
+                CarAPhotoBean carAPhoto) {
+            CarAPhoto = carAPhoto;
+        }
+
+        public CarBPhotoBean getCarBPhoto() {
+            return CarBPhoto;
+        }
+
+        public void setCarBPhoto(
+                CarBPhotoBean carBPhoto) {
+            CarBPhoto = carBPhoto;
+        }
+
+        public DrivingCardBean getDrivingCard() {
+            return DrivingCard;
+        }
+
+        public void setDrivingCard(
+                DrivingCardBean drivingCard) {
+            DrivingCard = drivingCard;
+        }
 
         public static class IdCardBean {
             private String msg;
             private String code;
             private String data;
-            private String isSuccess;
+            private boolean isSuccess;
 
             public String getMsg() {
                 return msg;
@@ -195,12 +234,12 @@ public class UploadCardFileResultBean {
                 this.data = data;
             }
 
-            public String getIsSuccess() {
+            public boolean isSuccess() {
                 return isSuccess;
             }
 
-            public void setIsSuccess(String isSuccess) {
-                this.isSuccess = isSuccess;
+            public void setSuccess(boolean success) {
+                isSuccess = success;
             }
 
             @Override
@@ -213,13 +252,497 @@ public class UploadCardFileResultBean {
                         '}';
             }
         }
-        @Override
-        public String toString() {
-            return "FileTextInfoBean{" +
-                    "IdCard='" + IdCard + '\'' +
-                    '}';
+
+        public static class IdCardBackBean {
+            private String msg;
+            private String code;
+            private String data;
+            private boolean isSuccess;
+
+            public String getMsg() {
+                return msg;
+            }
+
+            public void setMsg(String msg) {
+                this.msg = msg;
+            }
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getData() {
+                return data;
+            }
+
+            public void setData(String data) {
+                this.data = data;
+            }
+
+            public boolean isSuccess() {
+                return isSuccess;
+            }
+
+            public void setSuccess(boolean success) {
+                isSuccess = success;
+            }
+
+            @Override
+            public String toString() {
+                return "IdCardBackBean{" +
+                        "msg='" + msg + '\'' +
+                        ", code='" + code + '\'' +
+                        ", data='" + data + '\'' +
+                        ", isSuccess='" + isSuccess + '\'' +
+                        '}';
+            }
+        }
+
+        public static class LifePhotoBean {
+            private String msg;
+            private String code;
+            private String data;
+            private boolean isSuccess;
+
+            public String getMsg() {
+                return msg;
+            }
+
+            public void setMsg(String msg) {
+                this.msg = msg;
+            }
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getData() {
+                return data;
+            }
+
+            public void setData(String data) {
+                this.data = data;
+            }
+
+            public boolean isSuccess() {
+                return isSuccess;
+            }
+
+            public void setSuccess(boolean success) {
+                isSuccess = success;
+            }
+
+            @Override
+            public String toString() {
+                return "LifePhotoBean{" +
+                        "msg='" + msg + '\'' +
+                        ", code='" + code + '\'' +
+                        ", data='" + data + '\'' +
+                        ", isSuccess='" + isSuccess + '\'' +
+                        '}';
+            }
+        }
+
+        public static class DriverCardBean {
+            private String msg;
+            private String code;
+            private String data;
+            private boolean isSuccess;
+
+            public String getMsg() {
+                return msg;
+            }
+
+            public void setMsg(String msg) {
+                this.msg = msg;
+            }
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getData() {
+                return data;
+            }
+
+            public void setData(String data) {
+                this.data = data;
+            }
+
+            public boolean isSuccess() {
+                return isSuccess;
+            }
+
+            public void setSuccess(boolean success) {
+                isSuccess = success;
+            }
+
+            @Override
+            public String toString() {
+                return "DriverCardBean{" +
+                        "msg='" + msg + '\'' +
+                        ", code='" + code + '\'' +
+                        ", data='" + data + '\'' +
+                        ", isSuccess='" + isSuccess + '\'' +
+                        '}';
+            }
+        }
+
+        public static class DriverCardBackBean {
+            private String msg;
+            private String code;
+            private String data;
+            private boolean isSuccess;
+
+            public String getMsg() {
+                return msg;
+            }
+
+            public void setMsg(String msg) {
+                this.msg = msg;
+            }
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getData() {
+                return data;
+            }
+
+            public void setData(String data) {
+                this.data = data;
+            }
+
+            public boolean isSuccess() {
+                return isSuccess;
+            }
+
+            public void setSuccess(boolean success) {
+                isSuccess = success;
+            }
+
+            @Override
+            public String toString() {
+                return "DriverCardBackBean{" +
+                        "msg='" + msg + '\'' +
+                        ", code='" + code + '\'' +
+                        ", data='" + data + '\'' +
+                        ", isSuccess='" + isSuccess + '\'' +
+                        '}';
+            }
+        }
+
+        public static class CarInsuranceBean {
+            private String msg;
+            private String code;
+            private String data;
+            private boolean isSuccess;
+
+            public String getMsg() {
+                return msg;
+            }
+
+            public void setMsg(String msg) {
+                this.msg = msg;
+            }
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getData() {
+                return data;
+            }
+
+            public void setData(String data) {
+                this.data = data;
+            }
+
+            public boolean isSuccess() {
+                return isSuccess;
+            }
+
+            public void setSuccess(boolean success) {
+                isSuccess = success;
+            }
+
+            @Override
+            public String toString() {
+                return "DriverCardBackBean{" +
+                        "msg='" + msg + '\'' +
+                        ", code='" + code + '\'' +
+                        ", data='" + data + '\'' +
+                        ", isSuccess='" + isSuccess + '\'' +
+                        '}';
+            }
+        }
+
+        public static class CarAPhotoBean {
+            private String msg;
+            private String code;
+            private String data;
+            private boolean isSuccess;
+
+            public String getMsg() {
+                return msg;
+            }
+
+            public void setMsg(String msg) {
+                this.msg = msg;
+            }
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getData() {
+                return data;
+            }
+
+            public void setData(String data) {
+                this.data = data;
+            }
+
+            public boolean isSuccess() {
+                return isSuccess;
+            }
+
+            public void setSuccess(boolean success) {
+                isSuccess = success;
+            }
+
+            @Override
+            public String toString() {
+                return "CarAPhotoBean{" +
+                        "msg='" + msg + '\'' +
+                        ", code='" + code + '\'' +
+                        ", data='" + data + '\'' +
+                        ", isSuccess='" + isSuccess + '\'' +
+                        '}';
+            }
+        }
+
+        public static class CarBPhotoBean {
+            private String msg;
+            private String code;
+            private String data;
+            private boolean isSuccess;
+
+            public String getMsg() {
+                return msg;
+            }
+
+            public void setMsg(String msg) {
+                this.msg = msg;
+            }
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getData() {
+                return data;
+            }
+
+            public void setData(String data) {
+                this.data = data;
+            }
+
+            public boolean isSuccess() {
+                return isSuccess;
+            }
+
+            public void setSuccess(boolean success) {
+                isSuccess = success;
+            }
+
+            @Override
+            public String toString() {
+                return "CarBPhotoBean{" +
+                        "msg='" + msg + '\'' +
+                        ", code='" + code + '\'' +
+                        ", data='" + data + '\'' +
+                        ", isSuccess='" + isSuccess + '\'' +
+                        '}';
+            }
+        }
+        public static class CarCPhotoBean {
+            private String msg;
+            private String code;
+            private String data;
+            private boolean isSuccess;
+
+            public String getMsg() {
+                return msg;
+            }
+
+            public void setMsg(String msg) {
+                this.msg = msg;
+            }
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getData() {
+                return data;
+            }
+
+            public void setData(String data) {
+                this.data = data;
+            }
+
+            public boolean isSuccess() {
+                return isSuccess;
+            }
+
+            public void setSuccess(boolean success) {
+                isSuccess = success;
+            }
+
+            @Override
+            public String toString() {
+                return "CarCPhotoBean{" +
+                        "msg='" + msg + '\'' +
+                        ", code='" + code + '\'' +
+                        ", data='" + data + '\'' +
+                        ", isSuccess='" + isSuccess + '\'' +
+                        '}';
+            }
+        }
+
+        public static class DrivingCardBean {
+            private String msg;
+            private String code;
+            private String data;
+            private boolean isSuccess;
+
+            public String getMsg() {
+                return msg;
+            }
+
+            public void setMsg(String msg) {
+                this.msg = msg;
+            }
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getData() {
+                return data;
+            }
+
+            public void setData(String data) {
+                this.data = data;
+            }
+
+            public boolean isSuccess() {
+                return isSuccess;
+            }
+
+            public void setSuccess(boolean success) {
+                isSuccess = success;
+            }
+
+            @Override
+            public String toString() {
+                return "DrivingCardBean{" +
+                        "msg='" + msg + '\'' +
+                        ", code='" + code + '\'' +
+                        ", data='" + data + '\'' +
+                        ", isSuccess='" + isSuccess + '\'' +
+                        '}';
+            }
+        }
+
+        public static class DrivingCardBackBean {
+            private String msg;
+            private String code;
+            private String data;
+            private boolean isSuccess;
+
+            public String getMsg() {
+                return msg;
+            }
+
+            public void setMsg(String msg) {
+                this.msg = msg;
+            }
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getData() {
+                return data;
+            }
+
+            public void setData(String data) {
+                this.data = data;
+            }
+
+            public boolean isSuccess() {
+                return isSuccess;
+            }
+
+            public void setSuccess(boolean success) {
+                isSuccess = success;
+            }
+
+            @Override
+            public String toString() {
+                return "DrivingCardBackBean{" +
+                        "msg='" + msg + '\'' +
+                        ", code='" + code + '\'' +
+                        ", data='" + data + '\'' +
+                        ", isSuccess='" + isSuccess + '\'' +
+                        '}';
+            }
         }
     }
+
     public FileTextInfoBean getFileTextInfo() {
         return fileTextInfo;
     }

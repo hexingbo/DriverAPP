@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.PermissionUtil;
 import com.lesso.module.me.R;
@@ -42,6 +43,8 @@ import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
 import me.jessyan.armscomponent.commonres.enums.UploadFileUserCardType;
 import me.jessyan.armscomponent.commonres.other.ClearEditText;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
+import me.jessyan.armscomponent.commonsdk.utils.Utils;
+import me.jessyan.armscomponent.commonsdk.utils.ViewFocusUtils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -54,7 +57,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 @Route(path = RouterHub.Me_UserAuthenticationActivity)
-public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationPresenter> implements UserAuthenticationContract.View {
+public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationPresenter> implements UserAuthenticationContract.View, TextWatcher {
 
     @Inject
     RxPermissions mRxPermissions;
@@ -126,33 +129,36 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     public void initData(@Nullable Bundle savedInstanceState) {
         setTitle(R.string.module_me_user_authentication);
         btnSubmit.setText(getString(R.string.module_me_name_submit));
-        setAddViewGONE();
-        etUserCardNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        initViewState();
+        mPresenter.setComeInFromTheMainStart(getIntent().getBooleanExtra("isComeInFromTheMainStart", false));
+        etUserCardNumber.addTextChangedListener(this);
+        mPresenter.getSubmitDriverVerifyBean();//初始化数据
 
-            }
+    }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+    }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                etDriverCardNumber.setText(s);
-            }
-        });
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        etDriverCardNumber.setText(s);
     }
 
     @Override
     public void showLoading() {
-
+        mDialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        mDialog.dismiss();
     }
 
     @Override
@@ -168,25 +174,82 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     }
 
     @Override
+    public void onBackPressed() {
+        if (!mPresenter.getComeInFromTheMainStart()) {
+            Utils.navigation(this, RouterHub.APP_MainStartActivity);
+        }
+        super.onBackPressed();
+    }
+
+    @Override
     public void killMyself() {
         finish();
     }
 
 
-    private void setAddViewGONE() {
-//        imgAddCardUserN.setVisibility(View.GONE);
-//        imgAddCardUserS.setVisibility(View.GONE);
-//        imgAddCardDriverS.setVisibility(View.GONE);
-//        imgAddCardDriverN.setVisibility(View.GONE);
-//        imgAddCardUserGetCard.setVisibility(View.GONE);
-
-        imgAddCardUserDeleteS.setVisibility(View.GONE);
-        imgAddCardUserDeleteN.setVisibility(View.GONE);
-        imgAddCardDriverDeleteS.setVisibility(View.GONE);
-        imgAddCardDriverDeleteN.setVisibility(View.GONE);
-        imgAddCardUserGetCardDelete.setVisibility(View.GONE);
-
+    private void initViewState() {
+        setViewAddCardUserS(true);
+        setViewAddCardUserN(true);
+        setViewAddCardUserGetCard(true);
+        setViewAddCardDriverN(true);
+        setViewAddCardDriverS(true);
     }
+
+    /**
+     * 身份证正面照View的操作
+     *
+     * @param addPicture
+     */
+    private void setViewAddCardUserS(boolean addPicture) {
+        imgAddCardUserS.setVisibility(addPicture ? View.VISIBLE : View.GONE);
+        imgAddCardUserDeleteS.setVisibility(!addPicture ? View.VISIBLE : View.GONE);
+        imgCardUserS.setEnabled(!addPicture);
+    }
+
+    /**
+     * 身份证背面照View的操作
+     *
+     * @param addPicture
+     */
+    private void setViewAddCardUserN(boolean addPicture) {
+        imgAddCardUserN.setVisibility(addPicture ? View.VISIBLE : View.GONE);
+        imgAddCardUserDeleteN.setVisibility(!addPicture ? View.VISIBLE : View.GONE);
+        imgCardUserN.setEnabled(!addPicture);
+    }
+
+    /**
+     * 驾驶证主页照View的操作
+     *
+     * @param addPicture
+     */
+    private void setViewAddCardDriverS(boolean addPicture) {
+        imgAddCardDriverS.setVisibility(addPicture ? View.VISIBLE : View.GONE);
+        imgAddCardDriverDeleteS.setVisibility(!addPicture ? View.VISIBLE : View.GONE);
+        imgCardDriverS.setEnabled(!addPicture);
+    }
+
+    /**
+     * 驾驶证副页照View的操作
+     *
+     * @param addPicture
+     */
+    private void setViewAddCardDriverN(boolean addPicture) {
+        imgAddCardDriverN.setVisibility(addPicture ? View.VISIBLE : View.GONE);
+        imgAddCardDriverDeleteN.setVisibility(!addPicture ? View.VISIBLE : View.GONE);
+        imgCardDriverN.setEnabled(!addPicture);
+    }
+
+    /**
+     * 手持身份照View的操作
+     *
+     * @param addPicture
+     */
+    private void setViewAddCardUserGetCard(boolean addPicture) {
+        imgAddCardUserGetCard.setVisibility(addPicture ? View.VISIBLE : View.GONE);
+        imgAddCardUserGetCardDelete.setVisibility(!addPicture ? View.VISIBLE : View.GONE);
+        imgCardUserGetCard.setEnabled(!addPicture);
+    }
+
 
     @OnClick({R2.id.btn_submit})
     public void onViewOtherClicked(View view) {
@@ -199,30 +262,30 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     @OnClick({R2.id.img_card_user_s,
             R2.id.img_card_user_n, R2.id.img_card_user_get_card,
             R2.id.img_card_driver_s, R2.id.img_card_driver_n})
-    public void onViewClicked(View view) {
+    public void onViewLookImgClicked(View view) {
+        ViewFocusUtils.setRequestFocus(view);
         String path = "";
         if (view.getId() == R.id.img_card_user_s) {
-            path = mPresenter.getSubmitDriverVerifyBean().getIdCardPath();
+            path = mPresenter.getSubmitDriverVerifyBean().getIdCardUrl();
         } else if (view.getId() == R.id.img_card_user_n) {
             path = mPresenter.getSubmitDriverVerifyBean().getIdCardBackUrl();
         } else if (view.getId() == R.id.img_card_user_get_card) {
-            path = mPresenter.getSubmitDriverVerifyBean().getDriverCardUrl();
-        } else if (view.getId() == R.id.img_card_driver_s) {
             path = mPresenter.getSubmitDriverVerifyBean().getLifePhotoUrl();
+        } else if (view.getId() == R.id.img_card_driver_s) {
+            path = mPresenter.getSubmitDriverVerifyBean().getDriverCardUrl();
         } else if (view.getId() == R.id.img_card_driver_n) {
-            path = mPresenter.getSubmitDriverVerifyBean().getDriverCardBackPath();
+            path = mPresenter.getSubmitDriverVerifyBean().getDriverCardBackUrl();
         }
         mPresenter.openExternalPreview(path);
     }
 
-    @OnClick({R2.id.img_user_head_delete, R2.id.img_add_card_user_delete_s,
+    @OnClick({R2.id.img_add_card_user_delete_s,
             R2.id.img_add_card_user_delete_n, R2.id.img_card_user_get_card_delete,
             R2.id.img_add_card_driver_delete_s, R2.id.img_add_card_driver_delete_n})
     public void onViewDeleteImgClicked(View view) {
+        ViewFocusUtils.setRequestFocus(view);
         UploadFileUserCardType fileTypes = null;
-        if (view.getId() == R.id.img_user_head_delete) {
-            fileTypes = UploadFileUserCardType.HeadPhoto;
-        } else if (view.getId() == R.id.img_add_card_user_delete_s) {
+        if (view.getId() == R.id.img_add_card_user_delete_s) {
             fileTypes = UploadFileUserCardType.IdCard;
         } else if (view.getId() == R.id.img_add_card_user_delete_n) {
             fileTypes = UploadFileUserCardType.IdCardBack;
@@ -240,6 +303,7 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
             R2.id.img_add_card_user_n, R2.id.img_add_card_user_get_card,
             R2.id.img_add_card_driver_s, R2.id.img_add_card_driver_n})
     public void onViewAddImgClicked(View view) {
+        ViewFocusUtils.setRequestFocus(view);
         UploadFileUserCardType fileTypes = null;
         if (view.getId() == R.id.img_add_card_user_s) {
             fileTypes = UploadFileUserCardType.IdCard;
@@ -259,50 +323,56 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
 
     @Override
     public void setImageViewPicture(String filePath, UploadFileUserCardType fileTypes, SubmitDriverVerifyBean bean) {
-        ImageView imageView = null;
-        int red;
+        ImageView imageView = imgCardUserS;
+        int red = R.mipmap.app_logo;
         switch (fileTypes) {
             case IdCard:
+                setViewAddCardUserS(ArmsUtils.isEmpty(filePath));
+                imageView = imgCardUserS;
                 red = R.mipmap.ic_card_user_s;
                 bean.setIdCardUrl(filePath);
-                imageView = imgCardUserS;
-                imgAddCardUserS.setVisibility(ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
-                imgAddCardUserDeleteS.setVisibility(!ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                if (ArmsUtils.isEmpty(filePath)) {
+                    bean.setIdCardPath("");
+                }
                 break;
             case IdCardBack:
+                setViewAddCardUserN(ArmsUtils.isEmpty(filePath));
+                imageView = imgCardUserN;
                 red = R.mipmap.ic_card_user_n;
                 bean.setIdCardBackUrl(filePath);
-                imageView = imgCardUserN;
-                imgAddCardUserN.setVisibility(ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
-                imgAddCardUserDeleteN.setVisibility(!ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                if (ArmsUtils.isEmpty(filePath)) {
+                    bean.setIdCardBackPath("");
+                }
                 break;
             case LifePhoto:
+                setViewAddCardUserGetCard(ArmsUtils.isEmpty(filePath));
+                imageView = imgCardUserGetCard;
                 red = R.mipmap.ic_card_user_get_card;
                 bean.setLifePhotoUrl(filePath);
-                imageView = imgCardUserGetCard;
-                imgAddCardUserGetCard.setVisibility(ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
-                imgAddCardUserGetCardDelete.setVisibility(!ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                if (ArmsUtils.isEmpty(filePath)) {
+                    bean.setLifePhotoPath("");
+                }
                 break;
             case DriverCard:
+                setViewAddCardDriverS(ArmsUtils.isEmpty(filePath));
                 imageView = imgCardDriverS;
                 red = R.mipmap.ic_card_driver_s;
                 bean.setDriverCardUrl(filePath);
-                imgAddCardDriverS.setVisibility(ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
-                imgAddCardDriverDeleteS.setVisibility(!ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                if (ArmsUtils.isEmpty(filePath)) {
+                    bean.setDriverCardPath("");
+                }
                 break;
             case DriverCardBack:
+                setViewAddCardDriverN(ArmsUtils.isEmpty(filePath));
                 imageView = imgCardDriverN;
                 red = R.mipmap.ic_card_driver_n;
                 bean.setDriverCardBackUrl(filePath);
-                imgAddCardDriverN.setVisibility(ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
-                imgAddCardDriverDeleteN.setVisibility(!ArmsUtils.isEmpty(filePath) ? View.VISIBLE : View.GONE);
+                if (ArmsUtils.isEmpty(filePath)) {
+                    bean.setDriverCardBackPath("");
+                }
                 break;
-            default:
-                throw new IllegalStateException("Unexpected value: have not mipmap resId");
         }
-        imageView.setEnabled(ArmsUtils.isEmpty(filePath) ? false : true);
-        if (red != 0)
-            mPresenter.setImageViewPicture(filePath, imageView, red);
+        mPresenter.setImageViewPicture(filePath, imageView, red);
 
     }
 
@@ -317,32 +387,6 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     }
 
     @Override
-    public PermissionUtil.RequestPermission getRequestPermission() {
-        return new PermissionUtil.RequestPermission() {
-            @Override
-            public void onRequestPermissionSuccess() {
-                //request permission success, do something.
-                mPresenter.getPictureSelector();
-            }
-
-            @Override
-            public void onRequestPermissionFailure(List<String> permissions) {
-                //如果用户拒绝了其中一个授权请求，则提醒用户
-//                showMessage("Request permissions failure");
-                showMessage(mStrPermission);
-            }
-
-            @Override
-            public void onRequestPermissionFailureWithAskNeverAgain(List<String> permissions) {
-                //如果用户拒绝了其中一个授权请求，且勾选了不再提醒，则需要引导用户到权限管理页面开启
-//                showMessage("Need to go to the settings");
-                mPermissionDialog.setMessage("请前往设置中心开启相应权限");
-                mPermissionDialog.show();
-            }
-        };
-    }
-
-    @Override
     public void setUserCardNumber(String userCardNumber) {
         etUserCardNumber.setText(userCardNumber);
     }
@@ -351,7 +395,6 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
     public void setDriverCardNumber(String driverCardNumber) {
         etDriverCardNumber.setText(driverCardNumber);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -377,9 +420,7 @@ public class UserAuthenticationActivity extends BaseActivity<UserAuthenticationP
                             File file = new File(path);
                             mPresenter.postUploadFile(file);
                         }
-
                     }
-
                     break;
             }
         }

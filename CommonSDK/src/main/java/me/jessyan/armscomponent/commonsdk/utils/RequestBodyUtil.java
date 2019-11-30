@@ -1,6 +1,7 @@
 package me.jessyan.armscomponent.commonsdk.utils;
 
 import com.jess.arms.utils.ArmsUtils;
+import com.jess.arms.utils.LogUtils;
 
 import java.io.File;
 import java.util.List;
@@ -32,6 +33,7 @@ public class RequestBodyUtil {
                 if (!ArmsUtils.isEmpty(mapList)) {
                     for (String value : list) {
                         builder.addFormDataPart(key, value);
+                        LogUtils.debugInfo("hxb--->", "上传参数：" + key + "=" + value);
                     }
                 }
             }
@@ -41,6 +43,7 @@ public class RequestBodyUtil {
         if (!ArmsUtils.isEmpty(mapValue)) {
             for (String key : mapValue.keySet()) {
                 builder.addFormDataPart(key, mapValue.get(key) + "");
+                LogUtils.debugInfo("hxb--->", "上传参数：" + key + "=" + mapValue.get(key));
             }
         }
 
@@ -59,9 +62,11 @@ public class RequestBodyUtil {
                 if (FileSizeUtil.getFileOrFilesSize(file.getPath(), FileSizeUtil.SIZETYPE_KB) >= 1024) {
                     if (ImageUtil.qualityCompress(ImageUtil.fileToBitmap(file.getPath()), 500, file)) {
                         builder.addFormDataPart(key, file.getName(), RequestBody.create(MediaType.parse("application/octet-stream"), file));
+                        LogUtils.debugInfo("hxb--->", "上传参数：" + key + "=" +  file.getName());
                     }
                 } else {
                     builder.addFormDataPart(key, file.getName(), RequestBody.create(MediaType.parse("application/octet-stream"), file));
+                    LogUtils.debugInfo("hxb--->", "上传参数：" + key + "=" +  file.getName());
                 }
             }
         return builder.build();
@@ -80,6 +85,7 @@ public class RequestBodyUtil {
                 if (!ArmsUtils.isEmpty(mapList)) {
                     for (String value : list) {
                         builder.addFormDataPart(key, value);
+                        LogUtils.debugInfo("hxb--->", "上传参数：" + key + "=" + value);
                     }
                 }
             }
@@ -89,6 +95,7 @@ public class RequestBodyUtil {
         if (!ArmsUtils.isEmpty(mapValue)) {
             for (String key : mapValue.keySet()) {
                 builder.addFormDataPart(key, mapValue.get(key) + "");
+                LogUtils.debugInfo("hxb--->", "上传参数：" + key + "=" + mapValue.get(key));
             }
         }
 
@@ -98,9 +105,11 @@ public class RequestBodyUtil {
                 File file = mapFile.get(key);
                 if (file.exists()) {
                     builder.addFormDataPart(key, file.getName(), RequestBody.create(MediaType.parse("application/octet-stream"), file));
+                    LogUtils.debugInfo("hxb--->", "上传参数：" + key + "=" +  file.getName());
                 }
             }
         }
+
 
         return builder.build();
     }

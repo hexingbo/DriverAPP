@@ -32,6 +32,14 @@
     <string name="permission_request_file_camera">该功能需您授予"存储"和"相机"权限才可正常使用</string>
     <string name="permission_request_location">该功能需您授予"存储"和"定位"权限才可正常使用</string>
     <string name="str_name_hint">提示</string>
+    <string name="is_newest_version">已是最新版本</string>
+    <string name="car_join_list">车辆加盟列表</string>
+    <string name="car_type">车型</string>
+    <string name="car_length">车长</string>
+    <string name="car_volume">车体积</string>
+    <string name="car_load">载重量</string>
+    <string name="car_insurance_deadline">保险到期日</string>
+    <string name="hint_no_data">暂无数据</string>
 
 
 </resources>

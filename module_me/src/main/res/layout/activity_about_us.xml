@@ -13,6 +13,7 @@
 
 
     <ImageView
+        android:id="@+id/img_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -115,6 +116,7 @@
         android:paddingRight="@dimen/public_pad_right_20dp">
 
         <TextView
+            android:id="@+id/tv_value"
             android:layout_width="0dp"
             android:layout_height="@dimen/public_height_60dp"
             android:layout_weight="1"

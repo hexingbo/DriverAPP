@@ -40,6 +40,12 @@ public class CommonHttpUrl {
     public static final String API_postUpdatePassword = "/carDriver/updatePassword";//31、修改密码
     public static final String API_postOrderSaveAccounts = "/order/saveAccounts";//32、生成对账单
     public static final String API_postOrderAccounts = "/order/getOrderAccounts";//33、对账单列表
+    public static final String API_getCarTeamDetail = "/tblWlCarTeam/getCarTeamDetail";//35、查询车辆详情
+    public static final String API_postUploadWlCarTeamFile = "/verifyPicture/uploadFile";//36、附件上传和识别附件信息
+    public static final String API_postAddWlCarTeam = "/tblWlCarTeam/saveCarTeam";//37、车辆保存
+    public static final String API_postDeleteWlCarTeam = "/tblWlCarTeam/delCarTeam";//38、车辆删除
 
-
+    public static final String API_postFindCarTeamPage = "/tblWlCarTeam/findCarTeamPage"; //车辆加盟表
+    public static final String API_postExitLogistCompany = "/tblWlJoinCar/exitLogistCompany"; //40、退出加盟
+    public static final String API_postcarJoinOperate = "/tblWlJoinCar/carJoinOperate"; //车辆加盟
 }

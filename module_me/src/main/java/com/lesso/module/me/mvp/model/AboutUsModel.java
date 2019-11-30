@@ -3,14 +3,17 @@ package com.lesso.module.me.mvp.model;
 import android.app.Application;
 
 import com.google.gson.Gson;
+import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
-
-import com.jess.arms.di.scope.ActivityScope;
+import com.lesso.module.me.mvp.contract.AboutUsContract;
+import com.lesso.module.me.mvp.model.api.service.ModuleMeService;
+import com.lesso.module.me.mvp.model.entity.UpdateDetailBean;
 
 import javax.inject.Inject;
 
-import com.lesso.module.me.mvp.contract.AboutUsContract;
+import io.reactivex.Observable;
+import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 
 
 /**
@@ -37,5 +40,10 @@ public class AboutUsModel extends BaseModel implements AboutUsContract.Model {
         super.onDestroy();
         this.mGson = null;
         this.mApplication = null;
+    }
+
+    @Override
+    public Observable<HttpResult<UpdateDetailBean>> checkVersionDetail(String appSource) {
+        return mRepositoryManager.obtainRetrofitService(ModuleMeService.class).getUpdateDetail(appSource);
     }
 }

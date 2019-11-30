@@ -16,10 +16,9 @@
 package com.lesso.module.waybill.mvp.ui.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
-import android.view.View;
 import android.widget.TextView;
 
+import com.jess.arms.utils.ArmsUtils;
 import com.lesso.module.waybill.R;
 import com.lesso.module.waybill.mvp.model.entity.WayBillDetailBean;
 import com.zhouyou.recyclerview.adapter.HelperRecyclerViewAdapter;
@@ -37,6 +36,10 @@ import java.util.List;
 public class TransportTrackAdapter extends HelperRecyclerViewAdapter<WayBillDetailBean.TransportTrackBean> {
 
     private String orderStatus;
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 
     public TransportTrackAdapter(List<WayBillDetailBean.TransportTrackBean> list, String orderStatus, Context context) {
         super(list, context, R.layout.item_layout_waybill_detail_transporttrack);
@@ -57,7 +60,7 @@ public class TransportTrackAdapter extends HelperRecyclerViewAdapter<WayBillDeta
             viewHolder.setVisible(R.id.iv_gray, false);
             tvAddress.setEnabled(true);
             tvData.setEnabled(true);
-            viewHolder.setImageResource(R.id.iv_complete, !TextUtils.isEmpty(orderStatus) && orderStatus.equals("F") ? R.mipmap.ic_complete : R.mipmap.ic_address);
+            viewHolder.setImageResource(R.id.iv_complete, !ArmsUtils.isEmpty(orderStatus) && orderStatus.equals("F") ? R.mipmap.ic_complete : R.mipmap.ic_address);
         } else {
             viewHolder.setVisible(R.id.iv_complete, false);
             viewHolder.setVisible(R.id.iv_gray, true);

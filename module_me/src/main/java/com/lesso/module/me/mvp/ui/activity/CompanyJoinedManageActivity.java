@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
+import com.jess.arms.base.MessageEvent;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.AppManagerUtil;
 import com.jess.arms.utils.ArmsUtils;
@@ -24,6 +25,7 @@ import com.lesso.module.me.mvp.presenter.CompanyJoinedManagePresenter;
 import com.lesso.module.me.mvp.ui.adapter.CompanyJoinedAdapter;
 import com.zhouyou.recyclerview.XRecyclerView;
 import com.zhouyou.recyclerview.adapter.BaseRecyclerViewAdapter;
+import com.zhouyou.recyclerview.adapter.HelperStateRecyclerViewAdapter;
 import com.zhouyou.recyclerview.custom.CustomMoreFooter;
 import com.zhouyou.recyclerview.custom.CustomRefreshHeader2;
 
@@ -32,7 +34,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.jessyan.armscomponent.commonres.base.BaseIntentBean;
+import me.jessyan.armscomponent.commonres.dialog.MyHintDialog;
 import me.jessyan.armscomponent.commonres.enums.CompanyActionType;
+import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -46,8 +50,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 @Route(path = RouterHub.Me_CompanyJoinedManageActivity)
-public class CompanyJoinedManageActivity extends BaseActivity<CompanyJoinedManagePresenter>
-        implements CompanyJoinedManageContract.View, BaseRecyclerViewAdapter.OnItemClickListener<CompanyJoinedBean> {
+public class CompanyJoinedManageActivity extends BaseActivity<CompanyJoinedManagePresenter> implements CompanyJoinedManageContract.View {
 
     @Inject
     Dialog mDialog;
@@ -55,6 +58,8 @@ public class CompanyJoinedManageActivity extends BaseActivity<CompanyJoinedManag
     RecyclerView.LayoutManager mLayoutManager;
     @Inject
     CompanyJoinedAdapter mAdapter;
+    @Inject
+    MyHintDialog myHintDialog;
 
     @BindView(R2.id.recyclerview)
     XRecyclerView mRecyclerView;
@@ -78,13 +83,19 @@ public class CompanyJoinedManageActivity extends BaseActivity<CompanyJoinedManag
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        ArmsUtils.statuInScreen(this);//全屏,并且沉侵式状态栏
         setTitle(R.string.me_name_company_manager);
         btnSubmit.setText(getString(R.string.module_me_go_join));
         initRecyclerView();
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.refresh();
+        getDataForNet();
     }
+
+    private void getDataForNet() {
+        mAdapter.clear();
+        mAdapter.setState(HelperStateRecyclerViewAdapter.STATE_LOADING);
+        mPresenter.postCompanyJoinedList(true);
+    }
+
 
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -145,7 +156,40 @@ public class CompanyJoinedManageActivity extends BaseActivity<CompanyJoinedManag
 
     @Override
     public BaseRecyclerViewAdapter.OnItemClickListener<CompanyJoinedBean> getOnItemClickListener() {
-        return this;
+        return new BaseRecyclerViewAdapter.OnItemClickListener<CompanyJoinedBean>() {
+            @Override
+            public void onItemClick(View view, CompanyJoinedBean item, int position) {
+                CompanyActionType operatorType;
+                String msg;
+                if (view.getId() == R.id.tv_agree) {//同意
+                    operatorType = CompanyActionType.AGREE;
+                    msg = "确认同意";
+                } else if (view.getId() == R.id.tv_cancel) {//取消
+                    operatorType = CompanyActionType.CANCEL;
+                    msg = "确认取消？";
+                } else if (view.getId() == R.id.tv_est) {//退出
+                    operatorType = CompanyActionType.QUIT;
+                    msg = "确认退出？";
+                } else if (view.getId() == R.id.tv_refuse) {//拒绝
+                    operatorType = CompanyActionType.REFUSE;
+                    msg = "确认拒绝？";
+                } else if (view.getId() == R.id.tv_car_join) {//车辆加盟
+                    AppManagerUtil.jump(CarJoinListActivity.class, CarJoinListActivity.IntentValue, item.getCompanyId());
+                    return;
+                } else {
+                    AppManagerUtil.jump(CompanyJoinDetailInfoActivity.class, CompanyJoinDetailInfoActivity.IntentValue, new BaseIntentBean<>(item.getCompanyId(), false));
+                    return;
+                }
+                myHintDialog.setTextContent(msg);
+                myHintDialog.setOnDialogListener(new MyHintDialog.OnDialogListener() {
+                    @Override
+                    public void onItemViewRightListener() {
+                        mPresenter.postCompanyJoinedAction(item.getCompanyId(), item.getDriverId(), item.getGuid(), operatorType);
+                    }
+                });
+                myHintDialog.show();
+            }
+        };
     }
 
     @Override
@@ -154,29 +198,19 @@ public class CompanyJoinedManageActivity extends BaseActivity<CompanyJoinedManag
             mRecyclerView.loadMoreComplete();
     }
 
-    @Override
-    public void onItemClick(View view, CompanyJoinedBean item, int position) {
-        CompanyActionType operatorType;
-        if (view.getId() == R.id.tv_agree) {//同意
-            operatorType = CompanyActionType.AGREE;
-        } else if (view.getId() == R.id.tv_cancel) {//取消
-            operatorType = CompanyActionType.CANCEL;
-        } else if (view.getId() == R.id.tv_est) {//退出
-            operatorType = CompanyActionType.QUIT;
-        } else if (view.getId() == R.id.tv_refuse) {//拒绝
-            operatorType = CompanyActionType.REFUSE;
-        } else {
-            AppManagerUtil.jump(CompanyJoinDetailInfoActivity.class, CompanyJoinDetailInfoActivity.IntentValue, new BaseIntentBean<>(item.getCompanyId(), false));
-            return;
-        }
-        mPresenter.postCompanyJoinedAction(item.getCompanyId(), item.getDriverId(), item.getGuid(), operatorType);
-    }
 
     @OnClick(R2.id.btn_submit)
     public void onViewClicked() {
-        AppManagerUtil.jump(CompanyJoinManageActivity.class);
+        AppManagerUtil.jump(CompanyJoinManageActivity.class, CompanyJoinManageActivity.IntentValue, true);
     }
 
-
+    @Override
+    protected void getEventBusHub_Activity(MessageEvent message) {
+        if (message.getType().equals(EventBusHub.TAG_LOGIN_SUCCESS)
+                || message.getType().equals(EventBusHub.Message_UpdateCompanyJoinManageList)) {
+            //加盟成功
+            getDataForNet();
+        }
+    }
 
 }

@@ -17,4 +17,5 @@ package com.jess.arms.base;
 public interface BaseEventBusHub {
 
     String TAG_LOGIN_SUCCESS = "loging/loging_success";
+    String TAG_LOGIN_EST = "loging/loging_est";
 }

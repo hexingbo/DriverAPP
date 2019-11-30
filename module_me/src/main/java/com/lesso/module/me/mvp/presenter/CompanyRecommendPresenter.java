@@ -27,7 +27,9 @@ import io.reactivex.schedulers.Schedulers;
 import me.jessyan.armscomponent.commonsdk.base.bean.HttpResult;
 import me.jessyan.armscomponent.commonsdk.core.Constants;
 import me.jessyan.armscomponent.commonsdk.core.EventBusHub;
+import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.http.observer.MyHttpResultObserver;
+import me.jessyan.armscomponent.commonsdk.utils.Utils;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 
@@ -56,7 +58,16 @@ public class CompanyRecommendPresenter extends BasePresenter<CompanyRecommendCon
     @Inject
     ChoseCompanyRecommendListAdapter mAdapter;
 
+    private boolean isComeInFromTheMainStart;
     private int currentPage = 1, pageSize = 10;
+
+    public void setComeInFromTheMainStart(boolean comeInFromTheMainStart) {
+        isComeInFromTheMainStart = comeInFromTheMainStart;
+    }
+
+    public boolean getComeInFromTheMainStart() {
+        return isComeInFromTheMainStart;
+    }
 
     @Inject
     public CompanyRecommendPresenter(CompanyRecommendContract.Model model, CompanyRecommendContract.View rootView) {
@@ -98,7 +109,6 @@ public class CompanyRecommendPresenter extends BasePresenter<CompanyRecommendCon
                 .subscribe(new MyHttpResultObserver<HttpResult<List<CompanyJoinBean>>>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult<List<CompanyJoinBean>> result) {
-
                         updateListDatas(result.getData(), pullToRefresh);
                     }
 
@@ -167,7 +177,11 @@ public class CompanyRecommendPresenter extends BasePresenter<CompanyRecommendCon
                 .subscribe(new MyHttpResultObserver<HttpResult>(mErrorHandler) {
                     @Override
                     public void onResult(HttpResult result) {
+                        ArmsUtils.makeText(mApplication, mApplication.getResources().getString(R.string.module_me_joined_success));
                         EventBusManager.getInstance().post(EventBusHub.TAG_LOGIN_SUCCESS);
+                        if (!getComeInFromTheMainStart()) {
+                            Utils.navigation(mApplication, RouterHub.APP_MainStartActivity);
+                        }
                         AppManagerUtil.getCurrentActivity().finish();
                     }
 

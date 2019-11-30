@@ -38,6 +38,7 @@
         tl:tl_textUnselectColor="#B3B2AF"
         tl:tl_textsize="@dimen/public_font_11sp"
         tl:tl_underline_color="#B3B2AF"
+        tl:tl_iconMargin="@dimen/public_height_1dp"
         tl:tl_underline_height="@dimen/public_height_1dp">
 
     </com.flyco.tablayout.CommonTabLayout>

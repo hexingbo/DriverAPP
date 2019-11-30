@@ -28,12 +28,14 @@ android {
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             buildConfigField "boolean", "USE_CANARY", "true"
+            buildConfigField "String", "GD_MAP_KEY", DEBUG_GD_MAP_KEY
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             buildConfigField "boolean", "USE_CANARY", "false"
+            buildConfigField "String", "GD_MAP_KEY", RELEASE_GD_MAP_KEY
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -62,7 +64,8 @@ dependencies {
     api rootProject.ext.dependencies["picture_library"]
     api rootProject.ext.dependencies["YCRefreshViewLib"]
     api rootProject.ext.dependencies["YCStateLib"]
+    api rootProject.ext.dependencies["pickerview"]
     api project(':lib_flycotablayout')
     api project(':lib_zxing_code')
-
+    api project(':lib_update_apk')
 }
